@@ -1,0 +1,35 @@
+# Github Actions for frontend.
+name: HealthCareAB_actions
+on:
+  push:
+    # Push only used with this branch for testing purposes. In this branch, make a change for whatever and do
+    # a git push and github actions will do its thing.
+    branches: [1-ci_pipeline_frontend]
+  pull_request:
+    # Normally github actions will only run when merging a pull request.
+    branches: [main, dev]
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Setup .env file
+        run: |
+          echo "VITE_API_URL = http://localhost:8080" >> ./.env
+        shell: bash
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
