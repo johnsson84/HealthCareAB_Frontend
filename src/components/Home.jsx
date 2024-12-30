@@ -59,7 +59,7 @@ const SignupButton = styled.div`
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
   }
 `;
-
+// -
 const LogoContainer = styled.img`
   height: 20rem;
 `;
