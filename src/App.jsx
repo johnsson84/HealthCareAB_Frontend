@@ -15,9 +15,10 @@ import GlobalStyle from "./styles/GlobalStyle";
 import Signup from "./components/Signup/Signup";
 import Profile from "./components/Profile/Profile";
 import CaregiverProfile from "./components/Profile/Caregiver_profile";
-import Calendar from "./components/Calendar/Calendar";
+// import Calendar from "./components/Calendar/Calendar";
 import CalendarPage from "./components/Calendar/Calendar";
 import ForgotPassword from "./components/forgotPassword/ForgotPassword";
+import ResetPassword from "./components/resetPassword/ResetPassword";
 
 function App() {
   return (
@@ -60,6 +61,7 @@ function App() {
                 </RequireAuth>
               }
             />
+            <Route path="/resetPassword" element={<ResetPassword />} />
             <Route path="/forgotPassword" element={<ForgotPassword />} />
             <Route path="/" element={<Home />} />
             <Route path="/calendar" element={<CalendarPage />} />
