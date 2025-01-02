@@ -117,7 +117,7 @@ function Login() {
         roles: roles,
         loading: false,
       });
-
+      localStorage.setItem("loggedInUsername", response.data.username);
       // redirect based on role
       if (roles.includes("ADMIN")) {
         navigate("/admin/dashboard", { replace: true });

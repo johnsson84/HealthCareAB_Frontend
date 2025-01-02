@@ -1,28 +1,28 @@
-import React from 'react';
-import './Footer.css'; 
+import React from "react";
+import "./Footer.css";
 
 const Footer = ({ userType }) => {
- 
   const UserLinks = [
-    { name: 'Hem',  path: '/' },
-    { name: 'Kalender',  path: '/kalender' },
-    { name: 'Profil',  path: '/profil' },
+    { name: "Hem", path: "/" },
+    { name: "Something1", path: "/something" },
   ];
 
   const doctorLinks = [
-    { name: 'Patienter',  path: '/patienter' },
-    { name: 'Journaler', path: '/journaler' },
+    { name: "Something2", path: "/" },
+    { name: "Something3", path: "/" },
+    { name: "Profile", path: "/caregiverprofile" },
   ];
 
   const patientLinks = [
-    { name: 'Bokningar', path: '/bokningar' },
-    { name: 'Recept', path: '/recept' },
+    { name: "Profile", path: "/profile" },
+    { name: "Something4", path: "/" },
+    { name: "Something5", path: "/" },
   ];
 
   const links = [
     ...UserLinks,
-    ...(userType === 'doctor' ? doctorLinks : []),
-    ...(userType === 'patient' ? patientLinks : []),
+    ...(userType === "doctor" ? doctorLinks : []),
+    ...(userType === "patient" ? patientLinks : []),
   ];
 
   return (
