@@ -66,20 +66,24 @@ const CalendarPage = () => {
   const handleDateChange = (date) => {
     setSelectedDate(date);
 
-    const formattedDate = date.toISOString().split("T")[0];
+    // Get the local date without time zone offset
+    const localDate = new Date(date);
+    const formattedDate = localDate.toLocaleDateString('en-CA'); // Format to YYYY-MM-DD
 
     const filtered = availability
       .map((entry) => {
         const slotsForDate = entry.availableSlots.filter((slot) =>
-          slot.startsWith(formattedDate)
+          slot.startsWith(formattedDate) // Match by local date
         );
         return slotsForDate.length > 0
           ? { id: entry.id, caregiver: entry.caregiverId, slots: slotsForDate }
           : null;
       })
       .filter(Boolean); 
+
     setFilteredData(filtered);
-  };
+};
+
 
   return (
     <div>
