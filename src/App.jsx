@@ -15,6 +15,8 @@ import GlobalStyle from "./styles/GlobalStyle";
 import Signup from "./components/Signup/Signup";
 import Profile from "./components/Profile/Profile";
 import CaregiverProfile from "./components/Profile/Caregiver_profile";
+import Calendar from "./components/Calendar/Calendar";
+import CalendarPage from "./components/Calendar/Calendar";
 
 function App() {
   return (
@@ -58,6 +60,7 @@ function App() {
               }
             />
             <Route path="/" element={<Home />} />
+            <Route path="/calendar" element={<CalendarPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
             <Route path="/signup" element={<Signup />} />
           </Routes>

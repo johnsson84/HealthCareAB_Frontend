@@ -53,7 +53,7 @@ function UserDashboard() {
         <ButtonLink
           picture="/vite.svg"
           linkName="Calendar"
-          link=""
+          link="/calendar"
         ></ButtonLink>
         <ButtonLink
           picture="/vite.svg"
