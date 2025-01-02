@@ -1,4 +1,5 @@
 import axios from "axios";
+import "./Logout.css";
 // button to handle logout, you can change this as you want
 // does not have to look or be like this but you can see how to use the logout call
 const Logout = () => {
@@ -19,7 +20,11 @@ const Logout = () => {
       });
   };
 
-  return <button onClick={handleLogout}>Logout</button>;
+  return (
+    <button className="bLogout" onClick={handleLogout}>
+      Logout
+    </button>
+  );
 };
 
 export default Logout;

@@ -13,6 +13,8 @@ import Home from "./components/Home";
 import RequireAuth from "./components/RequireAuth";
 import GlobalStyle from "./styles/GlobalStyle";
 import Signup from "./components/Signup/Signup";
+import Profile from "./components/Profile/Profile";
+import CaregiverProfile from "./components/Profile/Caregiver_profile";
 
 function App() {
   return (
@@ -36,6 +38,22 @@ function App() {
               element={
                 <RequireAuth allowedRoles={["ADMIN"]}>
                   <AdminDashboard />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <RequireAuth allowedRoles={["USER"]}>
+                  <Profile></Profile>
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/caregiverprofile"
+              element={
+                <RequireAuth allowedRoles={["ADMIN"]}>
+                  <CaregiverProfile></CaregiverProfile>
                 </RequireAuth>
               }
             />
