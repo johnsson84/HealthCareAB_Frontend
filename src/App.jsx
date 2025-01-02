@@ -17,7 +17,7 @@ import Profile from "./components/Profile/Profile";
 import CaregiverProfile from "./components/Profile/Caregiver_profile";
 import Calendar from "./components/Calendar/Calendar";
 import CalendarPage from "./components/Calendar/Calendar";
-
+import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 
 function App() {
   return (
@@ -60,6 +60,7 @@ function App() {
                 </RequireAuth>
               }
             />
+            <Route path="/forgotPassword" element={<ForgotPassword />} />
             <Route path="/" element={<Home />} />
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
