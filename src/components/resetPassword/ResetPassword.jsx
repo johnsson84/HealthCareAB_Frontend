@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 import axios from "axios";
-import { useSearchParams } from "react-router-dom"; // För att läsa token från URL
+import { Link, useSearchParams } from "react-router-dom"; // För att läsa token från URL
 
 const ResetPasswordContainer = styled.div`
   display: flex;
@@ -80,6 +80,11 @@ const ResetPassword = () => {
       setMessage("Password successfully reset. You can now log in.");
     } catch (err) {
       console.log(err);
+      console.log({
+        token,
+        newPassword,
+      });
+      
       setMessage("Error resetting password. Please try again.");
     }
   };
@@ -103,6 +108,7 @@ const ResetPassword = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
         <ResetPasswordButton type="submit">Set New Password</ResetPasswordButton>
+        <ResetPasswordButton><Link className="link" to="/login">return to login</Link></ResetPasswordButton>
         {message && <p>{message}</p>}
       </FormWrapper>
     </ResetPasswordContainer>
