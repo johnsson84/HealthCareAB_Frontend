@@ -23,7 +23,7 @@ const LoginButton = styled.div`
   width: 14%;
   min-width: 10rem;
   display: flex;
-  allign-items: center;
+  align-items: center;
   justify-content: center;
   color: #fff;
   margin-top: 3rem;
@@ -46,7 +46,7 @@ const SignupButton = styled.div`
   width: 14%;
   min-width: 10rem;
   display: flex;
-  allign-items: center;
+  align-items: center;
   justify-content: center;
   color: #fff;
   margin-top: 1rem;

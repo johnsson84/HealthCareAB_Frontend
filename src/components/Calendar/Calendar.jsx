@@ -80,7 +80,6 @@ const CalendarPage = () => {
           : null;
       })
       .filter(Boolean); 
-
     setFilteredData(filtered);
 };
 
