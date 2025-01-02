@@ -10,6 +10,7 @@ const Profile = () => {
   const {
     authState: { user },
   } = useAuth();
+  
   useEffect(() => {
     const checkAuth = async () => {
       try {
