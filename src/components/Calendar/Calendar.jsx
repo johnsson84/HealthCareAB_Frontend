@@ -50,6 +50,7 @@ const CalendarPage = () => {
 
   return (
     <div>
+        <StyledMain>
       <h1>Caregiver Availability</h1>
       <Calendar onChange={handleDateChange} />
       {selectedDate && (
@@ -73,6 +74,7 @@ const CalendarPage = () => {
           )}
         </div>
       )}
+      </StyledMain>
     </div>
   );
 };
@@ -86,4 +88,12 @@ const StyledLi = styled.li`
     margin-bottom: 5px;
     text-transform : capitalize;
     list-style-type: none;
+    `;
+
+const StyledMain = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
     `;
