@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 
 const ForgotPasswordContainer = styled.div`
@@ -61,14 +60,16 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
-  const handlePasswordForgotten = async () => {
+  const handlePasswordForgotten = async (e) => {
+    e.preventDefault();
     try {
-      const res = await axios.post(
+      await axios.post(
         `${import.meta.env.VITE_API_URL}/auth/forgot-password`,
         { email }
       );
       setMessage("The reset link sent! Please check your email.");
-    } catch (error) {
+    } catch (err) {
+      console.log(err);
       setMessage("Error sending the reset link. Please try again.");
     }
   };
@@ -76,7 +77,7 @@ const ForgotPassword = () => {
   return (
     <ForgotPasswordContainer>
       <Title>Forgot Password</Title>
-      <FormWrapper>
+      <FormWrapper onSubmit={handlePasswordForgotten}>
         <lable>E-mail:</lable>
         <StyledInput
           type="email"
@@ -84,11 +85,7 @@ const ForgotPassword = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <ResetPasswordButton type="submit" onClick={handlePasswordForgotten}>
-          <Link className="link" to="/">
-            Reset Password
-          </Link>
-        </ResetPasswordButton>
+        <ResetPasswordButton type="submit">Reset Password</ResetPasswordButton>
         {message && <p>{message}</p>}
       </FormWrapper>
     </ForgotPasswordContainer>
