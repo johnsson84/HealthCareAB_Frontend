@@ -43,17 +43,27 @@ function UserDashboard() {
         <ButtonLink
           picture="/vite.svg"
           linkName="Book Doctor"
-          link="/book-doctor"
+          link="/underconstruction"
+        ></ButtonLink>
+        <ButtonLink
+          picture="/vite.svg"
+          linkName="Appointment"
+          link="/underconstruction"
+        ></ButtonLink>
+        <ButtonLink
+          picture="/vite.svg"
+          linkName="Calendar"
+          link="/calendar"
         ></ButtonLink>
         <ButtonLink
           picture="/vite.svg"
           linkName="Notifications"
-          link=""
+          link="/underconstruction"
         ></ButtonLink>
         <ButtonLink
           picture="/vite.svg"
           linkName="Give Feedback"
-          link=""
+          link="/underconstruction"
         ></ButtonLink>
       </div>
       <Logout />

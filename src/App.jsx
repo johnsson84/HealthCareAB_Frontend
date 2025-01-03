@@ -16,6 +16,8 @@ import Signup from "./components/Signup/Signup";
 import Profile from "./components/Profile/Profile";
 import CaregiverProfile from "./components/Profile/Caregiver_profile";
 import CalendarPage from "./components/Calendar/Calendar";
+import Header from "./components/Header";
+import UnderConstruction from "./components/UnderConstructionPage";
 
 function App() {
   return (
@@ -23,6 +25,7 @@ function App() {
       <GlobalStyle />
       <div className="content">
         <Router>
+          <Header />
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
@@ -34,6 +37,7 @@ function App() {
                 </RequireAuth>
               }
             />
+            <Route path="/underconstruction" element={<UnderConstruction />} />
             <Route
               path="/admin/dashboard"
               element={

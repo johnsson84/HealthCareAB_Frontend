@@ -40,18 +40,23 @@ function AdminDashboard() {
       <div className="dbButtonContainer">
         <ButtonLink
           picture="/vite.svg"
+          linkName="Appointment"
+          link="/underconstruction"
+        ></ButtonLink>
+        <ButtonLink
+          picture="/vite.svg"
           linkName="Calendar"
-          link=""
+          link="/underconstruction"
         ></ButtonLink>
         <ButtonLink
           picture="/vite.svg"
           linkName="Notifications"
-          link=""
+          link="/underconstruction"
         ></ButtonLink>
         <ButtonLink
           picture="/vite.svg"
           linkName="Your Feedback"
-          link=""
+          link="/underconstruction"
         ></ButtonLink>
       </div>
       <Logout />
