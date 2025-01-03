@@ -5,12 +5,17 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import styled from "styled-components";
 import { useAuth } from "../../hooks/useAuth";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+
 
 const CalendarPage = () => {
   const [availability, setAvailability] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
   const [chosenTimeslot, setChosenTimeslot] = useState(null);
+  const navigate = useNavigate();
 
   const [newAppointment, setNewAppointment] = useState({
     username: null,
@@ -39,8 +44,21 @@ const CalendarPage = () => {
           withCredentials: true,
         }
       );
+      toast.success("Appointment successfully booked!", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+  
+      // Redirect to dashboard after a short delay
+      setTimeout(() => {
+        navigate("/user/dashboard");
+      }, 3000); // Wait for the toast to close
     } catch (error) {
-      console.error("Something went wrong, try again later.", error);
+      toast.error("Something went wrong. Please try again later.", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      console.error("Error booking appointment:", error);
     }
   };
   
@@ -88,22 +106,22 @@ const CalendarPage = () => {
 
 return (
   <div>
+    <ToastContainer /> {/* Add this here */}
     <StyledMain>
-      <h1>Caregiver Availability</h1>
+      <h1>Doctors available appointments</h1>
       <Calendar onChange={handleDateChange} />
       {selectedDate && (
         <div>
-          <h2>Available Slots on {selectedDate.toDateString()}:</h2>
+          <h2>Available appointments on {selectedDate.toDateString()}:</h2>
           <h3>
-            Chosen timeslot:{" "}
+            Chosen appointment:{" "}
             {chosenTimeslot
               ? `${new Date(chosenTimeslot.slot).toLocaleDateString()} ${new Date(chosenTimeslot.slot).toLocaleTimeString()}`
               : "None selected"}
           </h3>
-
           <Formik
             initialValues={{
-              selectedSlot: '', // Default value for the select field
+              selectedSlot: "",
             }}
             onSubmit={(values) => {
               const selectedSlot = JSON.parse(values.selectedSlot);
@@ -120,25 +138,25 @@ return (
                 {filteredData.length > 0 ? (
                   <div>
                     <Field
-                        as="select"
-                        name="selectedSlot"
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          handleChange(e); // Let Formik handle the value update
-                          if (value) {
-                            const parsedValue = JSON.parse(value);
-                            setChosenTimeslot(parsedValue); // Update the chosen timeslot
-                            handleChoice(
-                              user, // Pass the current user
-                              parsedValue.entryId,
-                              parsedValue.caregiverId,
-                              parsedValue.slot
-                            ); // Update newAppointment state
-                          } else {
-                            setChosenTimeslot(null); // Reset if no value is selected
-                          }
-                        }}
-                      >
+                      as="select"
+                      name="selectedSlot"
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        handleChange(e);
+                        if (value) {
+                          const parsedValue = JSON.parse(value);
+                          setChosenTimeslot(parsedValue);
+                          handleChoice(
+                            user,
+                            parsedValue.entryId,
+                            parsedValue.caregiverId,
+                            parsedValue.slot
+                          );
+                        } else {
+                          setChosenTimeslot(null);
+                        }
+                      }}
+                    >
                       <option value="" disabled>
                         Select a timeslot
                       </option>
@@ -170,9 +188,7 @@ return (
             )}
           </Formik>
 
-          <StyledButton
-            onClick={() => handleBookAppointment(newAppointment)}
-          >
+          <StyledButton onClick={() => handleBookAppointment(newAppointment)}>
             Book
           </StyledButton>
         </div>
