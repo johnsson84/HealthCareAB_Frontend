@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Field, Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -9,6 +10,7 @@ const CalendarPage = () => {
   const [availability, setAvailability] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
+  const [chosenTimeslot, setChosenTimeslot] = useState(null);
 
   const [newAppointment, setNewAppointment] = useState({
     username: null,
@@ -84,57 +86,104 @@ const CalendarPage = () => {
 };
 
 
-  return (
-    <div>
-        <StyledMain>
+return (
+  <div>
+    <StyledMain>
       <h1>Caregiver Availability</h1>
       <Calendar onChange={handleDateChange} />
       {selectedDate && (
         <div>
           <h2>Available Slots on {selectedDate.toDateString()}:</h2>
-          <h3>Chosen timeslot: {newAppointment.availabilityDate}
+          <h3>
+            Chosen timeslot:{" "}
+            {chosenTimeslot
+              ? `${new Date(chosenTimeslot.slot).toLocaleDateString()} ${new Date(chosenTimeslot.slot).toLocaleTimeString()}`
+              : "None selected"}
           </h3>
-          <StyledButton onClick={() => handleBookAppointment(newAppointment)}>Book</StyledButton>
-          {filteredData.length > 0 ? (
-            <div>
-              {filteredData.map((entry, index) => (
-                <div key={index}>
-                  <h3>Caregiver: {entry.caregiver.firstName} {entry.caregiver.lastName} </h3>
-                  <ul>
-                    {entry.slots.map((slot) => (
-                      <div key={slot}>
-                        <StyledLi>Available Time: {new Date(slot).toLocaleTimeString()}</StyledLi>
-                        <StyledLi>Date: {new Date(slot).toLocaleDateString()}</StyledLi>
-                        <StyledButton onClick={() => handleChoice(user, entry.id, entry.caregiver.id, slot)}>
-                          Choose
-                        </StyledButton>
-                      </div>
-                    ))}
-                  </ul>
-                </div>
-              ))}
 
-            </div>
-          ) : (
-            <p>No caregivers available for this date.</p>
-          )}
+          <Formik
+            initialValues={{
+              selectedSlot: '', // Default value for the select field
+            }}
+            onSubmit={(values) => {
+              const selectedSlot = JSON.parse(values.selectedSlot);
+              handleChoice(
+                user,
+                selectedSlot.entryId,
+                selectedSlot.caregiverId,
+                selectedSlot.slot
+              );
+            }}
+          >
+            {({ handleChange }) => (
+              <Form>
+                {filteredData.length > 0 ? (
+                  <div>
+                    <Field
+                        as="select"
+                        name="selectedSlot"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          handleChange(e); // Let Formik handle the value update
+                          if (value) {
+                            const parsedValue = JSON.parse(value);
+                            setChosenTimeslot(parsedValue); // Update the chosen timeslot
+                            handleChoice(
+                              user, // Pass the current user
+                              parsedValue.entryId,
+                              parsedValue.caregiverId,
+                              parsedValue.slot
+                            ); // Update newAppointment state
+                          } else {
+                            setChosenTimeslot(null); // Reset if no value is selected
+                          }
+                        }}
+                      >
+                      <option value="" disabled>
+                        Select a timeslot
+                      </option>
+                      {filteredData.map((entry) => (
+                        <optgroup
+                          key={entry.caregiver.id}
+                          label={`Caregiver: ${entry.caregiver.firstName} ${entry.caregiver.lastName}`}
+                        >
+                          {entry.slots.map((slot) => (
+                            <option
+                              key={`${entry.id}-${slot}`}
+                              value={JSON.stringify({
+                                entryId: entry.id,
+                                caregiverId: entry.caregiver.id,
+                                slot,
+                              })}
+                            >
+                              {`${new Date(slot).toLocaleDateString()} ${new Date(slot).toLocaleTimeString()}`}
+                            </option>
+                          ))}
+                        </optgroup>
+                      ))}
+                    </Field>
+                  </div>
+                ) : (
+                  <p>No caregivers available for this date.</p>
+                )}
+              </Form>
+            )}
+          </Formik>
+
+          <StyledButton
+            onClick={() => handleBookAppointment(newAppointment)}
+          >
+            Book
+          </StyledButton>
         </div>
       )}
-      </StyledMain>
-    </div>
-  );
-};
+    </StyledMain>
+  </div>
+);
+}
 
 export default CalendarPage;
 
-
-const StyledLi = styled.li`
-    color: red;
-    font-weight: bold;
-    margin-bottom: 5px;
-    text-transform : capitalize;
-    list-style-type: none;
-    `;
 
 const StyledMain = styled.div`
     display: flex;
