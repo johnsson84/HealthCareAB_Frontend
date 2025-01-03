@@ -43,12 +43,12 @@ function UserDashboard() {
         <ButtonLink
           picture="/vite.svg"
           linkName="Book Doctor"
-          link="/login"
+          link="/underconstruction"
         ></ButtonLink>
         <ButtonLink
           picture="/vite.svg"
           linkName="Appointment"
-          link="/signup"
+          link="/underconstruction"
         ></ButtonLink>
         <ButtonLink
           picture="/vite.svg"
@@ -58,12 +58,12 @@ function UserDashboard() {
         <ButtonLink
           picture="/vite.svg"
           linkName="Notifications"
-          link=""
+          link="/underconstruction"
         ></ButtonLink>
         <ButtonLink
           picture="/vite.svg"
           linkName="Give Feedback"
-          link=""
+          link="/underconstruction"
         ></ButtonLink>
       </div>
       <Logout />
