@@ -16,6 +16,9 @@ import Signup from "./components/Signup/Signup";
 import Profile from "./components/Profile/Profile";
 import CaregiverProfile from "./components/Profile/Caregiver_profile";
 import CalendarPage from "./components/Calendar/Calendar";
+import ForgotPassword from "./components/forgotPassword/ForgotPassword";
+import ResetPassword from "./components/resetPassword/ResetPassword";
+import CalendarPage from "./components/Calendar/Calendar";
 import Header from "./components/Header";
 import UnderConstruction from "./components/UnderConstructionPage";
 
@@ -62,6 +65,8 @@ function App() {
                 </RequireAuth>
               }
             />
+            <Route path="/resetPassword" element={<ResetPassword />} />
+            <Route path="/forgotPassword" element={<ForgotPassword />} />
             <Route path="/" element={<Home />} />
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
