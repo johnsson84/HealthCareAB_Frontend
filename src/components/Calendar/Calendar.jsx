@@ -106,7 +106,7 @@ const CalendarPage = () => {
 
 return (
   <div>
-    <ToastContainer /> {/* Add this here */}
+    <ToastContainer />
     <StyledMain>
       <h1>Doctors available appointments</h1>
       <Calendar onChange={handleDateChange} />
@@ -211,6 +211,7 @@ const StyledMain = styled.div`
     border-radius: 2%;
     min-height: 100vh;
     `;
+
 const StyledButton = styled.button`
     padding: 10px 30px;
     background-color: #057d7a;
