@@ -207,6 +207,9 @@ const StyledMain = styled.div`
     align-items: center;
     justify-content: center;
     margin-top: 50px;
+    border: 2px solid #ccc;
+    border-radius: 2%;
+    min-height: 100vh;
     `;
 const StyledButton = styled.button`
     padding: 10px 30px;
