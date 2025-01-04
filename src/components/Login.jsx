@@ -48,6 +48,29 @@ const ReturnButton = styled.button`
   text-align: center;
   border: none;
 
+
+  &:hover {
+    background-color: #2fadaa;
+    transform: translateY(-3px);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  }
+`;
+
+const ResetPasswordButton = styled.button`
+  cursor: pointer;
+  padding: 10px 30px;
+  background-color: #057d7a;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  margin-top: 20px;
+  transition: background-color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.2s ease;
+  text-align: center;
+  border: none;
+
+
   &:hover {
     background-color: #2fadaa;
     transform: translateY(-3px);
@@ -158,6 +181,12 @@ function Login() {
             Return
           </Link>
         </ReturnButton>
+        <ResetPasswordButton type="submit">
+          <Link className="link" to="/forgotPassword">
+            Forgot Password
+          </Link>
+        </ResetPasswordButton>
+
       </FormWrapper>
     </LoginContainer>
   );
