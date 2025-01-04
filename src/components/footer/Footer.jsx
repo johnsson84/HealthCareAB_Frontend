@@ -18,7 +18,7 @@ const Footer = () => {
       );
       setRole(response.data.roles ? response.data.roles[0] : undefined);
     } catch (error) {
-      console.error("Error fetching role:", error);
+      return null;
     } finally {
       setLoading(false);
     }
@@ -35,7 +35,7 @@ const Footer = () => {
     }
   }, [role, loading]);
 
-  if (["/login", "/signup",, "/"].includes(location.pathname)) return null;
+  if (["/login", "/signup", , "/"].includes(location.pathname)) return null;
 
   const handleNavigate = (path) => {
     navigate(path);
@@ -59,7 +59,8 @@ const Footer = () => {
     { name: "User-Something9", path: "/underconstruction" },
   ];
 
-  const buttons = role === "ADMIN" ? adminButtons : role === "USER" ? userButtons : [];
+  const buttons =
+    role === "ADMIN" ? adminButtons : role === "USER" ? userButtons : [];
 
   return (
     <div className="footer">
