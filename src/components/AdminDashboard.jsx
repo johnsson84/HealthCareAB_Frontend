@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import Logo from "../assets/health_care_logo.svg";
 import styled from "styled-components";
-import Footer from "./footer/Footer";
 import Logout from "./Logout";
 import ButtonLink from "./dashboard/ButtonLink";
 import "./Dashboard.css";
@@ -60,7 +59,6 @@ function AdminDashboard() {
         ></ButtonLink>
       </div>
       <Logout />
-      <Footer userType="doctor" />
     </AdminContainer>
   );
 }

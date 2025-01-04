@@ -1,56 +1,83 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./Footer.css";
 import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 
-const Footer = ({ userType }) => {
+const Footer = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const UserLinks = [{ name: "Something1", path: "/underconstruction" }];
 
-  const doctorLinks = [
-    { name: "Hem", path: "/admin/dashboard" },
-    { name: "Something2", path: "/underconstruction" },
+  const [role, setRole] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const fetchRole = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/auth/check`,
+        { withCredentials: true }
+      );
+      setRole(response.data.roles ? response.data.roles[0] : undefined);
+    } catch (error) {
+      console.error("Error fetching role:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRole();
+  }, []);
+
+  useEffect(() => {
+    if (!loading && role === undefined) {
+      setLoading(true);
+      fetchRole();
+    }
+  }, [role, loading]);
+
+  if (["/login", "/signup"].includes(location.pathname)) return null;
+
+  const handleNavigate = (path) => {
+    navigate(path);
+  };
+
+  if (loading) return <div>Loading footer...</div>;
+
+  const adminButtons = [
+    { name: "Home", path: "/admin/dashboard" },
     { name: "Something3", path: "/underconstruction" },
+    { name: "Something4", path: "/underconstruction" },
+    { name: "Something5", path: "/underconstruction" },
     { name: "Profile", path: "/caregiverprofile" },
   ];
 
-  const patientLinks = [
-    { name: "Hem", path: "/user/dashboard" },
+  const userButtons = [
+    { name: "Home", path: "/user/dashboard" },
     { name: "Profile", path: "/profile" },
-    { name: "Something4", path: "/underconstruction" },
-    { name: "Something5", path: "/underconstruction" },
+    { name: "Something7", path: "/underconstruction" },
+    { name: "Something8", path: "/underconstruction" },
+    { name: "Something9", path: "/underconstruction" },
   ];
 
-  const links = [
-    ...UserLinks,
-    ...(userType === "doctor" ? doctorLinks : []),
-    ...(userType === "patient" ? patientLinks : []),
-  ];
-
-  const handleNavigate = (e) => {
-    navigate(e);
-  };
+  const buttons = role === "ADMIN" ? adminButtons : role === "USER" ? userButtons : [];
 
   return (
-    <footer className="footer">
+    <div className="footer">
       <nav className="footer-nav">
-      {links
-          .filter((link) => link.path !== location.pathname) 
-          .map((link) => (
+        {buttons
+          .filter((button) => button.path !== location.pathname) // Exclude current path
+          .map((button) => (
             <button
-              key={link.name}
-              onClick={() => handleNavigate(link.path)}
+              key={button.name}
+              onClick={() => handleNavigate(button.path)}
               className="footer-link"
             >
-              <span className="label">{link.name}</span>
+              <span className="label">{button.name}</span>
             </button>
           ))}
       </nav>
-    </footer>
+    </div>
   );
 };
 
 export default Footer;
-
-/// <Footer userType="doctor" /> This for the doctor
-/// <Footer userType="patient" /> for the patient

@@ -18,6 +18,7 @@ import CaregiverProfile from "./components/Profile/Caregiver_profile";
 import CalendarPage from "./components/Calendar/Calendar";
 import Header from "./components/Header";
 import UnderConstruction from "./components/UnderConstructionPage";
+import Footer from "./components/footer/Footer";
 
 function App() {
   return (
@@ -67,6 +68,7 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
             <Route path="/signup" element={<Signup />} />
           </Routes>
+          <Footer/>
         </Router>
       </div>
     </AuthProvider>
