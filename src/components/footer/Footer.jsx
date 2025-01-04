@@ -35,7 +35,7 @@ const Footer = () => {
     }
   }, [role, loading]);
 
-  if (["/login", "/signup"].includes(location.pathname)) return null;
+  if (["/login", "/signup",, "/"].includes(location.pathname)) return null;
 
   const handleNavigate = (path) => {
     navigate(path);
@@ -45,18 +45,18 @@ const Footer = () => {
 
   const adminButtons = [
     { name: "Home", path: "/admin/dashboard" },
-    { name: "Something3", path: "/underconstruction" },
-    { name: "Something4", path: "/underconstruction" },
-    { name: "Something5", path: "/underconstruction" },
+    { name: "Admin-Something3", path: "/underconstruction" },
+    { name: "Admin-Something4", path: "/underconstruction" },
+    { name: "Admin-Something5", path: "/underconstruction" },
     { name: "Profile", path: "/caregiverprofile" },
   ];
 
   const userButtons = [
     { name: "Home", path: "/user/dashboard" },
     { name: "Profile", path: "/profile" },
-    { name: "Something7", path: "/underconstruction" },
-    { name: "Something8", path: "/underconstruction" },
-    { name: "Something9", path: "/underconstruction" },
+    { name: "User-Something7", path: "/underconstruction" },
+    { name: "User-Something8", path: "/underconstruction" },
+    { name: "User-Something9", path: "/underconstruction" },
   ];
 
   const buttons = role === "ADMIN" ? adminButtons : role === "USER" ? userButtons : [];

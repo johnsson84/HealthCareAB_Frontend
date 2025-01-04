@@ -47,7 +47,7 @@ const ReturnButton = styled.button`
     box-shadow 0.2s ease;
   text-align: center;
   border: none;
-  
+
   &:hover {
     background-color: #2fadaa;
     transform: translateY(-3px);
@@ -121,8 +121,10 @@ function Login() {
       // redirect based on role
       if (roles.includes("ADMIN")) {
         navigate("/admin/dashboard", { replace: true });
+        window.location.reload();
       } else {
         navigate("/user/dashboard", { replace: true });
+        window.location.reload();
       }
     } catch (error) {
       setError("Invalid username or password");
@@ -151,7 +153,11 @@ function Login() {
           required
         />
         <LoginButton type="submit">Login</LoginButton>
-        <ReturnButton type="submit"><Link className="link" to="/">Return</Link></ReturnButton>
+        <ReturnButton type="submit">
+          <Link className="link" to="/">
+            Return
+          </Link>
+        </ReturnButton>
       </FormWrapper>
     </LoginContainer>
   );
