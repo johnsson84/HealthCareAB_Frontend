@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useSearchParams } from "react-router-dom"; // För att läsa token från URL
+import { Link, useSearchParams, useNavigate } from "react-router-dom"; // För att läsa token från URL
 
 const ResetPasswordContainer = styled.div`
   display: flex;
@@ -63,6 +63,8 @@ const ResetPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
   const [searchParams] = useSearchParams();
+
+  const navigate = useNavigate();
   const token = searchParams.get("token"); // Läs token från URL
 
   const handlePasswordReset = async (e) => {
@@ -88,6 +90,8 @@ const ResetPassword = () => {
       setMessage("Error resetting password. Please try again.");
     }
   };
+
+  useEffect(())
 
   return (
     <ResetPasswordContainer>
