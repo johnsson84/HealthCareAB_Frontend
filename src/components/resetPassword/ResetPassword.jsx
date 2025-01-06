@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useSearchParams, useNavigate } from "react-router-dom"; // För att läsa token från URL
+import { useSearchParams, useNavigate } from "react-router-dom"; // För att läsa token från URL
 
 const ResetPasswordContainer = styled.div`
   display: flex;
@@ -79,7 +79,7 @@ const ResetPassword = () => {
         token,
         newPassword,
       });
-      setMessage("Password successfully reset. You can now log in.");
+      setMessage("Password successfully reset. Redirecting you to login.");
     } catch (err) {
       console.log(err);
       console.log({
@@ -91,7 +91,14 @@ const ResetPassword = () => {
     }
   };
 
-  useEffect(())
+  useEffect(() => {
+    if (message === "Password successfully reset. Redirecting you to login.") {
+      const sleeper = setTimeout(() => {
+      navigate("/login");
+      }, 2000);
+      return () => clearTimeout(sleeper);
+    }
+  }, [message, navigate]);
 
   return (
     <ResetPasswordContainer>
@@ -112,7 +119,6 @@ const ResetPassword = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
         <ResetPasswordButton type="submit">Set New Password</ResetPasswordButton>
-        <ResetPasswordButton><Link className="link" to="/login">return to login</Link></ResetPasswordButton>
         {message && <p>{message}</p>}
       </FormWrapper>
     </ResetPasswordContainer>
