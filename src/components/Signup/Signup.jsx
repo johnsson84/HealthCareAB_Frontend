@@ -37,6 +37,7 @@ function Signup() {
 
   const handleNavigateToLogin = () => {
     navigate("/home");
+    window.location.reload();
   };
 
   const handleSignup = async (e) => {
@@ -65,8 +66,10 @@ function Signup() {
       // redirect based on role
       if (roles.includes("ADMIN")) {
         navigate("/admin/dashboard", { replace: true });
+        window.location.reload();
       } else {
         navigate("/user/dashboard", { replace: true });
+        window.location.reload();
       }
       resetForm();
     } catch (error) {
