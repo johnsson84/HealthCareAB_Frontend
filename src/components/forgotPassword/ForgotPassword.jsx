@@ -90,11 +90,11 @@ const ForgotPassword = () => {
     }
 
     try {
-      setLoading(true);
+      setLoading(true); 
       await axios.post(`${import.meta.env.VITE_API_URL}/auth/forgot-password`, {
         email: email.trim(), // tar bort mellanslag
       });
-      setMessage("The reset link sent! Please check your email.");
+      setMessage("The reset link was sent! Please check your email.");
 
     } catch (err) {
       console.error(err);
@@ -116,8 +116,12 @@ const ForgotPassword = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <ResetPasswordButton type="submit">Reset Password</ResetPasswordButton>
-        {message && <p>{message}</p>}
+        <ResetPasswordButton type="submit" disabled={loading}>{loading ? "Sending..." : "Send Reset Link"}</ResetPasswordButton>
+        {message && (
+          <p style={{ color: error ? "red" : "green", marginTop: "10px" }}>
+            {message}
+          </p>
+        )}
       </FormWrapper>
     </ForgotPasswordContainer>
   );
