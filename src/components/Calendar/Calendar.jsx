@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useAuth } from "../../hooks/useAuth";
 import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -8,12 +9,15 @@ const CalendarPage = () => {
   const [availability, setAvailability] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
+  const {
+      authState: { user },
+    } = useAuth();
 
   useEffect(() => {
     const getAvailability = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/availability`,
+          `${import.meta.env.VITE_API_URL}/availability/find-by-username`,
           {
             withCredentials: true,
           }
@@ -53,6 +57,7 @@ const CalendarPage = () => {
         <StyledMain>
       <h1>Caregiver Availability</h1>
       <Calendar onChange={handleDateChange} />
+      <div>{user}</div>
       {selectedDate && (
         <div>
           <h2>Available Slots on {selectedDate.toDateString()}:</h2>
