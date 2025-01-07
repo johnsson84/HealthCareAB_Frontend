@@ -16,17 +16,6 @@ const CalendarPage = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [chosenTimeslot, setChosenTimeslot] = useState(null);
   const navigate = useNavigate();
-  const {
-    authState: roles
-  } = useAuth();
-  
-  const showRoles = () => {
-    if (roles.includes("ROLE_ADMIN")) {
-      return "Admin";
-    } else if (roles.includes("ROLE_USER")) {
-      return "User";
-    }
-  }
 
   const [newAppointment, setNewAppointment] = useState({
     username: null,
@@ -92,18 +81,26 @@ const CalendarPage = () => {
   const handleDateChange = (date) => {
     setSelectedDate(date);
   
-    // Get the local date without time zone offset
-    const localDate = new Date(date);
-    const formattedDate = localDate.toISOString().split("T")[0]; // Format to YYYY-MM-DD
+    // Get the current local date and time
+    const now = new Date();
+    const currentDate = now.toISOString().split("T")[0]; // Format to YYYY-MM-DD
+    const currentTime = now.getTime(); // Current timestamp in milliseconds
   
-    const currentDate = new Date().toISOString().split("T")[0]; // Current local date in YYYY-MM-DD format
+    // Format the selected date to YYYY-MM-DD
+    const selectedDate = new Date(date);
+    const formattedDate = selectedDate.toISOString().split("T")[0];
   
     const filtered = availability
       .map((entry) => {
-        // Filter slots for the selected date and ensure they are not before the current date
         const slotsForDate = entry.availableSlots.filter((slot) => {
-          const slotDate = slot.split("T")[0]; // Extract date part if slot is in ISO format
-          return slotDate === formattedDate && slotDate >= currentDate;
+          const [slotDate, slotTime] = slot.split("T"); // Split date and time parts
+          const slotDatetime = new Date(`${slotDate}T${slotTime}`).getTime(); // Parse slot to timestamp
+  
+          // Match the date and check the time
+          return (
+            slotDate === formattedDate &&
+            (slotDate !== currentDate || slotDatetime >= currentTime) // Keep today's slots after the current time
+          );
         });
   
         return slotsForDate.length > 0
@@ -115,6 +112,7 @@ const CalendarPage = () => {
     setFilteredData(filtered);
   };
   
+  
 
 
 return (
@@ -122,7 +120,6 @@ return (
     <ToastContainer />
     <StyledMain>
       <h1>Doctors available appointments</h1>
-      <div>{showRoles}</div>
       <Calendar onChange={handleDateChange} />
       {selectedDate && (
         <div>

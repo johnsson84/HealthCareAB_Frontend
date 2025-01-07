@@ -14,6 +14,7 @@ import RequireAuth from "./components/RequireAuth";
 import GlobalStyle from "./styles/GlobalStyle";
 import Signup from "./components/Signup/Signup";
 import Profile from "./components/Profile/Profile";
+import CalendarPage from "./components/Calendar/Calendar";
 import CaregiverProfile from "./components/Profile/Caregiver_profile";
 import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 import ResetPassword from "./components/resetPassword/ResetPassword";
