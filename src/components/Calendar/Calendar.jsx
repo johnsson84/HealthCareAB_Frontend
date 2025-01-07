@@ -80,40 +80,26 @@ const CalendarPage = () => {
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
-  
-    // Get the current local date and time
+ 
+    // Get current date and time information
     const now = new Date();
-    const currentDate = now.toISOString().split("T")[0]; // Format to YYYY-MM-DD
-    const currentTime = now.getTime(); // Current timestamp in milliseconds
-  
     // Format the selected date to YYYY-MM-DD
-    const selectedDate = new Date(date);
-    const formattedDate = selectedDate.toISOString().split("T")[0];
-  
     const filtered = availability
-      .map((entry) => {
-        const slotsForDate = entry.availableSlots.filter((slot) => {
-          const [slotDate, slotTime] = slot.split("T"); // Split date and time parts
-          const slotDatetime = new Date(`${slotDate}T${slotTime}`).getTime(); // Parse slot to timestamp
-  
-          // Match the date and check the time
-          return (
-            slotDate === formattedDate &&
-            (slotDate !== currentDate || slotDatetime >= currentTime) // Keep today's slots after the current time
-          );
-        });
-  
-        return slotsForDate.length > 0
-          ? { id: entry.id, caregiver: entry.caregiverId, slots: slotsForDate }
-          : null;
-      })
-      .filter(Boolean);
-  
+        .map((entry) => {
+            const slotsForDate = entry.availableSlots.filter((slot) => {
+                const slotDate = new Date(slot);
+                if (slotDate >= now && slotDate.toDateString() === date.toDateString()) {
+                    // For today, only show future time slots
+                    return slotDate;
+                } 
+            });
+            return slotsForDate.length > 0
+                ? { id: entry.id, caregiver: entry.caregiverId, slots: slotsForDate }
+                : null;
+        })
+        .filter(Boolean);
     setFilteredData(filtered);
-  };
-  
-  
-
+};
 
 return (
   <div>
