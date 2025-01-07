@@ -80,11 +80,6 @@ const ResetPassword = () => {
       setMessage("Password successfully reset. You can now log in.");
     } catch (err) {
       console.log(err);
-      console.log({
-        token,
-        newPassword,
-      });
-
       setMessage("Error resetting password. Please try again.");
     }
   };

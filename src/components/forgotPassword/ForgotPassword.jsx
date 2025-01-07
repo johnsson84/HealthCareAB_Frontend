@@ -59,15 +59,30 @@ const StyledInput = styled.input`
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  
+
 
   const handlePasswordForgotten = async (e) => {
     e.preventDefault();
+    setMessage(""); // tömmer föregående meddelande
+    setError(false); // resättar error statet
+
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+      setMessage("Enter a valid email address.");
+      setError(true);
+      return;
+    }
+
     try {
-      await axios.post(
-        `${import.meta.env.VITE_API_URL}/auth/forgot-password`,
-        { email }
-      );
+      setLoading(true);
+      await axios.post(`${import.meta.env.VITE_API_URL}/auth/forgot-password`, {
+        email: email.trim(), // tar bort mellanslag
+      });
       setMessage("The reset link sent! Please check your email.");
+
     } catch (err) {
       console.log(err);
       setMessage("Error sending the reset link. Please try again.");
