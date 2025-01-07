@@ -17,6 +17,10 @@ const CalendarPage = () => {
   const [chosenTimeslot, setChosenTimeslot] = useState(null);
   const navigate = useNavigate();
 
+  const {
+    authState: { user },
+  } = useAuth();
+
   const [newAppointment, setNewAppointment] = useState({
     username: null,
     availabilityId: null,
