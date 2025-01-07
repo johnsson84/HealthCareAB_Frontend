@@ -47,7 +47,6 @@ const Profile = () => {
         <p>Last Name: {personalInformation.lastName}</p>
         <p>Email: {personalInformation.mail}</p>
       </div>
-      <Footer userType="patient" />
     </div>
   );
 };
