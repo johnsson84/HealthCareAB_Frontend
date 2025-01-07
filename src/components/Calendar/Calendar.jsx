@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import styled from "styled-components";
-import { useAuth } from "../../hooks/useAuth";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 
 const CalendarPage = () => {
@@ -16,6 +16,17 @@ const CalendarPage = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [chosenTimeslot, setChosenTimeslot] = useState(null);
   const navigate = useNavigate();
+  const {
+    authState: roles
+  } = useAuth();
+  
+  const showRoles = () => {
+    if (roles.includes("ROLE_ADMIN")) {
+      return "Admin";
+    } else if (roles.includes("ROLE_USER")) {
+      return "User";
+    }
+  }
 
   const [newAppointment, setNewAppointment] = useState({
     username: null,
@@ -23,6 +34,7 @@ const CalendarPage = () => {
     caregiverId: null,
     availabilityDate: null,
   });
+
   
   const handleChoice = (username, availabilityId, caregiverId, availabilityDate) => {
     setNewAppointment({
@@ -32,7 +44,6 @@ const CalendarPage = () => {
       availabilityDate,
     });
   };
-
   const handleBookAppointment = async (newAppointment) => {
     try {
       await axios.post(
@@ -61,11 +72,6 @@ const CalendarPage = () => {
       console.error("Error booking appointment:", error);
     }
   };
-  
-    const {
-      authState: { user },
-    } = useAuth();
-    const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const getAvailability = async () => {
@@ -85,23 +91,30 @@ const CalendarPage = () => {
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
-
+  
     // Get the local date without time zone offset
     const localDate = new Date(date);
-    const formattedDate = localDate.toLocaleDateString('en-CA'); // Format to YYYY-MM-DD
-
+    const formattedDate = localDate.toISOString().split("T")[0]; // Format to YYYY-MM-DD
+  
+    const currentDate = new Date().toISOString().split("T")[0]; // Current local date in YYYY-MM-DD format
+  
     const filtered = availability
       .map((entry) => {
-        const slotsForDate = entry.availableSlots.filter((slot) =>
-          slot.startsWith(formattedDate) // Match by local date
-        );
+        // Filter slots for the selected date and ensure they are not before the current date
+        const slotsForDate = entry.availableSlots.filter((slot) => {
+          const slotDate = slot.split("T")[0]; // Extract date part if slot is in ISO format
+          return slotDate === formattedDate && slotDate >= currentDate;
+        });
+  
         return slotsForDate.length > 0
           ? { id: entry.id, caregiver: entry.caregiverId, slots: slotsForDate }
           : null;
       })
-      .filter(Boolean); 
+      .filter(Boolean);
+  
     setFilteredData(filtered);
-};
+  };
+  
 
 
 return (
@@ -109,6 +122,7 @@ return (
     <ToastContainer />
     <StyledMain>
       <h1>Doctors available appointments</h1>
+      <div>{showRoles}</div>
       <Calendar onChange={handleDateChange} />
       {selectedDate && (
         <div>
