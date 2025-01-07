@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-
+import { useAuth } from "../../hooks/useAuth";
 
 const CalendarPage = () => {
   const [availability, setAvailability] = useState([]);
@@ -110,7 +110,6 @@ return (
     <ToastContainer />
     <StyledMain>
       <h1>Doctors available appointments</h1>
-      <div>{showRoles}</div>
       <Calendar onChange={handleDateChange} />
       {selectedDate && (
         <div>
