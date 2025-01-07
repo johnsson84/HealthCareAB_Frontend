@@ -41,17 +41,12 @@ function UserDashboard() {
       <div className="dbButtonContainer">
         <ButtonLink
           picture="/vite.svg"
-          linkName="Book Doctor"
-          link="/underconstruction"
-        ></ButtonLink>
-        <ButtonLink
-          picture="/vite.svg"
           linkName="Appointment"
           link="/underconstruction"
         ></ButtonLink>
         <ButtonLink
           picture="/vite.svg"
-          linkName="Calendar"
+          linkName="Book Doctor"
           link="/calendar"
         ></ButtonLink>
         <ButtonLink
