@@ -1,133 +1,103 @@
-import axios from "axios";
-import { Field, Form, Formik } from "formik";
-import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useAuth } from "../../hooks/useAuth";
+import { Formik, Form, Field } from "formik";
 import styled from "styled-components";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+
+const Schedule = () => {
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [availability, setAvailability] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
+    const [chosenTimeslot, setChosenTimeslot] = useState(null);
 
 
-const CalendarPage = () => {
-  const [availability, setAvailability] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [filteredData, setFilteredData] = useState([]);
-  const [chosenTimeslot, setChosenTimeslot] = useState(null);
-  const navigate = useNavigate();
+    const {
+        authState: { user },
+    } = useAuth();
 
-  const [newAppointment, setNewAppointment] = useState({
-    username: null,
-    availabilityId: null,
-    caregiverId: null,
-    availabilityDate: null,
-  });
 
-  
-  const handleChoice = (username, availabilityId, caregiverId, availabilityDate) => {
-    setNewAppointment({
-      username,
-      availabilityId,
-      caregiverId,
-      availabilityDate,
-    });
-  };
-  const handleBookAppointment = async (newAppointment) => {
+    useEffect(() => {
+        const getAvailability = async () => {
+          try {
+            const response = await axios.get(
+              `${import.meta.env.VITE_API_URL}/availability/find-by-username/${user}`,
+              {
+                withCredentials: true,
+              });
+            setAvailability(response.data);
+          } catch (error) {
+            console.error("Something went wrong, try again later.", error);
+          }
+        };
+        getAvailability();
+      }, []);
+
+const handleDateChange = (date) => {
+    setSelectedDate(date);
+
+        // Get current date and time information
+        const now = new Date();
+        // Format the selected date to YYYY-MM-DD
+        const filtered = availability
+            .map((entry) => {
+                const slotsForDate = entry.availableSlots.filter((slot) => {
+                    const slotDate = new Date(slot);
+                    if (slotDate >= now && slotDate.toDateString() === date.toDateString()) {
+                        // For today, only show future time slots
+                        return slotDate;
+                    } 
+                });
+                return slotsForDate.length > 0
+                    ? { id: entry.id, slots: slotsForDate }
+                    : null;
+            })
+            .filter(Boolean);
+        setFilteredData(filtered);
+}
+
+ const handleDeleteAvailability = async (newAppointment) => {
     try {
-      await axios.post(
-        `${import.meta.env.VITE_API_URL}/appointment/new`,
-        {
-          ...newAppointment,
-        },
+      await axios.put(
+        `${import.meta.env.VITE_API_URL}availability/change-availability`,
         {
           withCredentials: true,
         }
       );
-      toast.success("Appointment successfully booked!", {
-        position: "top-center",
-        autoClose: 3000,
-      });
-  
-      // Redirect to dashboard after a short delay
-      setTimeout(() => {
-        navigate("/user/dashboard");
-      }, 3000); // Wait for the toast to close
+      toast.success("Availability changed successfully!");
     } catch (error) {
-      toast.error("Something went wrong. Please try again later.", {
-        position: "top-center",
-        autoClose: 3000,
-      });
-      console.error("Error booking appointment:", error);
+      console.error("Something went wrong, try again later.", error);
+      toast.error("Something went wrong, try again later.");
     }
-  };
+};
 
-  useEffect(() => {
-    const getAvailability = async () => {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/availability`,
-          {
-            withCredentials: true,
-          });
-        setAvailability(response.data);
-      } catch (error) {
-        console.error("Something went wrong, try again later.", error);
-      }
-    };
-    getAvailability();
-  }, []);
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
- 
-    // Get current date and time information
-    const now = new Date();
-    // Format the selected date to YYYY-MM-DD
-    const filtered = availability
-        .map((entry) => {
-            const slotsForDate = entry.availableSlots.filter((slot) => {
-                const slotDate = new Date(slot);
-                if (slotDate >= now && slotDate.toDateString() === date.toDateString()) {
-                    // For today, only show future time slots
-                    return slotDate;
-                } 
-            });
-            return slotsForDate.length > 0
-                ? { id: entry.id, caregiver: entry.caregiverId, slots: slotsForDate }
-                : null;
-        })
-        .filter(Boolean);
-    setFilteredData(filtered);
-  };
-  
-
-return (
-  <div>
+    return (
+        <div>
     <ToastContainer />
     <StyledMain>
-      <h1>Doctors available appointments</h1>
-      <div>{showRoles}</div>
+      <h1>Dr.{user}'s Schedule </h1>
       <Calendar onChange={handleDateChange} />
       {selectedDate && (
         <div>
-          <h2>Available appointments on {selectedDate.toDateString()}:</h2>
+          <h2>Your available meeting times on {selectedDate.toDateString()}:</h2>
           <h3>
-            Chosen appointment:{" "}
+            Chosen time:{" "}
             {chosenTimeslot
               ? `${new Date(chosenTimeslot.slot).toLocaleDateString()} ${new Date(chosenTimeslot.slot).toLocaleTimeString()}`
               : "None selected"}
           </h3>
           <Formik
-            initialValues={{
-              selectedSlot: "",
-            }}
+            initialValues={[{
+              selectedSlots: "",
+            }]}
             onSubmit={(values) => {
-              const selectedSlot = JSON.parse(values.selectedSlot);
+              const selectedSlots = [JSON.parse(values.selectedSlot)];
               handleChoice(
                 user,
-                selectedSlot.entryId,
-                selectedSlot.caregiverId,
-                selectedSlot.slot
+                selectedSlots.entryId,
+                selectedSlots.slot
               );
             }}
           >
@@ -138,6 +108,7 @@ return (
                     <Field
                       as="select"
                       name="selectedSlot"
+                      multiple={true}
                       onChange={(e) => {
                         const value = e.target.value;
                         handleChange(e);
@@ -166,11 +137,11 @@ return (
                           {entry.slots.map((slot) => (
                             <option
                               key={`${entry.id}-${slot}`}
-                              value={JSON.stringify({
+                              value={[JSON.stringify({
                                 entryId: entry.id,
                                 caregiverId: entry.caregiver.id,
                                 slot,
-                              })}
+                              })]}
                             >
                               {`${new Date(slot).toLocaleDateString()} ${new Date(slot).toLocaleTimeString()}`}
                             </option>
@@ -185,10 +156,11 @@ return (
               </Form>
             )}
           </Formik>
-
-          <StyledButton onClick={() => handleBookAppointment(newAppointment)}>
-            Book
-          </StyledButton>
+            <StyledButtonHolder>
+          <StyledButton onClick={() => handleDeleteAvailability(newAppointment)}>
+            Delete available time
+            </StyledButton>
+          </StyledButtonHolder>
         </div>
       )}
     </StyledMain>
@@ -196,8 +168,7 @@ return (
 );
 }
 
-export default CalendarPage;
-
+export default Schedule;
 
 const StyledMain = styled.div`
     display: flex;
@@ -208,6 +179,10 @@ const StyledMain = styled.div`
     border: 2px solid #ccc;
     border-radius: 2%;
     min-height: 100vh;
+    `;
+const StyledButtonHolder = styled.div`
+    display: flex;
+    margin-top: 1rem;
     `;
 
 const StyledButton = styled.button`
