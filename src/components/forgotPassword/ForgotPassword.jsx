@@ -62,7 +62,20 @@ const ForgotPassword = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  
+  const errorHandler = (err) => {
+    if (err.response) {
+      switch (err.response.status) {
+        case 403:
+          return "Not Allowed: You are not gruanted access.";
+        case 404:
+            return "Email not found. Check email and try again";      
+        default:
+          return "Error sending the reset link. Please try again later.";
+      }
+    } else {
+      return "An unexpected error occurred. Please try again later."
+    }
+  };
 
 
   const handlePasswordForgotten = async (e) => {
@@ -84,8 +97,11 @@ const ForgotPassword = () => {
       setMessage("The reset link sent! Please check your email.");
 
     } catch (err) {
-      console.log(err);
-      setMessage("Error sending the reset link. Please try again.");
+      console.error(err);
+      setMessage(errorHandler(err));
+      setError(true);
+    } finally {
+      setLoading(false);
     }
   };
 
