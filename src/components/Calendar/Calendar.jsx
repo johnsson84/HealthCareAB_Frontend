@@ -91,31 +91,27 @@ const CalendarPage = () => {
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
-  
-    // Get the local date without time zone offset
-    const localDate = new Date(date);
-    const formattedDate = localDate.toISOString().split("T")[0]; // Format to YYYY-MM-DD
-  
-    const currentDate = new Date().toISOString().split("T")[0]; // Current local date in YYYY-MM-DD format
-  
+ 
+    // Get current date and time information
+    const now = new Date();
+    // Format the selected date to YYYY-MM-DD
     const filtered = availability
-      .map((entry) => {
-        // Filter slots for the selected date and ensure they are not before the current date
-        const slotsForDate = entry.availableSlots.filter((slot) => {
-          const slotDate = slot.split("T")[0]; // Extract date part if slot is in ISO format
-          return slotDate === formattedDate && slotDate >= currentDate;
-        });
-  
-        return slotsForDate.length > 0
-          ? { id: entry.id, caregiver: entry.caregiverId, slots: slotsForDate }
-          : null;
-      })
-      .filter(Boolean);
-  
+        .map((entry) => {
+            const slotsForDate = entry.availableSlots.filter((slot) => {
+                const slotDate = new Date(slot);
+                if (slotDate >= now && slotDate.toDateString() === date.toDateString()) {
+                    // For today, only show future time slots
+                    return slotDate;
+                } 
+            });
+            return slotsForDate.length > 0
+                ? { id: entry.id, caregiver: entry.caregiverId, slots: slotsForDate }
+                : null;
+        })
+        .filter(Boolean);
     setFilteredData(filtered);
   };
   
-
 
 return (
   <div>
