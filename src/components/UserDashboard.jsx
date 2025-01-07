@@ -27,7 +27,7 @@ const Text = styled.p`
 `;
 
 function UserDashboard() {
-  // using custom hook to check if the user i authenticated and has the correct role
+  // using custom hook to check if the user is authenticated and has the correct role
   const {
     authState: { user },
   } = useAuth();
