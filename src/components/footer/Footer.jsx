@@ -47,10 +47,13 @@ const Footer = () => {
     { name: "Home", path: "/admin/dashboard" },
     { name: "Admin-Something3", path: "/underconstruction" },
     {
-      name: "Admin-appointment-info",
-      path: "/appointment/info/677d3557c04f713b7cd04233",
+      name: "Admin-Something4",
+      path: "/underconstruction",
     },
-    { name: "Admin-Something5", path: "/underconstruction" },
+    {
+      name: "Admin-Something5",
+      path: "/underconstruction",
+    },
     { name: "Profile", path: "/caregiverprofile" },
   ];
 
@@ -58,10 +61,13 @@ const Footer = () => {
     { name: "Home", path: "/user/dashboard" },
     { name: "Profile", path: "/profile" },
     {
-      name: "User-appointment-info",
-      path: "/appointment/info/677d3557c04f713b7cd04233",
+      name: "User-Something18",
+      path: "/underconstruction",
     },
-    { name: "User-Something8", path: "/underconstruction" },
+    {
+      name: "User-Something19",
+      path: "/underconstruction",
+    },
     { name: "User-Something9", path: "/underconstruction" },
   ];
 

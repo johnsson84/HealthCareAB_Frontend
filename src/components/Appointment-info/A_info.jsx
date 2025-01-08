@@ -34,7 +34,6 @@ const Appointment_info = () => {
       return setRole(undefined);
     }
   };
-
   useEffect(() => {
     fetchRole();
   }, []);
@@ -104,15 +103,12 @@ const Appointment_info = () => {
     if (!dropdownActive) {
       setEditOrCancel(false);
       setDropDownActive(true);
-      console.log("cancel 1");
     } else if (dropdownActive && !editOrCancel) {
       setDropDownActive(false);
       setSendMail(false);
-      console.log("cancel 2");
     } else if (dropdownActive && editOrCancel) {
       setEditOrCancel(false);
       setSendMail(false);
-      console.log("cancel 3");
     }
   };
 
@@ -172,7 +168,7 @@ const Appointment_info = () => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/mail`,
-        { toEmail: meetingInfo.userMail, subject: mailSubject, text: mailText },
+        { toEmail: meetingInfo.userEmail, subject: mailSubject, text: mailText },
         {
           withCredentials: true,
         }
@@ -182,11 +178,29 @@ const Appointment_info = () => {
       setMailSubject("");
       setMailText("");
     } catch (error) {
-      console.log(error);
       setMailConfirmation("Something went wrong, try again later..");
       handleSendMailBool();
       setMailSubject("");
       setMailText("");
+    }
+  };
+  const handleMailSenderRequest = async () => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/mail/request`,
+        {
+          toEmail: meetingInfo.userEmail,
+          appointmentSummary: meetingInfo.summary,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      setMailConfirmation("Mail was sent successfully");
+      handleSendMailBool();
+    } catch (error) {
+      setMailConfirmation("Something went wrong, try again later..");
+      handleSendMailBool();
     }
   };
 
@@ -284,17 +298,6 @@ const Appointment_info = () => {
                     <li
                       style={{
                         backgroundColor:
-                          selectedStatus === "ERROR" ? "#057d7a" : "white",
-                        color: selectedStatus === "ERROR" ? "white" : "black",
-                      }}
-                      className="appointmentItem"
-                      onClick={() => handleStatusClick("ERROR")}
-                    >
-                      ERROR
-                    </li>
-                    <li
-                      style={{
-                        backgroundColor:
                           selectedStatus === "COMPLETED" ? "#057d7a" : "white",
                         color:
                           selectedStatus === "COMPLETED" ? "white" : "black",
@@ -330,6 +333,7 @@ const Appointment_info = () => {
             <div className="cancelAppointmentContainer">
               {isWithin24Hours ? (
                 <>
+                  {/** ADMIN */}
                   <p>Do you want to cancel this appointment?</p>
                   <p className="editRestrictionMessage">
                     You can't cancel appointment within 24h from its due date
@@ -398,10 +402,11 @@ const Appointment_info = () => {
 
           {!dropdownActive ? null : editOrCancel ? (
             <div className="editAppointmentContainer">
+              {/**USER*/}
               <p>Edit Appointment</p>
               <p>
                 At the moment the only way to edit an appointment is through
-                sending a request with mail mail.
+                sending a request with mail.
               </p>
               {isWithin24Hours ? (
                 <>
@@ -411,26 +416,11 @@ const Appointment_info = () => {
                   </p>
                   {sendMail ? (
                     <>
-                      <input
-                        className="appointmentMailSender"
-                        type="text"
-                        placeholder="Insert Subject here"
-                        value={mailSubject}
-                        onChange={handleMailSubject}
-                      />
-                      <input
-                        className="appointmentMailSender"
-                        type="text"
-                        placeholder="Insert text here"
-                        value={mailText}
-                        onChange={handleMailText}
-                      />
-
                       <button
                         className="sendEmailButtonAppointment"
-                        onClick={handleMailSender}
+                        onClick={handleMailSenderRequest}
                       >
-                        Send
+                        Click here to request mail
                       </button>
                     </>
                   ) : (
@@ -447,27 +437,26 @@ const Appointment_info = () => {
                 </>
               ) : (
                 <div className="appointmentListContainer">
-                  <input
-                    className="appointmentMailSender"
-                    type="text"
-                    placeholder="Insert Subject here"
-                    value={mailSubject}
-                    onChange={handleMailSubject}
-                  />
-                  <input
-                    className="appointmentMailSender"
-                    type="text"
-                    placeholder="Insert text here"
-                    value={mailText}
-                    onChange={handleMailText}
-                  />
-
-                  <button
-                    className="sendEmailButtonAppointment"
-                    onClick={handleMailSender}
-                  >
-                    Send
-                  </button>
+                  {sendMail ? (
+                    <>
+                      <button
+                        className="sendEmailButtonAppointment"
+                        onClick={handleMailSenderRequest}
+                      >
+                        Click here to request mail
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      {mailConfirmation}
+                      <button
+                        className="sendEmailButtonAppointment"
+                        onClick={handleSendMailBool}
+                      >
+                        Send Email?
+                      </button>
+                    </>
+                  )}
                 </div>
               )}
             </div>
@@ -482,26 +471,12 @@ const Appointment_info = () => {
                   </p>
                   {sendMail ? (
                     <>
-                      <input
-                        className="appointmentMailSender"
-                        type="text"
-                        placeholder="Insert Subject here"
-                        value={mailSubject}
-                        onChange={handleMailSubject}
-                      />
-                      <input
-                        className="appointmentMailSender"
-                        type="text"
-                        placeholder="Insert text here"
-                        value={mailText}
-                        onChange={handleMailText}
-                      />
 
                       <button
                         className="sendEmailButtonAppointment"
-                        onClick={handleMailSender}
+                        onClick={handleMailSenderRequest}
                       >
-                        Send
+                        Click here to request mail
                       </button>
                     </>
                   ) : (
