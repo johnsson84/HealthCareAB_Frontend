@@ -168,7 +168,14 @@ const Appointment_info = () => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/mail`,
-        { toEmail: meetingInfo.userEmail, subject: mailSubject, text: mailText },
+        {
+          toEmail: meetingInfo.userEmail,
+          subject: mailSubject,
+          text: mailText,
+          date: date,
+          time: time,
+          firstName: meetingInfo.patientFirstName,
+        },
         {
           withCredentials: true,
         }
@@ -191,6 +198,9 @@ const Appointment_info = () => {
         {
           toEmail: meetingInfo.userEmail,
           appointmentSummary: meetingInfo.summary,
+          date: date,
+          time: time,
+          firstName: meetingInfo.patientFirstName,
         },
         {
           withCredentials: true,
@@ -471,7 +481,6 @@ const Appointment_info = () => {
                   </p>
                   {sendMail ? (
                     <>
-
                       <button
                         className="sendEmailButtonAppointment"
                         onClick={handleMailSenderRequest}
