@@ -63,14 +63,19 @@ const ResetPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
   const [searchParams] = useSearchParams();
+  const [ error, setError ] = useState(false);
 
   const navigate = useNavigate();
   const token = searchParams.get("token"); // Läs token från URL
 
   const handlePasswordReset = async (e) => {
     e.preventDefault();
+    setMessage("");
+    setError(false);
+
     if (newPassword !== confirmPassword) {
       setMessage("Passwords do not match!");
+      setError(true);
       return;
     }
 
@@ -87,7 +92,8 @@ const ResetPassword = () => {
       );
       setMessage("Password successfully reset. Redirecting you to login.");
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      setError(true);
       setMessage("Error resetting password. Please try again.");
     }
   };
@@ -132,7 +138,11 @@ const ResetPassword = () => {
         <ResetPasswordButton type="submit">
           Set New Password
         </ResetPasswordButton>
-        {message && <p>{message}</p>}
+         {message && (
+          <p style={{ color: error ? "red" : "green", marginTop: "10px" }}>
+            {message}
+          </p>
+        )}
       </FormWrapper>
     </ResetPasswordContainer>
   );
