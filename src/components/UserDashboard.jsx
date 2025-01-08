@@ -57,7 +57,7 @@ function UserDashboard() {
         <ButtonLink
           picture="/vite.svg"
           linkName="Give Feedback"
-          link="/underconstruction"
+          link="/givefeedback"
         ></ButtonLink>
       </div>
       <Logout />

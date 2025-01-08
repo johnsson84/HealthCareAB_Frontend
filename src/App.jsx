@@ -21,6 +21,7 @@ import ResetPassword from "./components/resetPassword/ResetPassword";
 import Header from "./components/Header";
 import UnderConstruction from "./components/UnderConstructionPage";
 import Footer from "./components/footer/Footer";
+import Feedback from "./components/feedback/Feedback";
 
 function App() {
   return (
@@ -71,8 +72,9 @@ function App() {
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/givefeedback" element={<Feedback />} />
           </Routes>
-          <Footer/>
+          <Footer />
         </Router>
       </div>
     </AuthProvider>
