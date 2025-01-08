@@ -21,6 +21,7 @@ import ResetPassword from "./components/resetPassword/ResetPassword";
 import Header from "./components/Header";
 import UnderConstruction from "./components/UnderConstructionPage";
 import Footer from "./components/footer/Footer";
+import Appointment_info from "./components/Appointment-info/A_info";
 
 function App() {
   return (
@@ -40,6 +41,15 @@ function App() {
                 </RequireAuth>
               }
             />
+            <Route
+              path="/appointment/info/:appointmentId"
+              element={
+                <RequireAuth allowedRoles={["USER", "ADMIN"]}>
+                  <Appointment_info />
+                </RequireAuth>
+              }
+            />
+
             <Route path="/underconstruction" element={<UnderConstruction />} />
             <Route
               path="/admin/dashboard"
@@ -72,7 +82,7 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
             <Route path="/signup" element={<Signup />} />
           </Routes>
-          <Footer/>
+          <Footer />
         </Router>
       </div>
     </AuthProvider>
