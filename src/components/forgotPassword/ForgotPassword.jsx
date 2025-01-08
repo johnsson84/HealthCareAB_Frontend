@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const ForgotPasswordContainer = styled.div`
   display: flex;
@@ -9,6 +10,27 @@ const ForgotPasswordContainer = styled.div`
   flex-direction: column;
 `;
 const ResetPasswordButton = styled.button`
+  cursor: pointer;
+  padding: 10px 30px;
+  background-color: #057d7a;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  margin-top: 20px;
+  transition: background-color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.2s ease;
+  text-align: center;
+  border: none;
+
+  &:hover {
+    background-color: #2fadaa;
+    transform: translateY(-3px);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  }
+`;
+
+const ReturnToLoginButton = styled.button`
   cursor: pointer;
   padding: 10px 30px;
   background-color: #057d7a;
@@ -59,18 +81,47 @@ const StyledInput = styled.input`
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const errorHandler = (err) => {
+    if (err.response) {
+      switch (err.response.status) {
+        case 403:
+          return "Not Allowed: You are not gruanted access.";
+        case 404:
+          return "Email not found. Check email and try again";
+        default:
+          return "Error sending the reset link. Please try again later.";
+      }
+    } else {
+      return "An unexpected error occurred. Please try again later.";
+    }
+  };
 
   const handlePasswordForgotten = async (e) => {
     e.preventDefault();
+    setMessage(""); // tömmer föregående meddelande
+    setError(false); // resättar error statet
+
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+      setMessage("Enter a valid email address.");
+      setError(true);
+      return;
+    }
+
     try {
-      await axios.post(
-        `${import.meta.env.VITE_API_URL}/auth/forgot-password`,
-        { email }
-      );
-      setMessage("The reset link sent! Please check your email.");
+      setLoading(true);
+      await axios.post(`${import.meta.env.VITE_API_URL}/auth/forgot-password`, {
+        email: email.trim(), // tar bort mellanslag
+      });
+      setMessage("The reset link was sent! Please check your email.");
     } catch (err) {
-      console.log(err);
-      setMessage("Error sending the reset link. Please try again.");
+      console.error(err);
+      setMessage(errorHandler(err));
+      setError(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -85,8 +136,19 @@ const ForgotPassword = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <ResetPasswordButton type="submit">Reset Password</ResetPasswordButton>
-        {message && <p>{message}</p>}
+        <ResetPasswordButton type="submit" disabled={loading}>
+          {loading ? "Sending..." : "Send Reset Link"}
+        </ResetPasswordButton>
+        {message && (
+          <p style={{ color: error ? "red" : "green", marginTop: "10px" }}>
+            {message}
+          </p>
+        )}
+        <ReturnToLoginButton>
+          <Link className="link" to="/login">
+            return to login
+          </Link>
+        </ReturnToLoginButton>
       </FormWrapper>
     </ForgotPasswordContainer>
   );
