@@ -85,7 +85,7 @@ const ResetPassword = () => {
           withCredentials: true,
         }
       );
-      setMessage("Password successfully reset. You can now log in.");
+      setMessage("Password successfully reset. Redirecting you to login.");
     } catch (err) {
       console.log(err);
       setMessage("Error resetting password. Please try again.");
@@ -95,7 +95,7 @@ const ResetPassword = () => {
   useEffect(() => {
     if (message === "Password successfully reset. Redirecting you to login.") {
       const sleeper = setTimeout(() => {
-      navigate("/login");
+        navigate("/login");
       }, 2000);
       return () => clearTimeout(sleeper);
     }
@@ -129,7 +129,9 @@ const ResetPassword = () => {
           title="Password must be 8-20 characters, include uppercase, lowercase, and a number."
           required
         />
-        <ResetPasswordButton type="submit">Set New Password</ResetPasswordButton>
+        <ResetPasswordButton type="submit">
+          Set New Password
+        </ResetPasswordButton>
         {message && <p>{message}</p>}
       </FormWrapper>
     </ResetPasswordContainer>
