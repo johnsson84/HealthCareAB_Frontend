@@ -23,19 +23,34 @@ const CalendarPage = () => {
   } = useAuth();
 
   const [newAppointment, setNewAppointment] = useState({
-    username: null,
+    username: user ,
     summary: null,
     availabilityId: null,
     caregiverId: null,
     availabilityDate: null,
   });
 
-  const handleChoice = (username, summary, availabilityId, caregiverId, availabilityDate) => {
-    if (!username || !summary || !availabilityId || !caregiverId || !availabilityDate) {
-      console.warn('Missing required fields:', { username, summary, availabilityId, caregiverId, availabilityDate });
+  const handleChoice = (
+    summary,
+    availabilityId,
+    caregiverId,
+    availabilityDate
+  ) => {
+    if (
+      !summary ||
+      !availabilityId ||
+      !caregiverId ||
+      !availabilityDate
+    ) {
+      console.warn("Missing required fields:", {
+        summary,
+        availabilityId,
+        caregiverId,
+        availabilityDate,
+      });
       return;
     }
-    
+
     setNewAppointment({
       username,
       summary,
@@ -90,12 +105,10 @@ const CalendarPage = () => {
         const availabilityData = availabilityResponse.data;
         setAvailability(availabilityData);
 
-        // Extract unique caregiver IDs
         const userIds = [
           ...new Set(availabilityData.map((entry) => entry.caregiverId)),
         ];
 
-        // Get caregivers
         const caregiversResponse = await axios.post(
           `${
             import.meta.env.VITE_API_URL
@@ -189,7 +202,6 @@ const CalendarPage = () => {
               onSubmit={(values) => {
                 const selectedSlot = JSON.parse(values.selectedSlot);
                 handleChoice(
-                  user,
                   summary,
                   selectedSlot.entryId,
                   selectedSlot.caregiver,
@@ -211,8 +223,7 @@ const CalendarPage = () => {
                             const parsedValue = JSON.parse(value);
                             setChosenTimeslot(parsedValue);
                             handleChoice(
-                              user,
-                              summary,
+                              summary || "", // Provide a default empty string
                               parsedValue.entryId,
                               parsedValue.caregiverId,
                               parsedValue.slot
@@ -258,13 +269,25 @@ const CalendarPage = () => {
                     onChange={(e) => {
                       handleChange(e);
                       setSummary(e.target.value);
+                      if (chosenTimeslot) {
+                        // Only update if a timeslot is selected
+                        handleChoice(
+                          e.target.value,
+                          chosenTimeslot.entryId,
+                          chosenTimeslot.caregiverId,
+                          chosenTimeslot.slot
+                        );
+                      }
                     }}
                   />
                 </Form>
               )}
             </Formik>
 
-            <StyledButton type="submit" onClick={() => handleBookAppointment(newAppointment)}>
+            <StyledButton
+              type="submit"
+              onClick={() => handleBookAppointment(newAppointment)}
+            >
               Book
             </StyledButton>
           </div>
