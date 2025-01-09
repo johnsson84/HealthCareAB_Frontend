@@ -21,6 +21,7 @@ import CalendarPage from "./components/Calendar/Calendar";
 import Header from "./components/Header";
 import UnderConstruction from "./components/UnderConstructionPage";
 import AppointmentIncomingList from "./components/appointments/UserAppointment";
+import AppointmentIncomingListDoctor from "./components/appointments/DoctorAppointent";
 import Footer from "./components/footer/Footer";
 
 function App() {
@@ -67,6 +68,7 @@ function App() {
               }
             />
             <Route path="/appointment" element={<AppointmentIncomingList />} />
+            <Route path="/Dappointment" element={<AppointmentIncomingListDoctor />} />
             <Route path="/resetPassword" element={<ResetPassword />} />
             <Route path="/forgotPassword" element={<ForgotPassword />} />
             <Route path="/" element={<Home />} />
