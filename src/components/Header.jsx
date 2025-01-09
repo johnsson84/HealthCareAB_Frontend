@@ -1,16 +1,27 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Header = () => {
   const HeaderContainer = styled.div`
     display: flex;
     align-items: center;
-    justify-content: start;
+    justify-content: space-between;
     flex-direction: row;
     border-bottom: 1px solid black;
     height: 3rem;
     width: 100%;
+  `;
+  const UsernameContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    flex-direction: row;
+    border-bottom: 1px solid black;
+    height: 3rem;
+    width: 100%;
+    font-size: small;
   `;
   const ReturnButton = styled.button`
     color: black;
@@ -30,17 +41,26 @@ const Header = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const [historyStack, setHistoryStack] = useState([]);
   const hiddenPaths = ["/login", "/signup"];
+  const username = localStorage.getItem("loggedInUsername");
+  const [role, setRole] = useState();
+
+  // Load initial history stack from localStorage
+  const [historyStack, setHistoryStack] = useState(() => {
+    const storedHistory = localStorage.getItem("historyStack");
+    return storedHistory ? JSON.parse(storedHistory) : [];
+  });
 
   useEffect(() => {
     const currentPath = location.pathname;
 
     setHistoryStack((prevStack) => {
-      if (prevStack[prevStack.length - 1] === currentPath) {
-        return prevStack;
+      const updatedStack = [...prevStack];
+      if (updatedStack[updatedStack.length - 1] !== currentPath) {
+        updatedStack.push(currentPath);
       }
-      return [...prevStack, currentPath];
+      localStorage.setItem("historyStack", JSON.stringify(updatedStack));
+      return updatedStack;
     });
   }, [location.pathname]);
 
@@ -49,7 +69,8 @@ const Header = () => {
       const updatedStack = [...prevStack];
       updatedStack.pop();
       const previousPath = updatedStack[updatedStack.length - 1];
-      navigate(previousPath);
+      navigate(previousPath || "/");
+      localStorage.setItem("historyStack", JSON.stringify(updatedStack));
       return updatedStack;
     });
   };
@@ -63,9 +84,30 @@ const Header = () => {
     return null;
   }
 
+  const checkAuth = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/auth/check",{
+        withCredentials: true,
+      });
+      setRole(response.data.roles[0]);
+    } catch (error) {
+      setRole();
+    }
+  };
+  useEffect(() => {
+    if (!role) {
+      checkAuth();
+    }
+  }, []);
+
   return (
     <HeaderContainer>
       {canGoBack && <ReturnButton onClick={handleReturn}>return</ReturnButton>}
+      <UsernameContainer>
+        <p className="loggedInP">
+          {role === "USER" ? "Patient" : "Doctor"}: {username}
+        </p>
+      </UsernameContainer>
     </HeaderContainer>
   );
 };
