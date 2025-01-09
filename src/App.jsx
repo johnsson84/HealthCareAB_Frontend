@@ -20,6 +20,7 @@ import ResetPassword from "./components/resetPassword/ResetPassword";
 import CalendarPage from "./components/Calendar/Calendar";
 import Header from "./components/Header";
 import UnderConstruction from "./components/UnderConstructionPage";
+import AppointmentIncomingList from "./components/appointments/UserAppointment";
 import Footer from "./components/footer/Footer";
 
 function App() {
@@ -65,6 +66,7 @@ function App() {
                 </RequireAuth>
               }
             />
+            <Route path="/appointment" element={<AppointmentIncomingList />} />
             <Route path="/resetPassword" element={<ResetPassword />} />
             <Route path="/forgotPassword" element={<ForgotPassword />} />
             <Route path="/" element={<Home />} />

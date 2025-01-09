@@ -47,7 +47,7 @@ function UserDashboard() {
         <ButtonLink
           picture="/vite.svg"
           linkName="Appointment"
-          link="/underconstruction"
+          link="/appointment"
         ></ButtonLink>
         <ButtonLink
           picture="/vite.svg"

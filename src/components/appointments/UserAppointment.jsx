@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import './UserAppointment.css';
 
 const AppointmentIncomingList = () => {
     const [appointments, setAppointments] = useState([]);
     const username = localStorage.getItem("loggedInUsername");
-  
+    const navigate = useNavigate();
     // Fetch appointments
     useEffect(() => {
       const fetchAppointmentsWithUsernames = async () => {
@@ -30,7 +32,7 @@ const AppointmentIncomingList = () => {
           setAppointments(appointmentsWithUsernames);
           console.log(response)
         } catch (err) {
-          console.error("Error fetching appointments:", err);
+          console.error("Error fetching appointments", err);
         }
       };
   
@@ -48,35 +50,41 @@ const AppointmentIncomingList = () => {
         );
         return response.data.username; 
       } catch (err) {
-        console.error("Error fetching username:", err.response?.data || err.message);
-        return "Unknown"; 
+        
+        return(err)
       }
     };
   
     const handleNav = (appointmentId) => {
       console.log(appointmentId); // Print appointmentId
-      // Navigate to appointment info page
-      // navigate(`/appointment/info/${appointmentId}`);
+       //Navigate to appointment info page
+       //navigate(`/appointment/info/${appointmentId}`);
     };
   
     return (
       <div>
-        <h2>Kommande Möten</h2>
+        <h2>Upcoming Meetings</h2>
         {appointments.length > 0 ? (
           <ul>
             {appointments.map((appointment) => (
               <li key={appointment.id} onClick={() => handleNav(appointment.id)}>
-                <strong>Datum och tid:</strong> {new Date(appointment.dateTime).toLocaleString()}
-                <br />
-                <strong>Patient:</strong> {appointment.patientUsername}
-                <br />
-                <strong>Läkare:</strong> {appointment.caregiverUsername}
-                <br />
-              </li>
+              <div className="appointment-content">
+                <div>
+                  <strong>Date and time:</strong> {new Date(appointment.dateTime).toLocaleString()}
+                  <br />
+                  <strong>Patient:</strong> {appointment.patientUsername}
+                  <br />
+                  <strong>Doctor:</strong> {appointment.caregiverUsername}
+                </div>
+                <div className="more-info">
+                 MorInfo
+                </div>
+              </div>
+            </li>
             ))}
           </ul>
         ) : (
-          <p>Inga kommande möten hittades.</p>
+          <p>No upcoming meetings found.</p>
         )}
       </div>
     );
