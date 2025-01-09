@@ -102,7 +102,7 @@ const ResetPassword = () => {
     if (message === "Password successfully reset. Redirecting you to login.") {
       const sleeper = setTimeout(() => {
         navigate("/login");
-      }, 2000);
+      }, 4000);
       return () => clearTimeout(sleeper);
     }
   }, [message, navigate]);
