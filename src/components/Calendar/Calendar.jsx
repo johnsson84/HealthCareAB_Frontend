@@ -15,6 +15,7 @@ const CalendarPage = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [chosenTimeslot, setChosenTimeslot] = useState(null);
+  const [summary, setSummary] = useState(null);
   const navigate = useNavigate();
 
   const {
@@ -22,20 +23,31 @@ const CalendarPage = () => {
   } = useAuth();
 
   const [newAppointment, setNewAppointment] = useState({
-    username: null,
+    username: user,
+    summary: null,
     availabilityId: null,
     caregiverId: null,
     availabilityDate: null,
   });
 
   const handleChoice = (
-    username,
+    summary,
     availabilityId,
     caregiverId,
     availabilityDate
   ) => {
+    if (!summary || !availabilityId || !caregiverId || !availabilityDate) {
+      console.warn("Missing required fields:", {
+        summary,
+        availabilityId,
+        caregiverId,
+        availabilityDate,
+      });
+      return;
+    }
+
     setNewAppointment({
-      username,
+      summary,
       availabilityId,
       caregiverId,
       availabilityDate,
@@ -74,31 +86,33 @@ const CalendarPage = () => {
   useEffect(() => {
     let isMounted = true;
 
-   const fetchData = async () => {
+    const fetchData = async () => {
       try {
         // Get availability first
         const availabilityResponse = await axios.get(
           `${import.meta.env.VITE_API_URL}/availability`,
           { withCredentials: true }
         );
-        
+
         if (!isMounted) return;
-        
+
         const availabilityData = availabilityResponse.data;
         setAvailability(availabilityData);
 
-        // Extract unique caregiver IDs
-        const userIds = [...new Set(availabilityData.map(entry => entry.caregiverId))];
-        
-        // Get caregivers
+        const userIds = [
+          ...new Set(availabilityData.map((entry) => entry.caregiverId)),
+        ];
+
         const caregiversResponse = await axios.post(
-          `${import.meta.env.VITE_API_URL}/user/find/caregivers-by-availability`,
+          `${
+            import.meta.env.VITE_API_URL
+          }/user/find/caregivers-by-availability`,
           { userIds },
           { withCredentials: true }
         );
-        
+
         if (!isMounted) return;
-        
+
         setCaregivers(caregiversResponse.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -111,35 +125,37 @@ const CalendarPage = () => {
       isMounted = false;
     };
   }, []);
-  
-
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
-  
+
     if (!availability.length || !caregivers.length) {
-      console.log('Data not yet loaded');
+      console.log("Data not yet loaded");
       setFilteredData([]);
       return;
     }
-  
+
     const now = new Date();
-  
+
     const filtered = availability
       .map((entry) => {
         // Find caregiver using the correct property name (caregiverId instead of id)
-        const caregiver = caregivers.find((c) => c.caregiverId === entry.caregiverId);
-        
+        const caregiver = caregivers.find(
+          (c) => c.caregiverId === entry.caregiverId
+        );
+
         if (!caregiver) {
           console.log(`No caregiver found for ID: ${entry.caregiverId}`);
           return null;
         }
-  
+
         const slotsForDate = entry.availableSlots.filter((slot) => {
           const slotDate = new Date(slot);
-          return slotDate >= now && slotDate.toDateString() === date.toDateString();
+          return (
+            slotDate >= now && slotDate.toDateString() === date.toDateString()
+          );
         });
-  
+
         return slotsForDate.length > 0
           ? {
               id: entry.id,
@@ -149,10 +165,9 @@ const CalendarPage = () => {
           : null;
       })
       .filter(Boolean);
-  
+
     setFilteredData(filtered);
   };
-  
 
   return (
     <div>
@@ -176,18 +191,19 @@ const CalendarPage = () => {
             <Formik
               initialValues={{
                 selectedSlot: "",
+                summary: "",
               }}
               onSubmit={(values) => {
                 const selectedSlot = JSON.parse(values.selectedSlot);
                 handleChoice(
-                  user,
+                  summary,
                   selectedSlot.entryId,
                   selectedSlot.caregiver,
                   selectedSlot.slot
                 );
               }}
             >
-              {({ handleChange }) => (
+              {({ handleChange, values }) => (
                 <Form>
                   {filteredData.length > 0 ? (
                     <div>
@@ -200,30 +216,29 @@ const CalendarPage = () => {
                           if (value) {
                             const parsedValue = JSON.parse(value);
                             setChosenTimeslot(parsedValue);
-                            handleChoice(
-                              user,
-                              parsedValue.entryId,
-                              parsedValue.caregiverId,
-                              parsedValue.slot
-                            );
-                          } else {
-                            setChosenTimeslot(null);
+                            setNewAppointment((prev) => ({
+                              ...prev,
+                              availabilityId: parsedValue.entryId,
+                              caregiverId: parsedValue.caregiverId,
+                              availabilityDate: parsedValue.slot,
+                            }));
                           }
                         }}
                       >
                         <option value="" disabled>
-                          Select a timeslot
+                          Select time
                         </option>
                         {filteredData.map((entry) => (
                           <optgroup
-                          key={entry.caregiver.caregiverId}
-                          label={`Caregiver: ${entry.caregiver.firstname} ${entry.caregiver.lastname}`}>
+                            key={entry.caregiver.caregiverId}
+                            label={`Caregiver: ${entry.caregiver.firstname} ${entry.caregiver.lastname}`}
+                          >
                             {entry.slots.map((slot) => (
                               <option
                                 key={`${entry.id}-${slot}`}
                                 value={JSON.stringify({
                                   entryId: entry.id,
-                                  caregiverId: entry.caregiver.caregiverId,  
+                                  caregiverId: entry.caregiver.caregiverId,
                                   slot,
                                 })}
                               >
@@ -241,13 +256,33 @@ const CalendarPage = () => {
                   ) : (
                     <p>No caregivers available for this date.</p>
                   )}
+                  <Field
+                    name="summary"
+                    placeholder="Summary"
+                    onChange={(e) => {
+                      handleChange(e);
+                      setSummary(e.target.value);
+                      setNewAppointment((prev) => ({
+                        ...prev,
+                        summary: e.target.value,
+                      }));
+                    }}
+                  />
+                  <StyledButton
+                    type="submit"
+                    title={
+                      !values.selectedSlot || !values.summary
+                        ? "Choose time and type a summary"
+                        : undefined
+                    }
+                    disabled={!values.selectedSlot || !values.summary}
+                    onClick={() => handleBookAppointment(newAppointment)}
+                  >
+                    Book
+                  </StyledButton>
                 </Form>
               )}
             </Formik>
-
-            <StyledButton onClick={() => handleBookAppointment(newAppointment)}>
-              Book
-            </StyledButton>
           </div>
         )}
       </StyledMain>
@@ -265,7 +300,8 @@ const StyledMain = styled.div`
   margin-top: 50px;
   border: 2px solid #ccc;
   border-radius: 2%;
-  min-height: 100vh;
+  min-height: 100%;
+  padding: 2rem;
 `;
 
 const StyledButton = styled.button`
@@ -288,5 +324,10 @@ const StyledButton = styled.button`
     background-color: #2fadaa;
     transform: translateY(-3px);
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    cursor: clickable;
+  }
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
   }
 `;
