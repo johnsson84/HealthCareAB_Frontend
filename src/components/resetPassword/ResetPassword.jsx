@@ -84,7 +84,7 @@ const ResetPassword = () => {
         token,
         newPassword,
       });
-      
+
       setMessage("Error resetting password. Please try again.");
     }
   };
@@ -107,8 +107,14 @@ const ResetPassword = () => {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
-        <ResetPasswordButton type="submit">Set New Password</ResetPasswordButton>
-        <ResetPasswordButton><Link className="link" to="/login">return to login</Link></ResetPasswordButton>
+        <ResetPasswordButton type="submit">
+          Set New Password
+        </ResetPasswordButton>
+        <ResetPasswordButton>
+          <Link className="link" to="/login">
+            return to login
+          </Link>
+        </ResetPasswordButton>
         {message && <p>{message}</p>}
       </FormWrapper>
     </ResetPasswordContainer>

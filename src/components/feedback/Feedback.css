@@ -22,14 +22,14 @@ hr {
   background-color: black;
 }
 
-#giveFeedbackButton {
+.feedbackButton {
   border: none;
   background-color: white;
   border-radius: 5px;
   border: 1px solid black;
 }
 
-#giveFeedbackButton:hover {
+.feedbackButton:hover {
   background-color: #057d7a;
   color: white;
 }
@@ -49,7 +49,32 @@ hr {
 
 .popupContainer {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   background-color: white;
   border-radius: 8px;
   padding: 10px;
+}
+
+.feedbackTextBox {
+  min-width: 250px;
+  min-height: 100px;
+}
+
+.popupRating {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  padding-top: 10px;
+}
+
+#fRating {
+  margin: 0;
+}
+
+.popupButtons {
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
 }
