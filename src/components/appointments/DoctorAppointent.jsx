@@ -7,6 +7,7 @@ const AppointmentIncomingList = () => {
   const [appointments, setAppointments] = useState([]);
   const username = localStorage.getItem("loggedInUsername");
   const navigate = useNavigate();
+
   // Fetch appointments
   useEffect(() => {
     const fetchAppointmentsWithUsernames = async () => {
@@ -15,6 +16,7 @@ const AppointmentIncomingList = () => {
           `${import.meta.env.VITE_API_URL}/appointment/all/${username}`,
           { withCredentials: true }
         );
+
         // use this to get patientUsername and caregiverUsername
         const appointmentsWithUsernames = await Promise.all(
           response.data.map(async (appointment) => {
@@ -30,16 +32,13 @@ const AppointmentIncomingList = () => {
             };
           })
         );
-        // This sorts the list by time
-        const sortedAppointments = appointmentsWithUsernames.sort((a, b) => {
-          const dateA = new Date(a.dateTime);
-          const dateB = new Date(b.dateTime);
-          return dateA - dateB;
-        });
-        setAppointments(sortedAppointments);
 
-        setAppointments(appointmentsWithUsernames);
-        console.log(response);
+        // Sort by date and take the first 10
+        const sortedAppointments = appointmentsWithUsernames
+          .sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime))
+          .slice(0, 9);
+
+        setAppointments(sortedAppointments); // first 10 appointments
       } catch (err) {
         console.error("Error fetching appointments", err);
       }
@@ -59,14 +58,15 @@ const AppointmentIncomingList = () => {
       );
       return response.data.username;
     } catch (err) {
-      return err;
+      console.error("Error fetching username:", err);
+      return "Unknown";
     }
   };
-  //Navigate to appointment info page
+
+  // Navigate to appointment info page
   const handleNav = (appointmentId) => {
     console.log(appointmentId); // Print appointmentId
-
-    //navigate(`/appointment/info/${appointmentId}`);
+    navigate(`/appointment/info/${appointmentId}`);
   };
 
   return (

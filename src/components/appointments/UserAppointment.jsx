@@ -35,7 +35,9 @@ const AppointmentIncomingList = () => {
           const dateA = new Date(a.dateTime);
           const dateB = new Date(b.dateTime);
           return dateA - dateB;
+
         });
+    
         setAppointments(sortedAppointments);
 
         setAppointments(appointmentsWithUsernames);
@@ -65,7 +67,7 @@ const AppointmentIncomingList = () => {
    //Navigate to appointment info page
   const handleNav = (appointmentId) => {
     console.log(appointmentId); // Print appointmentId
-    //navigate(`/appointment/info/${appointmentId}`);
+    navigate(`/appointment/info/${appointmentId}`);
   };
 
   return (
