@@ -8,13 +8,13 @@ import { AuthProvider } from "./context/AuthContext";
 import Login from "./components/Login";
 import UserDashboard from "./components/UserDashboard";
 import AdminDashboard from "./components/AdminDashboard";
+import CalendarPage from "./components/Calendar/Calendar";
 import Unauthorized from "./components/Unauthorized";
 import Home from "./components/Home";
 import RequireAuth from "./components/RequireAuth";
 import GlobalStyle from "./styles/GlobalStyle";
 import Signup from "./components/Signup/Signup";
 import Profile from "./components/Profile/Profile";
-import CalendarPage from "./components/Calendar/Calendar";
 import CaregiverProfile from "./components/Profile/Caregiver_profile";
 import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 import ResetPassword from "./components/resetPassword/ResetPassword";
@@ -22,6 +22,7 @@ import Header from "./components/Header";
 import UnderConstruction from "./components/UnderConstructionPage";
 import Footer from "./components/footer/Footer";
 import Appointment_info from "./components/Appointment-info/A_info";
+import Schedule from "./components/Schedule/Schedule";
 
 function App() {
   return (
@@ -75,6 +76,14 @@ function App() {
                 </RequireAuth>
               }
             />
+            <Route
+            path="/schedule"
+            element={
+              <RequireAuth allowedRoles={["ADMIN"]}>
+                <Schedule></Schedule>
+              </RequireAuth>
+            }
+          />
             <Route path="/resetPassword" element={<ResetPassword />} />
             <Route path="/forgotPassword" element={<ForgotPassword />} />
             <Route path="/" element={<Home />} />
