@@ -169,7 +169,7 @@ const Schedule = () => {
                   ) : (
                     <p>No available times for this date.</p>
                   )}
-                  <StyledButton type="submit">Submit</StyledButton>
+                  <StyledButton type="submit">Remove available times</StyledButton>
                 </Form>
               )}
             </Formik>

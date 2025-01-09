@@ -73,18 +73,19 @@ const ResetPassword = () => {
     }
 
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/auth/reset-password`, {
-        token,
-        newPassword,
-      });
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/reset-password`,
+        {
+          token,
+          newPassword,
+        },
+        {
+          withCredentials: true,
+        }
+      );
       setMessage("Password successfully reset. You can now log in.");
     } catch (err) {
       console.log(err);
-      console.log({
-        token,
-        newPassword,
-      });
-      
       setMessage("Error resetting password. Please try again.");
     }
   };
@@ -99,6 +100,11 @@ const ResetPassword = () => {
           placeholder="Enter your new password"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
+          minLength="8"
+          maxLength="20"
+          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,20}$"
+          title="Password must be 8-20 characters, include uppercase, lowercase, and a number."
+          required
         />
         <label>Confirm Password:</label>
         <StyledInput
@@ -106,9 +112,20 @@ const ResetPassword = () => {
           placeholder="Confirm your new password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
+          minLength="8"
+          maxLength="20"
+          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,20}$"
+          title="Password must be 8-20 characters, include uppercase, lowercase, and a number."
+          required
         />
-        <ResetPasswordButton type="submit">Set New Password</ResetPasswordButton>
-        <ResetPasswordButton><Link className="link" to="/login">return to login</Link></ResetPasswordButton>
+        <ResetPasswordButton type="submit">
+          Set New Password
+        </ResetPasswordButton>
+        <ResetPasswordButton>
+          <Link className="link" to="/login">
+            return to login
+          </Link>
+        </ResetPasswordButton>
         {message && <p>{message}</p>}
       </FormWrapper>
     </ResetPasswordContainer>
