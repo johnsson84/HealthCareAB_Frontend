@@ -270,6 +270,11 @@ const CalendarPage = () => {
                   />
                   <StyledButton
                     type="submit"
+                    title={
+                      !values.selectedSlot || !values.summary
+                        ? "Choose time and type a summary"
+                        : undefined
+                    }
                     disabled={!values.selectedSlot || !values.summary}
                     onClick={() => handleBookAppointment(newAppointment)}
                   >
