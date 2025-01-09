@@ -23,7 +23,7 @@ const CalendarPage = () => {
   } = useAuth();
 
   const [newAppointment, setNewAppointment] = useState({
-    username: user ,
+    username: user,
     summary: null,
     availabilityId: null,
     caregiverId: null,
@@ -36,12 +36,7 @@ const CalendarPage = () => {
     caregiverId,
     availabilityDate
   ) => {
-    if (
-      !summary ||
-      !availabilityId ||
-      !caregiverId ||
-      !availabilityDate
-    ) {
+    if (!summary || !availabilityId || !caregiverId || !availabilityDate) {
       console.warn("Missing required fields:", {
         summary,
         availabilityId,
@@ -52,7 +47,6 @@ const CalendarPage = () => {
     }
 
     setNewAppointment({
-      username,
       summary,
       availabilityId,
       caregiverId,
@@ -222,14 +216,12 @@ const CalendarPage = () => {
                           if (value) {
                             const parsedValue = JSON.parse(value);
                             setChosenTimeslot(parsedValue);
-                            handleChoice(
-                              summary || "", // Provide a default empty string
-                              parsedValue.entryId,
-                              parsedValue.caregiverId,
-                              parsedValue.slot
-                            );
-                          } else {
-                            setChosenTimeslot(null);
+                            setNewAppointment((prev) => ({
+                              ...prev,
+                              availabilityId: parsedValue.entryId,
+                              caregiverId: parsedValue.caregiverId,
+                              availabilityDate: parsedValue.slot,
+                            }));
                           }
                         }}
                       >
@@ -269,15 +261,10 @@ const CalendarPage = () => {
                     onChange={(e) => {
                       handleChange(e);
                       setSummary(e.target.value);
-                      if (chosenTimeslot) {
-                        // Only update if a timeslot is selected
-                        handleChoice(
-                          e.target.value,
-                          chosenTimeslot.entryId,
-                          chosenTimeslot.caregiverId,
-                          chosenTimeslot.slot
-                        );
-                      }
+                      setNewAppointment((prev) => ({
+                        ...prev,
+                        summary: e.target.value,
+                      }));
                     }}
                   />
                 </Form>
