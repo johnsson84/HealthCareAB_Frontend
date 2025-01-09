@@ -15,6 +15,7 @@ const CalendarPage = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [chosenTimeslot, setChosenTimeslot] = useState(null);
+  const [summary, setSummary] = useState(null);
   const navigate = useNavigate();
 
   const {
@@ -23,19 +24,21 @@ const CalendarPage = () => {
 
   const [newAppointment, setNewAppointment] = useState({
     username: null,
+    summary: null,
     availabilityId: null,
     caregiverId: null,
     availabilityDate: null,
   });
 
-  const handleChoice = (
-    username,
-    availabilityId,
-    caregiverId,
-    availabilityDate
-  ) => {
+  const handleChoice = (username, summary, availabilityId, caregiverId, availabilityDate) => {
+    if (!username || !summary || !availabilityId || !caregiverId || !availabilityDate) {
+      console.warn('Missing required fields:', { username, summary, availabilityId, caregiverId, availabilityDate });
+      return;
+    }
+    
     setNewAppointment({
       username,
+      summary,
       availabilityId,
       caregiverId,
       availabilityDate,
@@ -74,31 +77,35 @@ const CalendarPage = () => {
   useEffect(() => {
     let isMounted = true;
 
-   const fetchData = async () => {
+    const fetchData = async () => {
       try {
         // Get availability first
         const availabilityResponse = await axios.get(
           `${import.meta.env.VITE_API_URL}/availability`,
           { withCredentials: true }
         );
-        
+
         if (!isMounted) return;
-        
+
         const availabilityData = availabilityResponse.data;
         setAvailability(availabilityData);
 
         // Extract unique caregiver IDs
-        const userIds = [...new Set(availabilityData.map(entry => entry.caregiverId))];
-        
+        const userIds = [
+          ...new Set(availabilityData.map((entry) => entry.caregiverId)),
+        ];
+
         // Get caregivers
         const caregiversResponse = await axios.post(
-          `${import.meta.env.VITE_API_URL}/user/find/caregivers-by-availability`,
+          `${
+            import.meta.env.VITE_API_URL
+          }/user/find/caregivers-by-availability`,
           { userIds },
           { withCredentials: true }
         );
-        
+
         if (!isMounted) return;
-        
+
         setCaregivers(caregiversResponse.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -111,35 +118,37 @@ const CalendarPage = () => {
       isMounted = false;
     };
   }, []);
-  
-
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
-  
+
     if (!availability.length || !caregivers.length) {
-      console.log('Data not yet loaded');
+      console.log("Data not yet loaded");
       setFilteredData([]);
       return;
     }
-  
+
     const now = new Date();
-  
+
     const filtered = availability
       .map((entry) => {
         // Find caregiver using the correct property name (caregiverId instead of id)
-        const caregiver = caregivers.find((c) => c.caregiverId === entry.caregiverId);
-        
+        const caregiver = caregivers.find(
+          (c) => c.caregiverId === entry.caregiverId
+        );
+
         if (!caregiver) {
           console.log(`No caregiver found for ID: ${entry.caregiverId}`);
           return null;
         }
-  
+
         const slotsForDate = entry.availableSlots.filter((slot) => {
           const slotDate = new Date(slot);
-          return slotDate >= now && slotDate.toDateString() === date.toDateString();
+          return (
+            slotDate >= now && slotDate.toDateString() === date.toDateString()
+          );
         });
-  
+
         return slotsForDate.length > 0
           ? {
               id: entry.id,
@@ -149,10 +158,9 @@ const CalendarPage = () => {
           : null;
       })
       .filter(Boolean);
-  
+
     setFilteredData(filtered);
   };
-  
 
   return (
     <div>
@@ -176,11 +184,13 @@ const CalendarPage = () => {
             <Formik
               initialValues={{
                 selectedSlot: "",
+                summary: "",
               }}
               onSubmit={(values) => {
                 const selectedSlot = JSON.parse(values.selectedSlot);
                 handleChoice(
                   user,
+                  summary,
                   selectedSlot.entryId,
                   selectedSlot.caregiver,
                   selectedSlot.slot
@@ -202,6 +212,7 @@ const CalendarPage = () => {
                             setChosenTimeslot(parsedValue);
                             handleChoice(
                               user,
+                              summary,
                               parsedValue.entryId,
                               parsedValue.caregiverId,
                               parsedValue.slot
@@ -216,14 +227,15 @@ const CalendarPage = () => {
                         </option>
                         {filteredData.map((entry) => (
                           <optgroup
-                          key={entry.caregiver.caregiverId}
-                          label={`Caregiver: ${entry.caregiver.firstname} ${entry.caregiver.lastname}`}>
+                            key={entry.caregiver.caregiverId}
+                            label={`Caregiver: ${entry.caregiver.firstname} ${entry.caregiver.lastname}`}
+                          >
                             {entry.slots.map((slot) => (
                               <option
                                 key={`${entry.id}-${slot}`}
                                 value={JSON.stringify({
                                   entryId: entry.id,
-                                  caregiverId: entry.caregiver.caregiverId,  
+                                  caregiverId: entry.caregiver.caregiverId,
                                   slot,
                                 })}
                               >
@@ -241,11 +253,18 @@ const CalendarPage = () => {
                   ) : (
                     <p>No caregivers available for this date.</p>
                   )}
+                  <Field
+                    name="summary"
+                    onChange={(e) => {
+                      handleChange(e);
+                      setSummary(e.target.value);
+                    }}
+                  />
                 </Form>
               )}
             </Formik>
 
-            <StyledButton onClick={() => handleBookAppointment(newAppointment)}>
+            <StyledButton type="submit" onClick={() => handleBookAppointment(newAppointment)}>
               Book
             </StyledButton>
           </div>
