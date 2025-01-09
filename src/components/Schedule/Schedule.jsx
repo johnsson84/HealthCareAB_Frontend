@@ -69,7 +69,7 @@ const Schedule = () => {
           withCredentials: true,
         }
       );
-      toast.success("Availability changed successfully!");
+      toast.success("Availability removed successfully! " + changingDates.map((date) => new Date(date).toLocaleString()).join(", "));
     } catch (error) {
       console.error("Something went wrong, try again later.", error);
       toast.error("Something went wrong, try again later.");
@@ -118,7 +118,7 @@ const Schedule = () => {
                 <Form>
                   {filteredData.length > 0 ? (
                     <div>
-                      <Field
+                      <StyledField
                         as="select"
                         name="selectedSlots"
                         multiple
@@ -145,7 +145,6 @@ const Schedule = () => {
                         {filteredData.map((entry) => (
                           <optgroup
                             key={entry.id}
-                            label={`Caregiver: ${entry.caregiver.firstName} ${entry.caregiver.lastName}`}
                           >
                             {entry.slots.map((slot) => (
                               <option
@@ -164,7 +163,7 @@ const Schedule = () => {
                             ))}
                           </optgroup>
                         ))}
-                      </Field>
+                      </StyledField>
                     </div>
                   ) : (
                     <p>No available times for this date.</p>
@@ -191,6 +190,15 @@ const StyledMain = styled.div`
   border: 2px solid #ccc;
   border-radius: 2%;
   min-height: 100vh;
+`;
+
+const StyledField = styled(Field)`
+  width: 100%;
+  height: fit-content;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 `;
 
 const StyledButton = styled.button`
