@@ -23,6 +23,8 @@ import UnderConstruction from "./components/UnderConstructionPage";
 import Footer from "./components/footer/Footer";
 import Appointment_info from "./components/Appointment-info/A_info";
 import Schedule from "./components/Schedule/Schedule";
+import MeetingHistory from "./pages/appointmentHistory/AppointmentHistory";
+import AppointmentHistory from "./pages/appointmentHistory/AppointmentHistory";
 
 function App() {
   return (
@@ -47,6 +49,14 @@ function App() {
               element={
                 <RequireAuth allowedRoles={["USER", "ADMIN"]}>
                   <Appointment_info />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/appointment/history"
+              element={
+                <RequireAuth allowedRoles={["USER", "ADMIN"]}>
+                  <AppointmentHistory />
                 </RequireAuth>
               }
             />
