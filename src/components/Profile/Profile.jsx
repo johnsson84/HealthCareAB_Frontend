@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Footer from "../footer/Footer";
 import "./Profile.css";
 import { useAuth } from "../../hooks/useAuth";
 

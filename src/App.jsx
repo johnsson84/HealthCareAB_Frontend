@@ -8,6 +8,7 @@ import { AuthProvider } from "./context/AuthContext";
 import Login from "./components/Login";
 import UserDashboard from "./components/UserDashboard";
 import AdminDashboard from "./components/AdminDashboard";
+import CalendarPage from "./components/Calendar/Calendar";
 import Unauthorized from "./components/Unauthorized";
 import Home from "./components/Home";
 import RequireAuth from "./components/RequireAuth";
@@ -17,12 +18,13 @@ import Profile from "./components/Profile/Profile";
 import CaregiverProfile from "./components/Profile/Caregiver_profile";
 import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 import ResetPassword from "./components/resetPassword/ResetPassword";
-import CalendarPage from "./components/Calendar/Calendar";
 import Header from "./components/Header";
 import UnderConstruction from "./components/UnderConstructionPage";
 import AppointmentIncomingList from "./components/appointments/UserAppointment";
 import AppointmentIncomingListDoctor from "./components/appointments/DoctorAppointent";
 import Footer from "./components/footer/Footer";
+import Appointment_info from "./components/Appointment-info/A_info";
+import Schedule from "./components/Schedule/Schedule";
 
 function App() {
   return (
@@ -42,6 +44,15 @@ function App() {
                 </RequireAuth>
               }
             />
+            <Route
+              path="/appointment/info/:appointmentId"
+              element={
+                <RequireAuth allowedRoles={["USER", "ADMIN"]}>
+                  <Appointment_info />
+                </RequireAuth>
+              }
+            />
+
             <Route path="/underconstruction" element={<UnderConstruction />} />
             <Route
               path="/admin/dashboard"
@@ -67,8 +78,19 @@ function App() {
                 </RequireAuth>
               }
             />
+
             <Route path="/appointment" element={<AppointmentIncomingList />} />
             <Route path="/Dappointment" element={<AppointmentIncomingListDoctor />} />
+
+            <Route
+            path="/schedule"
+            element={
+              <RequireAuth allowedRoles={["ADMIN"]}>
+                <Schedule></Schedule>
+              </RequireAuth>
+            }
+          />
+
             <Route path="/resetPassword" element={<ResetPassword />} />
             <Route path="/forgotPassword" element={<ForgotPassword />} />
             <Route path="/" element={<Home />} />
@@ -76,7 +98,7 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
             <Route path="/signup" element={<Signup />} />
           </Routes>
-          <Footer/>
+          <Footer />
         </Router>
       </div>
     </AuthProvider>
