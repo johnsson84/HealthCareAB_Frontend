@@ -203,7 +203,7 @@ const CalendarPage = () => {
                 );
               }}
             >
-              {({ handleChange }) => (
+              {({ handleChange, values }) => (
                 <Form>
                   {filteredData.length > 0 ? (
                     <div>
@@ -226,7 +226,7 @@ const CalendarPage = () => {
                         }}
                       >
                         <option value="" disabled>
-                          Select a timeslot
+                          Select time
                         </option>
                         {filteredData.map((entry) => (
                           <optgroup
@@ -258,6 +258,7 @@ const CalendarPage = () => {
                   )}
                   <Field
                     name="summary"
+                    placeholder="Summary"
                     onChange={(e) => {
                       handleChange(e);
                       setSummary(e.target.value);
@@ -267,16 +268,16 @@ const CalendarPage = () => {
                       }));
                     }}
                   />
+                  <StyledButton
+                    type="submit"
+                    disabled={!values.selectedSlot || !values.summary}
+                    onClick={() => handleBookAppointment(newAppointment)}
+                  >
+                    Book
+                  </StyledButton>
                 </Form>
               )}
             </Formik>
-
-            <StyledButton
-              type="submit"
-              onClick={() => handleBookAppointment(newAppointment)}
-            >
-              Book
-            </StyledButton>
           </div>
         )}
       </StyledMain>
@@ -294,7 +295,8 @@ const StyledMain = styled.div`
   margin-top: 50px;
   border: 2px solid #ccc;
   border-radius: 2%;
-  min-height: 100vh;
+  min-height: 100%;
+  padding: 2rem;
 `;
 
 const StyledButton = styled.button`
@@ -317,5 +319,10 @@ const StyledButton = styled.button`
     background-color: #2fadaa;
     transform: translateY(-3px);
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    cursor: clickable;
+  }
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
   }
 `;
