@@ -85,7 +85,7 @@ const AppointmentIncomingList = () => {
                   <br />
                   <strong>Doctor:</strong> {appointment.caregiverUsername}
                 </div>
-                <div className="more-info">MorInfo</div>
+                <div className="more-info">Info</div>
               </div>
             </li>
           ))}
