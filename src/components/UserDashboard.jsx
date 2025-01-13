@@ -6,7 +6,6 @@ import Logout from "./Logout";
 import ButtonLink from "./dashboard/ButtonLink";
 import axios from "axios";
 import "./Dashboard.css";
-import { bucketURL } from "./Constants/Constants";
 
 // div with styles
 const UserContainer = styled.div`
@@ -50,7 +49,7 @@ function UserDashboard() {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/user/find/userURL/${user}`, {
           withCredentials: true,
         });
-        setProfilePictureURL(bucketURL + response.data);
+        setProfilePictureURL(import.meta.env.VITE_BUCKET_URL + response.data);
       } catch (error) {
         setProfilePictureURL("Error loading profile picture");
       }
