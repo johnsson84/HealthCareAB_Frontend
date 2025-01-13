@@ -20,8 +20,8 @@ const IMGHolder = styled.img`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-top: 1rem;
-  max-width: 400px;
+  margin: 1rem 0 1rem 0;
+  max-width: 200px;
 `;
 // img with styles
 const LogoContainer = styled.img`
@@ -63,6 +63,8 @@ function UserDashboard() {
   const checkProfilePicture = () => {
     if (profilePictureURL === "") {
       return "Loading profile picture...";
+    } else if (profilePictureURL === "Error loading profile picture") {
+      return "Error loading profile picture";
     } else {
       return profilePictureURL;
     }
@@ -74,8 +76,7 @@ function UserDashboard() {
       <LogoContainer src={Logo} />
       <Title>User Dashboard</Title>
       <Text>Welcome, {user}!</Text>
-      <IMGHolder src = {profilePictureURL} alt={profilePictureURL}/>
-
+      <IMGHolder src = {checkProfilePicture()} alt={checkProfilePicture()}/>
       <div className="dbButtonContainer">
         <ButtonLink
           picture="/vite.svg"
