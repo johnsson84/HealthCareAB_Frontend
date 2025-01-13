@@ -55,7 +55,7 @@ function AdminDashboard() {
         <ButtonLink
           picture="/vite.svg"
           linkName="Your Feedback"
-          link="/underconstruction"
+          link="/yourfeedback"
         ></ButtonLink>
       </div>
       <Logout />

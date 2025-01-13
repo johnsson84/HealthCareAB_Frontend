@@ -4,16 +4,38 @@
   align-items: center;
 }
 
-.completedAppointments {
+h2 {
+  margin: 0 0 10px 0;
+}
+
+p {
+  margin: 4px 0 4px 0;
+}
+
+#noCompletedAppointments {
+  background-color: white;
+  padding: 5px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+}
+
+.completedAppointments, .yourFeedbacks {
   box-shadow: 0px -1px 5px 2px rgba(179, 179, 179, 0.75);
   -webkit-box-shadow: 0px -1px 5px 2px rgba(179, 179, 179, 0.75);
   -moz-box-shadow: 0px -1px 5px 2px rgba(179, 179, 179, 0.75);
   border-radius: 5px;
-  padding: 5px;
+  padding: 10px;
+  min-width: 350px;
+  max-width: 1000px;
+  background-color: #057d7a;
 }
 
-.completedAppointment {
+.completedAppointment, .yourFeedback {
   padding: 5px;
+  margin: 5px;
+  background-color: white;
+  border-radius: 5px;
 }
 
 hr {
@@ -68,7 +90,7 @@ hr {
   padding-top: 10px;
 }
 
-#fRating {
+#pNoMargin {
   margin: 0;
 }
 
@@ -77,4 +99,20 @@ hr {
   width: 100%;
   display: flex;
   justify-content: space-evenly;
+}
+
+.confirm-btn {
+  margin: 0 5px 0 5px;
+}
+
+.confirm-btn-yes:hover {
+  background-color: firebrick;
+}
+
+.confirmBox {
+  display: flex;
+  background-color:antiquewhite;
+  padding: 10px;
+  border: 0.5px solid black;
+  border-radius: 5px;
 }

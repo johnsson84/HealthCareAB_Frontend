@@ -22,6 +22,7 @@ import Header from "./components/Header";
 import UnderConstruction from "./components/UnderConstructionPage";
 import Footer from "./components/footer/Footer";
 import Feedback from "./components/feedback/Feedback";
+import FeedbackCG from "./components/feedback/FeedbackCG";
 
 function App() {
   return (
@@ -73,6 +74,7 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/givefeedback" element={<Feedback />} />
+            <Route path="/yourfeedback" element={<FeedbackCG />} />
           </Routes>
           <Footer />
         </Router>
