@@ -41,7 +41,7 @@ const Header = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const hiddenPaths = ["/login", "/signup"];
+  const hiddenPaths = ["/login", "/signup", "/"];
   const username = localStorage.getItem("loggedInUsername");
   const [role, setRole] = useState(null);
 
@@ -69,7 +69,7 @@ const Header = () => {
       const updatedStack = [...prevStack];
       updatedStack.pop();
       const previousPath = updatedStack[updatedStack.length - 1];
-      navigate(previousPath || "/");
+      navigate(previousPath || role + "/dashboard");
       localStorage.setItem("historyStack", JSON.stringify(updatedStack));
       return updatedStack;
     });
