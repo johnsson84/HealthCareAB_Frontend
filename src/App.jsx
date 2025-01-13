@@ -53,7 +53,10 @@ function App() {
                 </RequireAuth>
               }
             />
-            <Route path="/bucket" element={<BucketTest />} />
+            <Route path="/bucket" element={
+              <RequireAuth allowedRoles={["USER", "ADMIN"]}>
+              <BucketTest />
+              </RequireAuth>} />
             <Route
               path="/appointment/history"
               element={

@@ -97,6 +97,11 @@ function UserDashboard() {
           linkName="Give Feedback"
           link="/underconstruction"
         ></ButtonLink>
+        <ButtonLink
+          picture="/vite.svg"
+          linkName="Change Profile picture"
+          link="/bucket"
+        ></ButtonLink>
       </div>
       <Logout />
     </UserContainer>
