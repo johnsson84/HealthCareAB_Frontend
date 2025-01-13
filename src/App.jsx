@@ -23,6 +23,7 @@ import UnderConstruction from "./components/UnderConstructionPage";
 import Footer from "./components/footer/Footer";
 import Appointment_info from "./components/Appointment-info/A_info";
 import Schedule from "./components/Schedule/Schedule";
+import BucketTest from "./components/AWS/Bucket";
 
 function App() {
   return (
@@ -50,7 +51,7 @@ function App() {
                 </RequireAuth>
               }
             />
-
+            <Route path="/bucket" element={<BucketTest />} />
             <Route path="/underconstruction" element={<UnderConstruction />} />
             <Route
               path="/admin/dashboard"
