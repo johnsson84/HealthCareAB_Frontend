@@ -8,6 +8,7 @@ import { AuthProvider } from "./context/AuthContext";
 import Login from "./components/Login";
 import UserDashboard from "./components/UserDashboard";
 import AdminDashboard from "./components/AdminDashboard";
+import DoctorDashboard from "./components/DoctorDashboard";
 import CalendarPage from "./components/Calendar/Calendar";
 import Unauthorized from "./components/Unauthorized";
 import Home from "./components/Home";
@@ -47,7 +48,7 @@ function App() {
             <Route
               path="/appointment/info/:appointmentId"
               element={
-                <RequireAuth allowedRoles={["USER", "ADMIN"]}>
+                <RequireAuth allowedRoles={["USER", "DOCTOR"]}>
                   <Appointment_info />
                 </RequireAuth>
               }
@@ -55,7 +56,7 @@ function App() {
             <Route
               path="/appointment/history"
               element={
-                <RequireAuth allowedRoles={["USER", "ADMIN"]}>
+                <RequireAuth allowedRoles={["USER", "DOCTOR"]}>
                   <AppointmentHistory />
                 </RequireAuth>
               }
@@ -71,6 +72,14 @@ function App() {
               }
             />
             <Route
+              path="/doctor/dashboard"
+              element={
+                <RequireAuth allowedRoles={["DOCTOR"]}>
+                  <DoctorDashboard />
+                </RequireAuth>
+              }
+            />
+            <Route
               path="/profile"
               element={
                 <RequireAuth allowedRoles={["USER"]}>
@@ -81,7 +90,7 @@ function App() {
             <Route
               path="/caregiverprofile"
               element={
-                <RequireAuth allowedRoles={["ADMIN"]}>
+                <RequireAuth allowedRoles={["DOCTOR"]}>
                   <CaregiverProfile></CaregiverProfile>
                 </RequireAuth>
               }
@@ -89,7 +98,7 @@ function App() {
             <Route
             path="/schedule"
             element={
-              <RequireAuth allowedRoles={["ADMIN"]}>
+              <RequireAuth allowedRoles={["DOCTOR"]}>
                 <Schedule></Schedule>
               </RequireAuth>
             }

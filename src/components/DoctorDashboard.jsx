@@ -25,7 +25,7 @@ const Text = styled.p`
   font-size: 18px;
 `;
 
-function AdminDashboard() {
+function DoctorDashboard() {
   const {
     authState: { user },
   } = useAuth();
@@ -34,7 +34,7 @@ function AdminDashboard() {
   return (
     <AdminContainer>
       <LogoContainer src={Logo} />
-      <Title>Admin Dashboard</Title>
+      <Title>Doctor Dashboard</Title>
       <Text>Welcome, {user}!</Text>
       <div className="dbButtonContainer">
         <ButtonLink
@@ -45,17 +45,12 @@ function AdminDashboard() {
         <ButtonLink
           picture="/vite.svg"
           linkName="Schedule"
-          link="/underconstruction"
+          link="/schedule"
         ></ButtonLink>
         <ButtonLink
           picture="/vite.svg"
-          linkName="register Admin"
-          link="/underconstruction"
-        ></ButtonLink>
-        <ButtonLink
-          picture="/vite.svg"
-          linkName="register Doctor"
-          link="/underconstruction"
+          linkName="Appointment History"
+          link="/appointment/history"
         ></ButtonLink>
         <ButtonLink
           picture="/vite.svg"
@@ -68,4 +63,4 @@ function AdminDashboard() {
   );
 }
 
-export default AdminDashboard;
+export default DoctorDashboard;
