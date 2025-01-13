@@ -74,7 +74,7 @@ function UserDashboard() {
       <LogoContainer src={Logo} />
       <Title>User Dashboard</Title>
       <Text>Welcome, {user}!</Text>
-      <IMGHolder src = {checkProfilePicture()} alt={checkProfilePicture()}/>
+      <IMGHolder src = {checkProfilePicture()} alt="Profile Picture"/>
       <div className="dbButtonContainer">
         <ButtonLink
           picture="/vite.svg"

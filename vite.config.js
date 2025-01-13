@@ -13,7 +13,6 @@ export default defineConfig({
     port: 5173,
     open: true,
   },
-  // If you need polyfills, use the following approach instead:
   optimizeDeps: {
     esbuildOptions: {
       define: {
