@@ -43,7 +43,9 @@ const BucketTest = () => {
       <h1>Bucket Test</h1>
       <input type="file" onChange={handleFileChange} />
       <button onClick={handleUpload}>Upload to S3</button>
+      <div></div>
       {uploadMessage && <p>{uploadMessage}</p>}
+      <img src = {"https://"+import.meta.env.VITE_BUCKET_NAME + import.meta.env.VITE_REGION + "//" } />
     </div>
   );
 };

@@ -24,6 +24,8 @@ import Footer from "./components/footer/Footer";
 import Appointment_info from "./components/Appointment-info/A_info";
 import Schedule from "./components/Schedule/Schedule";
 import BucketTest from "./components/AWS/Bucket";
+import MeetingHistory from "./pages/appointmentHistory/AppointmentHistory";
+import AppointmentHistory from "./pages/appointmentHistory/AppointmentHistory";
 
 function App() {
   return (
@@ -52,6 +54,15 @@ function App() {
               }
             />
             <Route path="/bucket" element={<BucketTest />} />
+            <Route
+              path="/appointment/history"
+              element={
+                <RequireAuth allowedRoles={["USER", "ADMIN"]}>
+                  <AppointmentHistory />
+                </RequireAuth>
+              }
+            />
+
             <Route path="/underconstruction" element={<UnderConstruction />} />
             <Route
               path="/admin/dashboard"

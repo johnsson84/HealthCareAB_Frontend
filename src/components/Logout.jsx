@@ -13,6 +13,8 @@ const Logout = () => {
         }
       )
       .then((response) => {
+        localStorage.clear("hasRefreshed");
+        localStorage.clear("historyStack");
         window.location.href = "/login";
       })
       .catch((error) => {
