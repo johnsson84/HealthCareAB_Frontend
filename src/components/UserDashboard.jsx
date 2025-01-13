@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
 import Logo from "../assets/health_care_logo.svg";
 import styled from "styled-components";
 import Logout from "./Logout";
 import ButtonLink from "./dashboard/ButtonLink";
+import axios from "axios";
 import "./Dashboard.css";
+import { bucketURL } from "./Constants/Constants";
 
 // div with styles
 const UserContainer = styled.div`
@@ -12,6 +14,14 @@ const UserContainer = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+`;
+const IMGHolder = styled.img`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 1rem;
+  max-width: 400px;
 `;
 // img with styles
 const LogoContainer = styled.img`
@@ -33,11 +43,39 @@ function UserDashboard() {
   } = useAuth();
   const [users, setUsers] = useState([]);
 
+  const [profilePictureURL, setProfilePictureURL] = useState("");
+
+  useEffect(() => {
+    const getUserPictureURL = async () => {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/user/find/userURL/${user}`, {
+          withCredentials: true,
+        });
+        setProfilePictureURL(bucketURL + response.data);
+      } catch (error) {
+        setProfilePictureURL("Error loading profile picture");
+      }
+    };
+  
+    if (user) getUserPictureURL(); 
+  }, [user]); 
+
+  const checkProfilePicture = () => {
+    if (profilePictureURL === "") {
+      return "Loading profile picture...";
+    } else {
+      return profilePictureURL;
+    }
+  };
+  
+
   return (
     <UserContainer>
       <LogoContainer src={Logo} />
       <Title>User Dashboard</Title>
       <Text>Welcome, {user}!</Text>
+      <IMGHolder src = {profilePictureURL} alt={profilePictureURL}/>
+
       <div className="dbButtonContainer">
         <ButtonLink
           picture="/vite.svg"

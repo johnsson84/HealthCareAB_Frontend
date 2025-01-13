@@ -10,6 +10,7 @@ const s3 = new S3Client({
 });
 
 const BucketTest = () => {
+    const bucketURL = import.meta.env.VITE_BUCKET_URL;
   const [file, setFile] = useState(null);
   const [uploadMessage, setUploadMessage] = useState("");
 
@@ -43,9 +44,9 @@ const BucketTest = () => {
       <h1>Bucket Test</h1>
       <input type="file" onChange={handleFileChange} />
       <button onClick={handleUpload}>Upload to S3</button>
-      <div></div>
+      <div>{bucketURL + "my-image.png" }</div>
       {uploadMessage && <p>{uploadMessage}</p>}
-      <img src = {"https://"+import.meta.env.VITE_BUCKET_NAME + import.meta.env.VITE_REGION + "//" } />
+      <img src = {bucketURL + "my-image.png"} />
     </div>
   );
 };
