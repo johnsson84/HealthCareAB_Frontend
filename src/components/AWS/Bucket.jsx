@@ -73,7 +73,7 @@ const updateUserProfile = async (fileName) => {
   return (
     <div>
       <h1>Bucket Test</h1>
-      <input type="file" onChange={handleFileChange} />
+      <input type="file" accept=".jpg, .jpeg, .png, .webp, .gif" onChange={handleFileChange} />
       <button onClick={handleUpload}>Upload to S3</button>
       {uploadMessage && <p>{uploadMessage}</p>}
     </div>
