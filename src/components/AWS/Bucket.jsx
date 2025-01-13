@@ -43,7 +43,7 @@ const handleUpload = async () => {
       Bucket: import.meta.env.VITE_BUCKET_NAME,
       Key: import.meta.env.VITE_DIR_NAME 
         ? `${import.meta.env.VITE_DIR_NAME}/${uniqueKey}`
-        : file.name,
+        : uniqueKey,
       Body: file,
     };
 
