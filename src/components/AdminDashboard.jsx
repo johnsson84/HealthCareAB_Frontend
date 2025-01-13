@@ -57,6 +57,11 @@ function AdminDashboard() {
           linkName="Your Feedback"
           link="/underconstruction"
         ></ButtonLink>
+        <ButtonLink
+          picture="/vite.svg"
+          linkName="Change Profile picture"
+          link="/bucket"
+        ></ButtonLink>
       </div>
       <Logout />
     </AdminContainer>
