@@ -12,7 +12,7 @@ const AppointmentIncomingList = () => {
     const fetchAppointmentsWithUsernames = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/appointment/get/${username}`,
+          `${import.meta.env.VITE_API_URL}/appointment/get/scheduled/user/${username}`,
           { withCredentials: true }
         );
         // use this to get patientUsername and caregiverUsername
