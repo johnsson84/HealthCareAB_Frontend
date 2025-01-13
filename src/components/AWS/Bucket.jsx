@@ -12,7 +12,6 @@ const s3 = new S3Client({
     accessKeyId: import.meta.env.VITE_ACCESS_KEY_ID,
     secretAccessKey: import.meta.env.VITE_SECRET_ACCESS_KEY,
   },
-  
 });
 
 
@@ -21,7 +20,6 @@ const BucketTest = () => {
   const {
     authState: { user },
   } = useAuth();
-  const [users, setUsers] = useState([]);
   const [file, setFile] = useState(null);
   const [uploadMessage, setUploadMessage] = useState("");
   
