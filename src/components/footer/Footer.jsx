@@ -46,16 +46,28 @@ const Footer = () => {
   const adminButtons = [
     { name: "Home", path: "/admin/dashboard" },
     { name: "Admin-Something3", path: "/underconstruction" },
-    { name: "Admin-Something4", path: "/underconstruction" },
-    { name: "Admin-Something5", path: "/underconstruction" },
+    {
+      name: "Admin-Something4",
+      path: "/underconstruction",
+    },
+    {
+      name: "Admin-Something5",
+      path: "/underconstruction",
+    },
     { name: "Profile", path: "/caregiverprofile" },
   ];
 
   const userButtons = [
     { name: "Home", path: "/user/dashboard" },
     { name: "Profile", path: "/profile" },
-    { name: "User-Something7", path: "/underconstruction" },
-    { name: "User-Something8", path: "/underconstruction" },
+    {
+      name: "User-Something18",
+      path: "/underconstruction",
+    },
+    {
+      name: "User-Something19",
+      path: "/underconstruction",
+    },
     { name: "User-Something9", path: "/underconstruction" },
   ];
 

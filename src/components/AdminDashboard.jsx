@@ -44,8 +44,8 @@ function AdminDashboard() {
         ></ButtonLink>
         <ButtonLink
           picture="/vite.svg"
-          linkName="Calendar"
-          link="/underconstruction"
+          linkName="Schedule"
+          link="/schedule"
         ></ButtonLink>
         <ButtonLink
           picture="/vite.svg"
