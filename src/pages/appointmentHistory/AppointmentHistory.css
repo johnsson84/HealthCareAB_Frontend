@@ -1,0 +1,67 @@
+.mainContainerAppsHistory {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.appsHistoryContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  width: 80%;
+  height: auto;
+  background-color: #057d7a;
+  border-radius: 15px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  gap: 1rem;
+  list-style: none;
+  flex-wrap: wrap;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.appsHistoryBox {
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-width: 13rem;
+}
+.appsHistoryBox p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0.3rem;
+}
+.completedHistory {
+  color: green;
+}
+.appsHistoryInnerBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 0.2rem;
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
+}
+
+.appHistPagiButton {
+  color: black;
+  margin: 0.1rem;
+}
+
+.summaryAppHist {
+  width: 80%;
+  flex-wrap: wrap;
+  text-align: center;
+  height: auto;
+}

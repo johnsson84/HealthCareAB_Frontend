@@ -49,8 +49,8 @@ function AdminDashboard() {
         ></ButtonLink>
         <ButtonLink
           picture="/vite.svg"
-          linkName="Notifications"
-          link="/underconstruction"
+          linkName="Appointment History"
+          link="/appointment/history"
         ></ButtonLink>
         <ButtonLink
           picture="/vite.svg"
