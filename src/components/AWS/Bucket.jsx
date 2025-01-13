@@ -3,6 +3,8 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import axios from "axios";
 import { useAuth } from "../../hooks/useAuth";
 import styled from "styled-components";
+import {v4 as uuidv4} from "uuid";
+
 
 const s3 = new S3Client({
   region: import.meta.env.VITE_REGION,
@@ -22,7 +24,7 @@ const BucketTest = () => {
   const [users, setUsers] = useState([]);
   const [file, setFile] = useState(null);
   const [uploadMessage, setUploadMessage] = useState("");
-
+  
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
   };
@@ -35,12 +37,12 @@ const handleUpload = async () => {
     setUploadMessage("Please select a file to upload.");
     return;
   }
-
+  const uniqueKey = `${uuidv4()}-${file.name}`;
   try {
     const params = {
       Bucket: import.meta.env.VITE_BUCKET_NAME,
       Key: import.meta.env.VITE_DIR_NAME 
-        ? `${import.meta.env.VITE_DIR_NAME}/${file.name}`
+        ? `${import.meta.env.VITE_DIR_NAME}/${uniqueKey}`
         : file.name,
       Body: file,
     };
@@ -50,7 +52,7 @@ const handleUpload = async () => {
     setUploadMessage("File uploaded successfully!");
     
     // Only proceed with profile update if upload was successful
-    await updateUserProfile(file.name);
+    await updateUserProfile(uniqueKey);
   } catch (error) {
     console.error("Upload error:", error);
     setUploadMessage(`Error uploading file: ${error.message}`);
@@ -80,7 +82,7 @@ const updateUserProfile = async (fileName) => {
   disabled={!file}
 >
   Upload to S3
-  
+
 </StyledButton>
       {uploadMessage && <p>{uploadMessage}</p>}
     </StyledMain>
