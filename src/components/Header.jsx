@@ -43,7 +43,7 @@ const Header = () => {
   const location = useLocation();
   const hiddenPaths = ["/login", "/signup"];
   const username = localStorage.getItem("loggedInUsername");
-  const [role, setRole] = useState();
+  const [role, setRole] = useState(null);
 
   // Load initial history stack from localStorage
   const [historyStack, setHistoryStack] = useState(() => {
@@ -76,29 +76,28 @@ const Header = () => {
   };
 
   const canGoBack =
-    historyStack.length > 1 && // Ensure there is a previous page in the stack
+    historyStack.length > 1 &&
     !hiddenPaths.includes(historyStack[historyStack.length - 2]) &&
     historyStack[historyStack.length - 2] !== location.pathname;
 
-  if (hiddenPaths.includes(location.pathname)) {
-    return null;
-  }
-
   const checkAuth = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/auth/check",{
+      const response = await axios.get("http://localhost:8080/auth/check", {
         withCredentials: true,
       });
       setRole(response.data.roles[0]);
     } catch (error) {
-      setRole();
+      setRole(null);
     }
   };
+
   useEffect(() => {
-    if (!role) {
-      checkAuth();
-    }
+    checkAuth();
   }, []);
+
+  if (hiddenPaths.includes(location.pathname)) {
+    return null;
+  }
 
   return (
     <HeaderContainer>
