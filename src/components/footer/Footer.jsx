@@ -43,6 +43,19 @@ const Footer = () => {
 
   if (loading) return <div>Loading footer...</div>;
 
+  const doctorButtons = [
+    { name: "Home", path: "/doctor/dashboard" },
+    { name: "Doctor-Something3", path: "/underconstruction" },
+    {
+      name: "Doctor-Something4",
+      path: "/underconstruction",
+    },
+    {
+      name: "Doctor-Something5",
+      path: "/underconstruction",
+    },
+    { name: "Profile", path: "/caregiverprofile" },
+  ];
   const adminButtons = [
     { name: "Home", path: "/admin/dashboard" },
     { name: "Admin-Something3", path: "/underconstruction" },
@@ -54,7 +67,7 @@ const Footer = () => {
       name: "Admin-Something5",
       path: "/underconstruction",
     },
-    { name: "Profile", path: "/caregiverprofile" },
+    { name: "Admin-Profile", path: "/underconstruction" },
   ];
 
   const userButtons = [
@@ -72,7 +85,7 @@ const Footer = () => {
   ];
 
   const buttons =
-    role === "ADMIN" ? adminButtons : role === "USER" ? userButtons : [];
+    role === "ADMIN" ? adminButtons : role === "USER" ? userButtons : role === "DOCTOR" ? doctorButtons : [];
 
   return (
     <div className="footer">
