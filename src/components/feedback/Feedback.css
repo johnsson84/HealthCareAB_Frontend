@@ -32,6 +32,9 @@ p {
 }
 
 .completedAppointment, .yourFeedback {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
   padding: 5px;
   margin: 5px;
   background-color: white;

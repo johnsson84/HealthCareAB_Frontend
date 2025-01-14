@@ -25,7 +25,6 @@ import AppointmentIncomingList from "./components/appointments/UserAppointment";
 import AppointmentIncomingListDoctor from "./components/appointments/DoctorAppointent";
 import Footer from "./components/footer/Footer";
 import Feedback from "./components/feedback/Feedback";
-import FeedbackCG from "./components/feedback/FeedbackCG";
 import Appointment_info from "./components/Appointment-info/A_info";
 import Schedule from "./components/Schedule/Schedule";
 import MeetingHistory from "./pages/appointmentHistory/AppointmentHistory";

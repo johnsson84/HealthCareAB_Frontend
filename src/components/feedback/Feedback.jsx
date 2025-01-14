@@ -23,7 +23,9 @@ const Feedback = () => {
   const [patients, setPatients] = useState({});
   const [yourAverageRating, setYourAverageRating] = useState(0);
   // Admin page variables
+  // under development
 
+  ///////////////////////////////////////////////
   //////////// GENERAL METHODS //////////////////
   // Get loggedInUser role
   const getUsersRole = async () => {
@@ -40,16 +42,18 @@ const Feedback = () => {
     }
   };
 
+  ///////////////////////////////////////////////
   //////////// PATIENT METHODS //////////////////
   // Fetch your feedback
   const getGivenFeedback = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/feedback/user/${username}`,
+        `${import.meta.env.VITE_API_URL}/feedback/patient/${username}`,
         {
           withCredentials: true,
         }
       );
+      console.log(response.data);
       setGivenFeedback(response.data);
     } catch (error) {
       console.log("Catch error: " + error);
@@ -71,14 +75,16 @@ const Feedback = () => {
         (appointment) => appointment.status === "COMPLETED"
       );
 
+      let hasNoFeedback = completed;
       // Filter out completed appointments that already have feedback
-      const hasNoFeedback = completed.filter(
-        (completedAppointment) =>
-          !givenFeedback.some(
-            (feedback) => feedback.appointmentId === completedAppointment.id
-          )
-      );
-
+      if (givenFeedback.length > 0) {
+        hasNoFeedback = completed.filter(
+          (completedAppointment) =>
+            !givenFeedback.some(
+              (feedback) => feedback.appointmentId === completedAppointment.id
+            )
+        );
+      }
       setAppointments(hasNoFeedback);
 
       // Fetch caregivers
@@ -246,12 +252,13 @@ const Feedback = () => {
     });
   };
 
+  //////////////////////////////////////////////
   //////////// DOCTOR METHODS //////////////////
   // Fetch your feedback
-  const getFeedback = async () => {
+  const getYourFeedback = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/feedback/user/${username}`,
+        `${import.meta.env.VITE_API_URL}/feedback/doctor/${username}`,
         {
           withCredentials: true,
         }
@@ -414,46 +421,71 @@ const Feedback = () => {
     setDeleteConfirm("");
   };
 
+  /////////////////////////////////////////////
   //////////// ADMIN METHODS //////////////////
+  // under development
 
-  ///  PATIENT USE_EFFECT
+  ///////////////////////
+  ///  GENERAL USE_EFFECT
   useEffect(() => {
     getUsersRole();
-    getGivenFeedback();
   }, []);
 
+  ///////////////////////
+  ///  PATIENT USE_EFFECT
   useEffect(() => {
-    getAppointments();
-  }, [givenFeedback]);
+    if (userRole === "USER") {
+      getGivenFeedback();
+    }
+  }, [userRole, yourFeedback]);
+
+  useEffect(() => {
+    if (userRole === "USER") {
+      getAppointments();
+    }
+  }, [givenFeedback, userRole]);
 
   // DEBUG:
   //useEffect(() => {
-    //  console.log(appointments);
-    //  console.log(givenFeedback);
-    //console.log(feedback);
-    //console.log(caregivers);
-    //console.log(caregivers["676ec624d29cdb168b12346f"]?.firstName);
-    //console.log(userRole);
+    //if (userRole === "USER") {
+      //console.log(appointments);
+      //console.log(givenFeedback);
+      //console.log(feedback);
+      //console.log(caregivers);
+      //console.log(caregivers["676ec624d29cdb168b12346f"]?.firstName);
+      //console.log(userRole);
+    //}
   //}, [appointments, caregivers, feedback, userRole]);
-
+  
+  //////////////////////
   ///  DOCTOR USE_EFFECT
   useEffect(() => {
-    getFeedback();
-    countAverageRating();
-  }, []);
+    if (userRole === "DOCTOR") {
+      getYourFeedback();
+      countAverageRating();
+    }
+  }, [userRole, yourFeedback, appointments]);
 
   useEffect(() => {
-    countAverageRating();
-  }, [feedback]);
+    if (userRole === "DOCTOR") {
+      countAverageRating();
+    }
+  }, [yourFeedback, userRole, yourAverageRating]);
 
   // DEBUG:
   //useEffect(() => {
-  //console.log(feedback);
-  //console.log(appointmentSummarys);
-  //console.log(patients);
+    //if (userRole === "DOCTOR") {
+      //console.log(feedback);
+      //console.log(appointmentSummarys);
+      //console.log(patients);
+    //}
   //}, [feedback, appointmentSummarys]);
-  ///  ADMIN USE_EFFECT
 
+  /////////////////////
+  ///  ADMIN USE_EFFECT
+  // under development
+
+  ////////////////
   // FEEDBACK PAGE
   return (
     <div className="feedbackPage">
