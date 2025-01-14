@@ -21,6 +21,8 @@ import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 import ResetPassword from "./components/resetPassword/ResetPassword";
 import Header from "./components/Header";
 import UnderConstruction from "./components/UnderConstructionPage";
+import AppointmentIncomingList from "./components/appointments/UserAppointment";
+import AppointmentIncomingListDoctor from "./components/appointments/DoctorAppointent";
 import Footer from "./components/footer/Footer";
 import Feedback from "./components/feedback/Feedback";
 import FeedbackCG from "./components/feedback/FeedbackCG";
@@ -97,6 +99,10 @@ function App() {
                 </RequireAuth>
               }
             />
+
+            <Route path="/appointment" element={<AppointmentIncomingList />} />
+            <Route path="/Dappointment" element={<AppointmentIncomingListDoctor />} />
+
             <Route
             path="/schedule"
             element={
@@ -105,6 +111,7 @@ function App() {
               </RequireAuth>
             }
           />
+
             <Route path="/resetPassword" element={<ResetPassword />} />
             <Route path="/forgotPassword" element={<ForgotPassword />} />
             <Route path="/" element={<Home />} />

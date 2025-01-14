@@ -37,23 +37,23 @@ function DoctorDashboard() {
       <Title>Doctor Dashboard</Title>
       <Text>Welcome, {user}!</Text>
       <div className="dbButtonContainer">
-        <ButtonLink
-          picture="/vite.svg"
-          linkName="Appointment"
-          link="/underconstruction"
+      <ButtonLink
+          picture="/src/assets/Calendar 02.svg"
+          linkName="Schedule"
+          link="/calendar"
         ></ButtonLink>
         <ButtonLink
-          picture="/vite.svg"
+          picture="/src/assets/Calendar 02.svg"
           linkName="Schedule"
           link="/schedule"
         ></ButtonLink>
         <ButtonLink
-          picture="/vite.svg"
+          picture="/src/assets/Inbox 02.svg"
           linkName="Appointment History"
           link="/appointment/history"
         ></ButtonLink>
         <ButtonLink
-          picture="/vite.svg"
+          picture="/src/assets/Annotation Information.svg"
           linkName="Your Feedback"
           link="/underconstruction"
         ></ButtonLink>

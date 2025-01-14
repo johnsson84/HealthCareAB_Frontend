@@ -38,27 +38,23 @@ function AdminDashboard() {
       <Text>Welcome, {user}!</Text>
       <div className="dbButtonContainer">
         <ButtonLink
-          picture="/vite.svg"
+          picture="/src/assets/Message Chat 01.svg"
           linkName="Appointment"
-          link="/underconstruction"
+          link="/Dappointment"
         ></ButtonLink>
+        
         <ButtonLink
-          picture="/vite.svg"
-          linkName="Schedule"
-          link="/underconstruction"
-        ></ButtonLink>
-        <ButtonLink
-          picture="/vite.svg"
+          picture="/src/assets/User Profile Add 01.svg"
           linkName="register Admin"
           link="/underconstruction"
         ></ButtonLink>
         <ButtonLink
-          picture="/vite.svg"
+          picture="/src/assets/User Profile Add 01.svg"
           linkName="register Doctor"
           link="/underconstruction"
         ></ButtonLink>
         <ButtonLink
-          picture="/vite.svg"
+          picture="/src/assets/Annotation Information.svg"
           linkName="Your Feedback"
           link="/yourfeedback"
         ></ButtonLink>
