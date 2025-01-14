@@ -40,7 +40,7 @@ function AdminDashboard() {
         <ButtonLink
           picture="/vite.svg"
           linkName="Appointment"
-          link="/underconstruction"
+          link="/Dappointment"
         ></ButtonLink>
         <ButtonLink
           picture="/vite.svg"
