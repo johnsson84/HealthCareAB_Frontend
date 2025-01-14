@@ -21,7 +21,7 @@ const Profile = () => {
         );
         setPersonalInformation(response.data);
         if (response.data.roles.includes("ADMIN")) {
-          setRole("Dr: ");
+          setRole("Admin: ");
         }
       } catch (error) {
         setPersonalInformation("Something went wrong, try again later.");
@@ -38,7 +38,7 @@ const Profile = () => {
         <p>
           {role} {user}
         </p>
-        <h3>{role === "Dr: " ? "DOCTOR" : "PATIENT"}</h3>
+        <h3>{role === "Dr: " ? "ADMIN" : "PATIENT"}</h3>
       </div>
       <div className="profileMain2">
         <h4>Personal Information:</h4>

@@ -42,11 +42,7 @@ function AdminDashboard() {
           linkName="Appointment"
           link="/Dappointment"
         ></ButtonLink>
-        <ButtonLink
-          picture="/src/assets/Calendar 02.svg"
-          linkName="Schedule"
-          link="/underconstruction"
-        ></ButtonLink>
+        
         <ButtonLink
           picture="/src/assets/User Profile Add 01.svg"
           linkName="register Admin"
