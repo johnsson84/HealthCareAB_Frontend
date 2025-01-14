@@ -48,7 +48,6 @@ const ReturnButton = styled.button`
   text-align: center;
   border: none;
 
-
   &:hover {
     background-color: #2fadaa;
     transform: translateY(-3px);
@@ -69,7 +68,6 @@ const ResetPasswordButton = styled.button`
     box-shadow 0.2s ease;
   text-align: center;
   border: none;
-
 
   &:hover {
     background-color: #2fadaa;
@@ -141,9 +139,13 @@ function Login() {
         loading: false,
       });
       localStorage.setItem("loggedInUsername", response.data.username);
+      console.log(roles);
       // redirect based on role
       if (roles.includes("ADMIN")) {
         navigate("/admin/dashboard", { replace: true });
+        window.location.reload();
+      } else if (roles.includes("DOCTOR")) {
+        navigate("/doctor/dashboard", { replace: true });
         window.location.reload();
       } else {
         navigate("/user/dashboard", { replace: true });
@@ -186,7 +188,6 @@ function Login() {
             Forgot Password
           </Link>
         </ResetPasswordButton>
-
       </FormWrapper>
     </LoginContainer>
   );

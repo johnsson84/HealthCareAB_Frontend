@@ -8,13 +8,14 @@ import { AuthProvider } from "./context/AuthContext";
 import Login from "./components/Login";
 import UserDashboard from "./components/UserDashboard";
 import AdminDashboard from "./components/AdminDashboard";
+import DoctorDashboard from "./components/DoctorDashboard";
+import CalendarPage from "./components/Calendar/Calendar";
 import Unauthorized from "./components/Unauthorized";
 import Home from "./components/Home";
 import RequireAuth from "./components/RequireAuth";
 import GlobalStyle from "./styles/GlobalStyle";
 import Signup from "./components/Signup/Signup";
 import Profile from "./components/Profile/Profile";
-import CalendarPage from "./components/Calendar/Calendar";
 import CaregiverProfile from "./components/Profile/Caregiver_profile";
 import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 import ResetPassword from "./components/resetPassword/ResetPassword";
@@ -23,6 +24,10 @@ import UnderConstruction from "./components/UnderConstructionPage";
 import Footer from "./components/footer/Footer";
 import Feedback from "./components/feedback/Feedback";
 import FeedbackCG from "./components/feedback/FeedbackCG";
+import Appointment_info from "./components/Appointment-info/A_info";
+import Schedule from "./components/Schedule/Schedule";
+import MeetingHistory from "./pages/appointmentHistory/AppointmentHistory";
+import AppointmentHistory from "./pages/appointmentHistory/AppointmentHistory";
 
 function App() {
   return (
@@ -42,12 +47,37 @@ function App() {
                 </RequireAuth>
               }
             />
+            <Route
+              path="/appointment/info/:appointmentId"
+              element={
+                <RequireAuth allowedRoles={["USER", "DOCTOR"]}>
+                  <Appointment_info />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/appointment/history"
+              element={
+                <RequireAuth allowedRoles={["USER", "DOCTOR"]}>
+                  <AppointmentHistory />
+                </RequireAuth>
+              }
+            />
+
             <Route path="/underconstruction" element={<UnderConstruction />} />
             <Route
               path="/admin/dashboard"
               element={
                 <RequireAuth allowedRoles={["ADMIN"]}>
                   <AdminDashboard />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/doctor/dashboard"
+              element={
+                <RequireAuth allowedRoles={["DOCTOR"]}>
+                  <DoctorDashboard />
                 </RequireAuth>
               }
             />
@@ -62,11 +92,19 @@ function App() {
             <Route
               path="/caregiverprofile"
               element={
-                <RequireAuth allowedRoles={["ADMIN"]}>
+                <RequireAuth allowedRoles={["DOCTOR"]}>
                   <CaregiverProfile></CaregiverProfile>
                 </RequireAuth>
               }
             />
+            <Route
+            path="/schedule"
+            element={
+              <RequireAuth allowedRoles={["DOCTOR"]}>
+                <Schedule></Schedule>
+              </RequireAuth>
+            }
+          />
             <Route path="/resetPassword" element={<ResetPassword />} />
             <Route path="/forgotPassword" element={<ForgotPassword />} />
             <Route path="/" element={<Home />} />

@@ -67,6 +67,9 @@ function Signup() {
       if (roles.includes("ADMIN")) {
         navigate("/admin/dashboard", { replace: true });
         window.location.reload();
+      } else if (roles.includes("DOCTOR")) {
+        navigate("/doctor/dashboard", { replace: true });
+        window.location.reload();
       } else {
         navigate("/user/dashboard", { replace: true });
         window.location.reload();

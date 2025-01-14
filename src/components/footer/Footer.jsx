@@ -43,24 +43,49 @@ const Footer = () => {
 
   if (loading) return <div>Loading footer...</div>;
 
+  const doctorButtons = [
+    { name: "Home", path: "/doctor/dashboard" },
+    { name: "Doctor-Something3", path: "/underconstruction" },
+    {
+      name: "Doctor-Something4",
+      path: "/underconstruction",
+    },
+    {
+      name: "Doctor-Something5",
+      path: "/underconstruction",
+    },
+    { name: "Profile", path: "/caregiverprofile" },
+  ];
   const adminButtons = [
     { name: "Home", path: "/admin/dashboard" },
     { name: "Admin-Something3", path: "/underconstruction" },
-    { name: "Admin-Something4", path: "/underconstruction" },
-    { name: "Admin-Something5", path: "/underconstruction" },
-    { name: "Profile", path: "/caregiverprofile" },
+    {
+      name: "Admin-Something4",
+      path: "/underconstruction",
+    },
+    {
+      name: "Admin-Something5",
+      path: "/underconstruction",
+    },
+    { name: "Admin-Profile", path: "/underconstruction" },
   ];
 
   const userButtons = [
     { name: "Home", path: "/user/dashboard" },
     { name: "Profile", path: "/profile" },
-    { name: "User-Something7", path: "/underconstruction" },
-    { name: "User-Something8", path: "/underconstruction" },
+    {
+      name: "User-Something18",
+      path: "/underconstruction",
+    },
+    {
+      name: "User-Something19",
+      path: "/underconstruction",
+    },
     { name: "User-Something9", path: "/underconstruction" },
   ];
 
   const buttons =
-    role === "ADMIN" ? adminButtons : role === "USER" ? userButtons : [];
+    role === "ADMIN" ? adminButtons : role === "USER" ? userButtons : role === "DOCTOR" ? doctorButtons : [];
 
   return (
     <div className="footer">

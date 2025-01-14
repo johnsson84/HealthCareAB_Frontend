@@ -1,16 +1,27 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Header = () => {
   const HeaderContainer = styled.div`
     display: flex;
     align-items: center;
-    justify-content: start;
+    justify-content: space-between;
     flex-direction: row;
     border-bottom: 1px solid black;
     height: 3rem;
     width: 100%;
+  `;
+  const UsernameContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    flex-direction: row;
+    border-bottom: 1px solid black;
+    height: 3rem;
+    width: 100%;
+    font-size: small;
   `;
   const ReturnButton = styled.button`
     color: black;
@@ -30,17 +41,26 @@ const Header = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const [historyStack, setHistoryStack] = useState([]);
-  const hiddenPaths = ["/login", "/signup"];
+  const hiddenPaths = ["/login", "/signup", "/"];
+  const username = localStorage.getItem("loggedInUsername");
+  const [role, setRole] = useState(null);
+
+  // Load initial history stack from localStorage
+  const [historyStack, setHistoryStack] = useState(() => {
+    const storedHistory = localStorage.getItem("historyStack");
+    return storedHistory ? JSON.parse(storedHistory) : [];
+  });
 
   useEffect(() => {
     const currentPath = location.pathname;
 
     setHistoryStack((prevStack) => {
-      if (prevStack[prevStack.length - 1] === currentPath) {
-        return prevStack;
+      const updatedStack = [...prevStack];
+      if (updatedStack[updatedStack.length - 1] !== currentPath) {
+        updatedStack.push(currentPath);
       }
-      return [...prevStack, currentPath];
+      localStorage.setItem("historyStack", JSON.stringify(updatedStack));
+      return updatedStack;
     });
   }, [location.pathname]);
 
@@ -49,15 +69,31 @@ const Header = () => {
       const updatedStack = [...prevStack];
       updatedStack.pop();
       const previousPath = updatedStack[updatedStack.length - 1];
-      navigate(previousPath);
+      navigate(previousPath || role + "/dashboard");
+      localStorage.setItem("historyStack", JSON.stringify(updatedStack));
       return updatedStack;
     });
   };
 
   const canGoBack =
-    historyStack.length > 1 && // Ensure there is a previous page in the stack
+    historyStack.length > 1 &&
     !hiddenPaths.includes(historyStack[historyStack.length - 2]) &&
     historyStack[historyStack.length - 2] !== location.pathname;
+
+  const checkAuth = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/auth/check", {
+        withCredentials: true,
+      });
+      setRole(response.data.roles[0]);
+    } catch (error) {
+      setRole(null);
+    }
+  };
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
 
   if (hiddenPaths.includes(location.pathname)) {
     return null;
@@ -66,6 +102,11 @@ const Header = () => {
   return (
     <HeaderContainer>
       {canGoBack && <ReturnButton onClick={handleReturn}>return</ReturnButton>}
+      <UsernameContainer>
+        <p className="loggedInP">
+          {role === "USER" ? "Patient" : ""}{role === "ADMIN" ? "Admin" : ""}{role === "DOCTOR" ? "Doctor" : ""}: {username}
+        </p>
+      </UsernameContainer>
     </HeaderContainer>
   );
 };

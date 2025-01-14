@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useSearchParams } from "react-router-dom"; // För att läsa token från URL
+import { useSearchParams, useNavigate } from "react-router-dom"; // För att läsa token från URL
 
 const ResetPasswordContainer = styled.div`
   display: flex;
@@ -63,31 +63,49 @@ const ResetPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
   const [searchParams] = useSearchParams();
+  const [ error, setError ] = useState(false);
+
+  const navigate = useNavigate();
   const token = searchParams.get("token"); // Läs token från URL
 
   const handlePasswordReset = async (e) => {
     e.preventDefault();
+    setMessage("");
+    setError(false);
+
     if (newPassword !== confirmPassword) {
       setMessage("Passwords do not match!");
+      setError(true);
       return;
     }
 
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/auth/reset-password`, {
-        token,
-        newPassword,
-      });
-      setMessage("Password successfully reset. You can now log in.");
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/reset-password`,
+        {
+          token,
+          newPassword,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      setMessage("Password successfully reset. Redirecting you to login.");
     } catch (err) {
-      console.log(err);
-      console.log({
-        token,
-        newPassword,
-      });
-
+      console.error(err);
+      setError(true);
       setMessage("Error resetting password. Please try again.");
     }
   };
+
+  useEffect(() => {
+    if (message === "Password successfully reset. Redirecting you to login.") {
+      const sleeper = setTimeout(() => {
+        navigate("/login");
+      }, 4000);
+      return () => clearTimeout(sleeper);
+    }
+  }, [message, navigate]);
 
   return (
     <ResetPasswordContainer>
@@ -99,6 +117,11 @@ const ResetPassword = () => {
           placeholder="Enter your new password"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
+          minLength="8"
+          maxLength="20"
+          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,20}$"
+          title="Password must be 8-20 characters, include uppercase, lowercase, and a number."
+          required
         />
         <label>Confirm Password:</label>
         <StyledInput
@@ -106,16 +129,20 @@ const ResetPassword = () => {
           placeholder="Confirm your new password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
+          minLength="8"
+          maxLength="20"
+          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,20}$"
+          title="Password must be 8-20 characters, include uppercase, lowercase, and a number."
+          required
         />
         <ResetPasswordButton type="submit">
           Set New Password
         </ResetPasswordButton>
-        <ResetPasswordButton>
-          <Link className="link" to="/login">
-            return to login
-          </Link>
-        </ResetPasswordButton>
-        {message && <p>{message}</p>}
+         {message && (
+          <p style={{ color: error ? "red" : "green", marginTop: "10px" }}>
+            {message}
+          </p>
+        )}
       </FormWrapper>
     </ResetPasswordContainer>
   );

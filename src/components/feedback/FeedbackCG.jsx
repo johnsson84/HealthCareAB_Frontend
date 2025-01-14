@@ -96,7 +96,7 @@ const FeedbackCG = () => {
             total += x.rating;
         }
     }
-    const avg = total / feedback.length + 1;
+    const avg = total / feedback.length;
     setYourAverageRating((Math.round(avg * 100) / 100).toFixed(2));
   }
 
