@@ -56,7 +56,7 @@ function AdminDashboard() {
         <ButtonLink
           picture="/src/assets/Annotation Information.svg"
           linkName="Your Feedback"
-          link="/yourfeedback"
+          link="/feedback"
         ></ButtonLink>
       </div>
       <Logout />

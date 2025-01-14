@@ -4,13 +4,13 @@ import axios from 'axios';
 
 const FeedbackCG = () => {
     const username = localStorage.getItem("loggedInUsername");
-    const [feedback, setFeedback] = useState([]);
+    const [yourFeedback, setYourFeedback] = useState([]);
     const [deleteConfirm, setDeleteConfirm] = useState("");
     const [appointmentSummarys, setAppointmentSummarys] = useState({});
     const [patients, setPatients] = useState({});
     const [yourAverageRating, setYourAverageRating] = useState(0);
 
-    // Fetch your feedback
+  // Fetch your feedback
   const getFeedback = async () => {
     try {
       const response = await axios.get(
@@ -19,7 +19,7 @@ const FeedbackCG = () => {
           withCredentials: true,
         }
       );
-      setFeedback(response.data);
+      setYourFeedback(response.data);
 
       for (const feedback of response.data) {
         await getAppointmentSummary(feedback.appointmentId)
@@ -83,7 +83,7 @@ const FeedbackCG = () => {
                 withCredentials: true,
             }
         );
-        setFeedback(feedback.filter(item => item.id !== feedbackId));
+        setYourFeedback(yourFeedback.filter(item => item.id !== feedbackId));
     } catch (error) {
         console.log("Catch error: " + error);
       };
@@ -91,21 +91,25 @@ const FeedbackCG = () => {
 
   const countAverageRating = () => {
     let total = 0;
-    for (const x of feedback) {
+    for (const x of yourFeedback) {
         if (typeof x.rating === 'number' || !IsNaN(x.rating)) {
             total += x.rating;
         }
     }
+<<<<<<< Updated upstream
     const avg = total / feedback.length;
+=======
+    const avg = total / yourFeedback.length + 1;
+>>>>>>> Stashed changes
     setYourAverageRating((Math.round(avg * 100) / 100).toFixed(2));
   }
 
     // Container with all your feedbacks
-    const yourFeedback = () => {
-        if (feedback.length === 0) {
+    const showYourFeedback = () => {
+        if (yourFeedback.length === 0) {
           return <div id="noCompletedAppointments"><p>You have no feedback.</p></div>;
         }
-        return feedback.map((feedback, index) => (
+        return yourFeedback.map((feedback, index) => (
           <div key={index} className="yourFeedback">
             <p><b>Summary:</b> {appointmentSummarys[`${feedback.appointmentId}`]?.summary}</p>
             <p>
@@ -157,7 +161,7 @@ const FeedbackCG = () => {
         <div className="feedbackPage">
             <h1>Your Feedback</h1>
             <h2>(average rating: {yourAverageRating})</h2>
-            <div className="yourFeedbacks">{yourFeedback()}</div>
+            <div className="yourFeedbacks">{showYourFeedback()}</div>
         </div>
     )
 }

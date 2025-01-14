@@ -58,7 +58,7 @@ function UserDashboard() {
         <ButtonLink
           picture="/src/assets/Annotation Information.svg"
           linkName="Give Feedback"
-          link="/givefeedback"
+          link="/feedback"
         ></ButtonLink>
       </div>
       <Logout />

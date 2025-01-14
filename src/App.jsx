@@ -118,8 +118,7 @@ function App() {
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/givefeedback" element={<Feedback />} />
-            <Route path="/yourfeedback" element={<FeedbackCG />} />
+            <Route path="/feedback" element={<Feedback />} />
           </Routes>
           <Footer />
         </Router>
