@@ -40,22 +40,27 @@ function UserDashboard() {
       <Text>Welcome, {user}!</Text>
       <div className="dbButtonContainer">
         <ButtonLink
-          picture="/vite.svg"
+          picture="/src/assets/Message Chat 01.svg"
           linkName="Appointment"
           link="/appointment"
         ></ButtonLink>
         <ButtonLink
-          picture="/vite.svg"
+          picture="/src/assets/User Profile Check.svg"
           linkName="Book Doctor"
+          link="/underconstruction"
+        ></ButtonLink>
+        <ButtonLink
+          picture="/src/assets/Calendar 02.svg"
+          linkName="Schedule"
           link="/calendar"
         ></ButtonLink>
         <ButtonLink
-          picture="/vite.svg"
+          picture="/src/assets/Inbox 02.svg"
           linkName="Appointment History"
           link="/appointment/history"
         ></ButtonLink>
         <ButtonLink
-          picture="/vite.svg"
+          picture="/src/assets/Annotation Information.svg"
           linkName="Give Feedback"
           link="/underconstruction"
         ></ButtonLink>
