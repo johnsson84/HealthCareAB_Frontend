@@ -39,20 +39,16 @@ function UserDashboard() {
       <Title>User Dashboard</Title>
       <Text>Welcome, {user}!</Text>
       <div className="dbButtonContainer">
-        <ButtonLink
-          picture="/src/assets/Message Chat 01.svg"
-          linkName="Appointment"
-          link="/appointment"
-        ></ButtonLink>
+       
         <ButtonLink
           picture="/src/assets/User Profile Check.svg"
           linkName="Book Doctor"
-          link="/underconstruction"
+          link="/calendar"
         ></ButtonLink>
         <ButtonLink
           picture="/src/assets/Calendar 02.svg"
-          linkName="Schedule"
-          link="/calendar"
+          linkName="Upcoming Appointments"
+          link="/appointment"
         ></ButtonLink>
         <ButtonLink
           picture="/src/assets/Inbox 02.svg"

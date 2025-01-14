@@ -58,30 +58,29 @@ const Footer = () => {
   ];
   const adminButtons = [
     { name: "Home", path: "/admin/dashboard" },
-    { name: "Admin-Something3", path: "/underconstruction" },
+    { name: "Register Admin", path: "/underconstruction" },
     {
-      name: "Admin-Something4",
+      name: "Register Caregiver",
       path: "/underconstruction",
     },
     {
-      name: "Admin-Something5",
+      name: "Delete Feedback",
       path: "/underconstruction",
     },
-    { name: "Admin-Profile", path: "/underconstruction" },
+    { name: "Admin-Profile", path: "/caregiverprofile" },
   ];
 
   const userButtons = [
     { name: "Home", path: "/user/dashboard" },
     { name: "Profile", path: "/profile" },
     {
-      name: "User-Something18",
-      path: "/underconstruction",
+      name: "Book Doctor",
+      path: "/calendar",
     },
     {
-      name: "User-Something19",
-      path: "/underconstruction",
+      name: "My Meetings",
+      path: "/appointment",
     },
-    { name: "User-Something9", path: "/underconstruction" },
   ];
 
   const buttons =
