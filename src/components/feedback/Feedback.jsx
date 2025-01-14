@@ -2,6 +2,20 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Feedback.css";
 
+///////////////////////////////
+//  INDEX                    //
+//  1. Page variables        //
+//  2. GENERAL METHODS       //
+//  3. PATIENT METHODS       //
+//  4. DOCTOR METHODS        //
+//  5. ADMIN METHODS         //
+//  6. GENERAL USE_EFFECT    //
+//  7. PATIENT USE_EFFECT    //
+//  8. DOCTOR USE_EFFECT     //
+//  9. ADMIN USE_EFFECT      //
+// 10. FEEDBACK PAGE         //
+///////////////////////////////
+
 const Feedback = () => {
   // Genereal variables
   const username = localStorage.getItem("loggedInUsername");
@@ -18,12 +32,12 @@ const Feedback = () => {
   });
   // Doctor page variables
   const [yourFeedback, setYourFeedback] = useState([]);
-  const [deleteConfirm, setDeleteConfirm] = useState("");
   const [appointmentSummarys, setAppointmentSummarys] = useState({});
   const [patients, setPatients] = useState({});
   const [yourAverageRating, setYourAverageRating] = useState(0);
   // Admin page variables
-  // under development
+  const [allFeedbacks, setAllFeedbacks] = useState([]);
+  const [deleteConfirm, setDeleteConfirm] = useState("");
 
   ///////////////////////////////////////////////
   //////////// GENERAL METHODS //////////////////
@@ -142,7 +156,7 @@ const Feedback = () => {
   // Feedback page for an patient
   const patientSection = () => {
     return (
-      <div>
+      <div className="feedbackPage">
         <h1>Feedback</h1>
         <div className="completedAppointments">{completedAppointments()}</div>
         {popupWindow && (
@@ -318,19 +332,7 @@ const Feedback = () => {
     }
   };
 
-  const deleteAnFeedback = async (feedbackId) => {
-    try {
-      const response = await axios.delete(
-        `${import.meta.env.VITE_API_URL}/feedback/delete/${feedbackId}`,
-        {
-          withCredentials: true,
-        }
-      );
-      setYourFeedback(yourFeedback.filter((item) => item.id !== feedbackId));
-    } catch (error) {
-      console.log("Catch error: " + error);
-    }
-  };
+  
 
   const countAverageRating = () => {
     let total = 0;
@@ -345,7 +347,7 @@ const Feedback = () => {
 
   const doctorSection = () => {
     return (
-      <div>
+      <div className="feedbackPage">
         <h1>Your Feedback</h1>
         <h2>(average rating: {yourAverageRating})</h2>
         <div className="yourFeedbacks">{showYourFeedback()}</div>
@@ -371,6 +373,77 @@ const Feedback = () => {
         <p>
           <b>Patient:</b> {patients[`${feedback.patientUsername}`]?.firstName}{" "}
           {patients[`${feedback.patientUsername}`]?.lastName}
+        </p>
+        <p>
+          <b>Comment:</b> {feedback.comment}
+        </p>
+        <p>
+          <b>Rating:</b> {feedback.rating}
+        </p>
+      </div>
+    ));
+  };
+
+  const handleDelete = (e) => {
+    setDeleteConfirm(e.target.value);
+  };
+  const handleDeleteYes = (e) => {
+    deleteAnFeedback(e.target.value);
+    setDeleteConfirm("");
+  };
+  const handleDeleteNo = () => {
+    setDeleteConfirm("");
+  };
+
+  /////////////////////////////////////////////
+  //////////// ADMIN METHODS //////////////////
+  const getAllFeedback = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/feedback/all`,
+        {
+          withCredentials: true,
+        }
+      );
+      setAllFeedbacks(response.data);
+    } catch (error) {
+      console.log("Catch error: " + error);
+    }
+  };
+
+  const deleteAnFeedback = async (feedbackId) => {
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_API_URL}/feedback/delete/${feedbackId}`,
+        {
+          withCredentials: true,
+        }
+      );
+      setYourFeedback(yourFeedback.filter((item) => item.id !== feedbackId));
+      setAllFeedbacks(yourFeedback.filter((item) => item.id !== feedbackId));
+    } catch (error) {
+      console.log("Catch error: " + error);
+    }
+  };
+
+  const showAllFeedbaks = () => {
+    if (allFeedbacks.length === 0) {
+      return (
+        <div id="noCompletedAppointments">
+          <p>There is no feedback.</p>
+        </div>
+      );
+    }
+    return allFeedbacks.map((feedback, index) => (
+      <div key={index} className="allFeedback">
+        <p>
+          <b>Appointment ID:</b> {feedback.appointmentId}
+        </p>
+        <p>
+          <b>Doctor:</b> {feedback.caregiverUsername}
+        </p>
+        <p>
+          <b>Patient:</b> {feedback.patientUsername}
         </p>
         <p>
           <b>Comment:</b> {feedback.comment}
@@ -410,20 +483,14 @@ const Feedback = () => {
     ));
   };
 
-  const handleDelete = (e) => {
-    setDeleteConfirm(e.target.value);
+  const adminSection = () => {
+    return (
+      <div className="feedbackPage">
+        <h1>All feedbacks</h1>
+        <div className="allFeedbacks">{showAllFeedbaks()}</div>
+      </div>
+    );
   };
-  const handleDeleteYes = (e) => {
-    deleteAnFeedback(e.target.value);
-    setDeleteConfirm("");
-  };
-  const handleDeleteNo = () => {
-    setDeleteConfirm("");
-  };
-
-  /////////////////////////////////////////////
-  //////////// ADMIN METHODS //////////////////
-  // under development
 
   ///////////////////////
   ///  GENERAL USE_EFFECT
@@ -437,7 +504,7 @@ const Feedback = () => {
     if (userRole === "USER") {
       getGivenFeedback();
     }
-  }, [userRole, yourFeedback]);
+  }, [userRole, yourFeedback, allFeedbacks]);
 
   useEffect(() => {
     if (userRole === "USER") {
@@ -447,16 +514,16 @@ const Feedback = () => {
 
   // DEBUG:
   //useEffect(() => {
-    //if (userRole === "USER") {
-      //console.log(appointments);
-      //console.log(givenFeedback);
-      //console.log(feedback);
-      //console.log(caregivers);
-      //console.log(caregivers["676ec624d29cdb168b12346f"]?.firstName);
-      //console.log(userRole);
-    //}
+  //if (userRole === "USER") {
+  //console.log(appointments);
+  //console.log(givenFeedback);
+  //console.log(feedback);
+  //console.log(caregivers);
+  //console.log(caregivers["676ec624d29cdb168b12346f"]?.firstName);
+  //console.log(userRole);
+  //}
   //}, [appointments, caregivers, feedback, userRole]);
-  
+
   //////////////////////
   ///  DOCTOR USE_EFFECT
   useEffect(() => {
@@ -464,7 +531,7 @@ const Feedback = () => {
       getYourFeedback();
       countAverageRating();
     }
-  }, [userRole, yourFeedback, appointments]);
+  }, [userRole, yourFeedback, appointments, allFeedbacks]);
 
   useEffect(() => {
     if (userRole === "DOCTOR") {
@@ -474,23 +541,28 @@ const Feedback = () => {
 
   // DEBUG:
   //useEffect(() => {
-    //if (userRole === "DOCTOR") {
-      //console.log(feedback);
-      //console.log(appointmentSummarys);
-      //console.log(patients);
-    //}
+  //if (userRole === "DOCTOR") {
+  //console.log(feedback);
+  //console.log(appointmentSummarys);
+  //console.log(patients);
+  //}
   //}, [feedback, appointmentSummarys]);
 
   /////////////////////
   ///  ADMIN USE_EFFECT
-  // under development
+  useEffect(() => {
+    if (userRole === "ADMIN") {
+      getAllFeedback();
+    }
+  }, [userRole, yourFeedback, appointments]);
 
   ////////////////
   // FEEDBACK PAGE
   return (
-    <div className="feedbackPage">
+    <div>
       {userRole === "USER" && patientSection()}
       {userRole === "DOCTOR" && doctorSection()}
+      {userRole === "ADMIN" && adminSection()}
     </div>
   );
 };
