@@ -5,12 +5,14 @@ import "./UserAppointment.css";
 
 const AppointmentIncomingList = () => {
   const [appointments, setAppointments] = useState([]);
+  const[loading, setLoading]= useState(false);
   const username = localStorage.getItem("loggedInUsername");
   const navigate = useNavigate();
 
   // Fetch appointments
   useEffect(() => {
     const fetchAppointmentsWithUsernames = async () => {
+      setLoading(true)
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/appointment/get/scheduled/caregiver/${username}`,
@@ -41,6 +43,8 @@ const AppointmentIncomingList = () => {
         setAppointments(sortedAppointments); // first 10 appointments
       } catch (err) {
         console.error("Error fetching appointments", err);
+      }finally{
+        setLoading(false)
       }
     };
 
@@ -51,6 +55,7 @@ const AppointmentIncomingList = () => {
 
   // Fetch username
   const fetchUsername = async (userId) => {
+    setLoading(true)
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/user/get/${userId}`,
@@ -60,6 +65,8 @@ const AppointmentIncomingList = () => {
     } catch (err) {
       console.error("Error fetching username:", err);
       return "Unknown";
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -71,28 +78,25 @@ const AppointmentIncomingList = () => {
 
   return (
     <div>
-      <h2>Upcoming Meetings</h2>
-      {appointments.length > 0 ? (
-        <ul>
-          {appointments.map((appointment) => (
-            <li key={appointment.id} onClick={() => handleNav(appointment.id)}>
-              <div className="appointment-content">
-                <div>
-                  <strong>Date and time:</strong>{" "}
-                  {new Date(appointment.dateTime).toLocaleString()}
-                  <br />
-                  <strong>Patient:</strong> {appointment.patientUsername}
-                  <br />
-                  <strong>Doctor:</strong> {appointment.caregiverUsername}
-                </div>
-                <div className="more-info">Info</div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No upcoming meetings found.</p>
-      )}
+     {loading?(<p>Loading...</p>):(
+           <ul>
+           {appointments.map((appointment) => (
+             <li key={appointment.id} onClick={() => handleNav(appointment.id)}>
+               <div className="appointment-content">
+                 <div>
+                   <strong>Date and time:</strong>{" "}
+                   {new Date(appointment.dateTime).toLocaleString()}
+                   <br />
+                   <strong>Patient:</strong> {appointment.patientUsername}
+                   <br />
+                   <strong>Doctor:</strong> {appointment.caregiverUsername}
+                 </div>
+                 <div className="more-info">Info</div>
+               </div>
+             </li>
+           ))}
+         </ul>
+     )}
     </div>
   );
 };
