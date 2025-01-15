@@ -98,17 +98,31 @@ function App() {
               }
             />
 
-            <Route path="/appointment" element={<AppointmentIncomingList />} />
-            <Route path="/Dappointment" element={<AppointmentIncomingListDoctor />} />
+            <Route
+              path="/appointment"
+              element={
+                <RequireAuth allowedRoles={["USER"]}>
+                  <AppointmentIncomingList />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/Dappointment"
+              element={
+                <RequireAuth allowedRoles={["DOCTOR"]}>
+                  <AppointmentIncomingListDoctor />
+                </RequireAuth>
+              }
+            />
 
             <Route
-            path="/schedule"
-            element={
-              <RequireAuth allowedRoles={["DOCTOR"]}>
-                <Schedule></Schedule>
-              </RequireAuth>
-            }
-          />
+              path="/schedule"
+              element={
+                <RequireAuth allowedRoles={["DOCTOR"]}>
+                  <Schedule></Schedule>
+                </RequireAuth>
+              }
+            />
 
             <Route path="/resetPassword" element={<ResetPassword />} />
             <Route path="/forgotPassword" element={<ForgotPassword />} />
