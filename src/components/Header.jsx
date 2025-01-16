@@ -104,7 +104,7 @@ const Header = () => {
       {canGoBack && <ReturnButton onClick={handleReturn}>return</ReturnButton>}
       <UsernameContainer>
         <p className="loggedInP">
-          {role === "USER" ? "Patient" : "Doctor"}: {username}
+          {role === "USER" ? "Patient" : ""}{role === "ADMIN" ? "Admin" : ""}{role === "DOCTOR" ? "Doctor" : ""}: {username}
         </p>
       </UsernameContainer>
     </HeaderContainer>

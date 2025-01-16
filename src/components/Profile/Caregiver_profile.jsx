@@ -20,7 +20,7 @@ const CaregiverProfile = () => {
           }
         );
         setPersonalInformation(response.data);
-        if (response.data.roles.includes("ADMIN")) {
+        if (response.data.roles.includes("DOCTOR")) {
           setRole("Dr: ");
         }
       } catch (error) {
@@ -32,7 +32,7 @@ const CaregiverProfile = () => {
 
   return (
     <div className="profileMain">
-      <h1>Personal Profile</h1>
+      <h1>Doctor Profile</h1>
       <div className="profileMain1">
         <img src="src\assets\ppic.png" alt="profile picture doctor" />
         <p>

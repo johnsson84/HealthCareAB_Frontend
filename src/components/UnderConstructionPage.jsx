@@ -12,7 +12,7 @@ const UnderConstruction = () => {
       <ConstructionContainer>
         <h3>This page is still under construction.</h3>
       </ConstructionContainer>
-      
+       
   );
 };
 export default UnderConstruction;
