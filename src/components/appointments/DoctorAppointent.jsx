@@ -5,18 +5,22 @@ import "./UserAppointment.css";
 
 const AppointmentIncomingList = () => {
   const [appointments, setAppointments] = useState([]);
+  const [loading, setloading] = useState(false);
   const username = localStorage.getItem("loggedInUsername");
   const navigate = useNavigate();
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const appointmentPerPage = 8;
   // Fetch appointments
   useEffect(() => {
     const fetchAppointmentsWithUsernames = async () => {
+      setloading(true);
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/appointment/get/scheduled/caregiver/${username}`,
+          `${
+            import.meta.env.VITE_API_URL
+          }/appointment/get/scheduled/caregiver/${username}`,
           { withCredentials: true }
         );
-
         // use this to get patientUsername and caregiverUsername
         const appointmentsWithUsernames = await Promise.all(
           response.data.map(async (appointment) => {
@@ -32,15 +36,21 @@ const AppointmentIncomingList = () => {
             };
           })
         );
+        // This sorts the list by time
+        const sortedAppointments = appointmentsWithUsernames.sort((a, b) => {
+          const dateA = new Date(a.dateTime);
+          const dateB = new Date(b.dateTime);
+          return dateA - dateB;
+        });
 
-        // Sort by date and take the first 10
-        const sortedAppointments = appointmentsWithUsernames
-          .sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime))
-          .slice(0, 9);
+        setAppointments(sortedAppointments);
 
-        setAppointments(sortedAppointments); // first 10 appointments
+        setAppointments(appointmentsWithUsernames);
+        console.log(response);
       } catch (err) {
         console.error("Error fetching appointments", err);
+      } finally {
+        setloading(false);
       }
     };
 
@@ -51,6 +61,7 @@ const AppointmentIncomingList = () => {
 
   // Fetch username
   const fetchUsername = async (userId) => {
+    setloading(true);
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/user/get/${userId}`,
@@ -58,23 +69,40 @@ const AppointmentIncomingList = () => {
       );
       return response.data.username;
     } catch (err) {
-      console.error("Error fetching username:", err);
-      return "Unknown";
+      return err;
+    } finally {
+      setloading(false);
     }
   };
-
-  // Navigate to appointment info page
+  //Navigate to appointment info page
   const handleNav = (appointmentId) => {
     console.log(appointmentId); // Print appointmentId
     navigate(`/appointment/info/${appointmentId}`);
   };
 
+
+
+
+  // This pagination uses to show only 8 list in one page & with button next
+  const totalPage = Math.ceil(appointments.length / appointmentPerPage);
+
+  const indexOfLastUser = currentPage * appointmentPerPage;
+  const indexOfFirstUser = indexOfLastUser - appointmentPerPage;
+  const getappointment = appointments.slice(indexOfFirstUser, indexOfLastUser);
+
+  const handlePage = (pageNumber) =>{
+    setCurrentPage(pageNumber)
+  }
+    
+
+
   return (
     <div>
-      <h2>Upcoming Meetings</h2>
-      {appointments.length > 0 ? (
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
         <ul>
-          {appointments.map((appointment) => (
+          {getappointment.map((appointment) => (
             <li key={appointment.id} onClick={() => handleNav(appointment.id)}>
               <div className="appointment-content">
                 <div>
@@ -89,9 +117,22 @@ const AppointmentIncomingList = () => {
               </div>
             </li>
           ))}
+          <div>
+            {Array.from({length: totalPage}, (_, index)=> index +1).map((pageNumber)=>(
+              <button
+              key={pageNumber} onClick={()=> handlePage(pageNumber)}
+              style={{
+                margin: '5px',
+                backgroundColor: currentPage === pageNumber ? '#007bff' : '#f0f0f0',
+                color: currentPage === pageNumber ? 'white' : 'black',
+                border: '1px solid #ddd',
+                padding: '5px 10px',
+              }}>
+                {pageNumber}
+              </button>
+            ))}
+          </div>
         </ul>
-      ) : (
-        <p>No upcoming meetings found.</p>
       )}
     </div>
   );

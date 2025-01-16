@@ -45,29 +45,32 @@ const Footer = () => {
 
   const doctorButtons = [
     { name: "Home", path: "/doctor/dashboard" },
-    { name: "Doctor-Something3", path: "/underconstruction" },
+    { name: "Profile", path: "/profile" },
+
+    { name: "Calendar", path: "/calendar" },
     {
-      name: "Doctor-Something4",
-      path: "/underconstruction",
+      name: "Schedule",
+      path: "/schedule",
     },
     {
-      name: "Doctor-Something5",
-      path: "/underconstruction",
+      name: "Appointments",
+      path: "/appointment",
     },
-    { name: "Profile", path: "/caregiverprofile" },
+    {
+      name: "Feedback",
+      path: "/feedback",
+    },
   ];
   const adminButtons = [
     { name: "Home", path: "/admin/dashboard" },
+    { name: "Admin-Profile", path: "/profile" },
+
     { name: "Register Admin", path: "/underconstruction" },
     {
       name: "Register Caregiver",
       path: "/underconstruction",
     },
-    {
-      name: "Delete Feedback",
-      path: "/underconstruction",
-    },
-    { name: "Admin-Profile", path: "/caregiverprofile" },
+    
   ];
 
   const userButtons = [
@@ -78,8 +81,12 @@ const Footer = () => {
       path: "/calendar",
     },
     {
-      name: "My Meetings",
+      name: "Meetings",
       path: "/appointment",
+    },
+    {
+      name: "Feedback",
+      path: "/feedback",
     },
   ];
 

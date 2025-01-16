@@ -16,7 +16,6 @@ import RequireAuth from "./components/RequireAuth";
 import GlobalStyle from "./styles/GlobalStyle";
 import Signup from "./components/Signup/Signup";
 import Profile from "./components/Profile/Profile";
-import CaregiverProfile from "./components/Profile/Caregiver_profile";
 import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 import ResetPassword from "./components/resetPassword/ResetPassword";
 import Header from "./components/Header";
@@ -27,6 +26,7 @@ import Footer from "./components/footer/Footer";
 import Feedback from "./components/feedback/Feedback";
 import Appointment_info from "./components/Appointment-info/A_info";
 import Schedule from "./components/Schedule/Schedule";
+import ChangePfp from "./components/AWS/ChangePfp";
 import MeetingHistory from "./pages/appointmentHistory/AppointmentHistory";
 import AppointmentHistory from "./pages/appointmentHistory/AppointmentHistory";
 
@@ -56,6 +56,10 @@ function App() {
                 </RequireAuth>
               }
             />
+            <Route path="/change-profile-picture" element={
+              <RequireAuth allowedRoles={["USER", "ADMIN"]}>
+              <ChangePfp />
+              </RequireAuth>} />
             <Route
               path="/appointment/history"
               element={
@@ -82,34 +86,29 @@ function App() {
                 </RequireAuth>
               }
             />
-            <Route
-              path="/profile"
-              element={
+            <Route path="/profile" element={<Profile></Profile>} />
+
+             <Route path="/appointment" element={
                 <RequireAuth allowedRoles={["USER"]}>
-                  <Profile></Profile>
+                  <AppointmentIncomingList />
                 </RequireAuth>
-              }
-            />
+              } />
+             
+
+             <Route path="/Dappointment" element={
+                <RequireAuth allowedRoles={["DOCTOR"]}>
+                  <AppointmentIncomingListDoctor />
+                </RequireAuth>
+              }/>
+             
             <Route
-              path="/caregiverprofile"
+              path="/schedule"
               element={
                 <RequireAuth allowedRoles={["DOCTOR"]}>
-                  <CaregiverProfile></CaregiverProfile>
+                  <Schedule></Schedule>
                 </RequireAuth>
               }
             />
-
-            <Route path="/appointment" element={<AppointmentIncomingList />} />
-            <Route path="/Dappointment" element={<AppointmentIncomingListDoctor />} />
-
-            <Route
-            path="/schedule"
-            element={
-              <RequireAuth allowedRoles={["DOCTOR"]}>
-                <Schedule></Schedule>
-              </RequireAuth>
-            }
-          />
 
             <Route path="/resetPassword" element={<ResetPassword />} />
             <Route path="/forgotPassword" element={<ForgotPassword />} />
