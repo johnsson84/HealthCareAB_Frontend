@@ -402,9 +402,6 @@ const Appointment_info = () => {
       ) : (
         <>
           <div className="appointmentButtonContainer">
-            <button className="appointmentButton" onClick={handleEdit}>
-              Edit
-            </button>
             <button className="appointmentButton" onClick={handleCancel}>
               Cancel
             </button>
