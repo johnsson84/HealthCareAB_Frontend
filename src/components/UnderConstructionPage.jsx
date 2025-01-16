@@ -10,7 +10,7 @@ const UnderConstruction = () => {
   return (
     
       <ConstructionContainer>
-        <h3>This page is still under construction.</h3>
+        <h3>This page is still under construction, Planned release Q1 2025.</h3>
       </ConstructionContainer>
        
   );

@@ -16,7 +16,6 @@ import RequireAuth from "./components/RequireAuth";
 import GlobalStyle from "./styles/GlobalStyle";
 import Signup from "./components/Signup/Signup";
 import Profile from "./components/Profile/Profile";
-import CaregiverProfile from "./components/Profile/Caregiver_profile";
 import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 import ResetPassword from "./components/resetPassword/ResetPassword";
 import Header from "./components/Header";
@@ -81,34 +80,22 @@ function App() {
                 </RequireAuth>
               }
             />
-            <Route
-              path="/profile"
-              element={
-                <RequireAuth allowedRoles={["USER"]}>
-                  <Profile></Profile>
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="/caregiverprofile"
-              element={
-                <RequireAuth allowedRoles={["DOCTOR"]}>
-                  <CaregiverProfile></CaregiverProfile>
-                </RequireAuth>
-              }
-            />
+            <Route path="/profile" element={<Profile></Profile>} />
 
             <Route path="/appointment" element={<AppointmentIncomingList />} />
-            <Route path="/Dappointment" element={<AppointmentIncomingListDoctor />} />
+            <Route
+              path="/Dappointment"
+              element={<AppointmentIncomingListDoctor />}
+            />
 
             <Route
-            path="/schedule"
-            element={
-              <RequireAuth allowedRoles={["DOCTOR"]}>
-                <Schedule></Schedule>
-              </RequireAuth>
-            }
-          />
+              path="/schedule"
+              element={
+                <RequireAuth allowedRoles={["DOCTOR"]}>
+                  <Schedule></Schedule>
+                </RequireAuth>
+              }
+            />
 
             <Route path="/resetPassword" element={<ResetPassword />} />
             <Route path="/forgotPassword" element={<ForgotPassword />} />
