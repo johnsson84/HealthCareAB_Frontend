@@ -9,7 +9,7 @@ const AppointmentIncomingList = () => {
   const username = localStorage.getItem("loggedInUsername");
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const appointmentPerPage = 8;
+  const appointmentPerPage = 9;
   // Fetch appointments
   useEffect(() => {
     const fetchAppointmentsWithUsernames = async () => {
@@ -80,19 +80,21 @@ const AppointmentIncomingList = () => {
     navigate(`/appointment/info/${appointmentId}`);
   };
 
+
+
+
   // This pagination uses to show only 8 list in one page & with button next
+  const totalPage = Math.ceil(appointments.length / appointmentPerPage);
+
   const indexOfLastUser = currentPage * appointmentPerPage;
   const indexOfFirstUser = indexOfLastUser - appointmentPerPage;
   const getappointment = appointments.slice(indexOfFirstUser, indexOfLastUser);
 
-  const handleNextPage = () =>
-    setCurrentPage((prevPage) =>
-      prevPage < Math.ceil(appointments.length / appointmentPerPage)
-        ? prevPage + 1
-        : prevPage
-    );
-  const handlePreviousPage = () =>
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  const handlePage = (pageNumber) =>{
+    setCurrentPage(pageNumber)
+  }
+    
+
 
   return (
     <div>
@@ -116,21 +118,19 @@ const AppointmentIncomingList = () => {
             </li>
           ))}
           <div>
-            <button
-              onClick={handlePreviousPage}
-              disabled={appointmentPerPage === 1}
-            >
-              Previous
-            </button>
-            <button
-              onClick={handleNextPage}
-              disabled={
-                currentPage ===
-                Math.ceil(appointments.length / appointmentPerPage)
-              }
-            >
-              Next
-            </button>
+            {Array.from({length: totalPage}, (_, index)=> index +1).map((pageNumber)=>(
+              <button
+              key={pageNumber} onClick={()=> handlePage(pageNumber)}
+              style={{
+                margin: '5px',
+                backgroundColor: currentPage === pageNumber ? '#007bff' : '#f0f0f0',
+                color: currentPage === pageNumber ? 'white' : 'black',
+                border: '1px solid #ddd',
+                padding: '5px 10px',
+              }}>
+                {pageNumber}
+              </button>
+            ))}
           </div>
         </ul>
       )}
