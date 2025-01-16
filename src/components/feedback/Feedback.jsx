@@ -68,7 +68,6 @@ const Feedback = () => {
           withCredentials: true,
         }
       );
-      console.log(response.data);
       setGivenFeedback(response.data);
     } catch (error) {
       console.log("Catch error: " + error);
@@ -506,14 +505,15 @@ const Feedback = () => {
   useEffect(() => {
     if (userRole === "USER") {
       getGivenFeedback();
+      getAppointments();
     }
-  }, [userRole, yourFeedback, allFeedbacks, givenFeedback]);
+  }, [userRole]);
 
   useEffect(() => {
     if (userRole === "USER") {
       getAppointments();
     }
-  }, [givenFeedback, userRole]);
+  }, [givenFeedback]);
 
   //////////////////////
   ///  DOCTOR USE_EFFECT
@@ -522,13 +522,13 @@ const Feedback = () => {
       getYourFeedback();
       countAverageRating();
     }
-  }, [userRole, yourFeedback, appointments, allFeedbacks, givenFeedback]);
+  }, [userRole]); 
 
   useEffect(() => {
     if (userRole === "DOCTOR") {
       countAverageRating();
     }
-  }, [yourFeedback, userRole, yourAverageRating]);
+  }, [yourFeedback]);
 
   /////////////////////
   ///  ADMIN USE_EFFECT
@@ -536,7 +536,7 @@ const Feedback = () => {
     if (userRole === "ADMIN") {
       getAllFeedback();
     }
-  }, [userRole, allFeedbacks, yourFeedback, appointments]);
+  }, [userRole]);
 
   ////////////////
   // FEEDBACK PAGE
