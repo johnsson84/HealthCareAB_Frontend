@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Feedback.css";
+import { ToastContainer, toast } from "react-toastify";
 
 ///////////////////////////////
 //  INDEX                    //
@@ -143,13 +144,15 @@ const Feedback = () => {
         appointments.filter((item) => item.id !== feedback.appointmentId)
       );
       // DEBUG:
-      if (response.status === 210) {
+      if (response.status === 210 || response.status === 200) {
         console.log("Feedback added!");
+        toast.success("Feedback added!")
       } else {
         console.log("Unexpected status: " + response.status);
       }
     } catch (error) {
       console.log("Catch error: " + error);
+      toast.error("Something wnt wrong, try later...")
     }
   };
 
@@ -332,8 +335,6 @@ const Feedback = () => {
     }
   };
 
-  
-
   const countAverageRating = () => {
     let total = 0;
     for (const x of yourFeedback) {
@@ -341,7 +342,7 @@ const Feedback = () => {
         total += x.rating;
       }
     }
-    const avg = total / yourFeedback.length + 1;
+    const avg = total / yourFeedback.length;
     setYourAverageRating((Math.round(avg * 100) / 100).toFixed(2));
   };
 
@@ -421,8 +422,10 @@ const Feedback = () => {
       );
       setYourFeedback(yourFeedback.filter((item) => item.id !== feedbackId));
       setAllFeedbacks(yourFeedback.filter((item) => item.id !== feedbackId));
+      toast.success("Feedback deleted!")
     } catch (error) {
       console.log("Catch error: " + error);
+      toast.error("Something went wrong, try later...")
     }
   };
 
@@ -504,25 +507,13 @@ const Feedback = () => {
     if (userRole === "USER") {
       getGivenFeedback();
     }
-  }, [userRole, yourFeedback, allFeedbacks]);
+  }, [userRole, yourFeedback, allFeedbacks, givenFeedback]);
 
   useEffect(() => {
     if (userRole === "USER") {
       getAppointments();
     }
   }, [givenFeedback, userRole]);
-
-  // DEBUG:
-  //useEffect(() => {
-  //if (userRole === "USER") {
-  //console.log(appointments);
-  //console.log(givenFeedback);
-  //console.log(feedback);
-  //console.log(caregivers);
-  //console.log(caregivers["676ec624d29cdb168b12346f"]?.firstName);
-  //console.log(userRole);
-  //}
-  //}, [appointments, caregivers, feedback, userRole]);
 
   //////////////////////
   ///  DOCTOR USE_EFFECT
@@ -531,7 +522,7 @@ const Feedback = () => {
       getYourFeedback();
       countAverageRating();
     }
-  }, [userRole, yourFeedback, appointments, allFeedbacks]);
+  }, [userRole, yourFeedback, appointments, allFeedbacks, givenFeedback]);
 
   useEffect(() => {
     if (userRole === "DOCTOR") {
@@ -539,27 +530,19 @@ const Feedback = () => {
     }
   }, [yourFeedback, userRole, yourAverageRating]);
 
-  // DEBUG:
-  //useEffect(() => {
-  //if (userRole === "DOCTOR") {
-  //console.log(feedback);
-  //console.log(appointmentSummarys);
-  //console.log(patients);
-  //}
-  //}, [feedback, appointmentSummarys]);
-
   /////////////////////
   ///  ADMIN USE_EFFECT
   useEffect(() => {
     if (userRole === "ADMIN") {
       getAllFeedback();
     }
-  }, [userRole, yourFeedback, appointments]);
+  }, [userRole, allFeedbacks, yourFeedback, appointments]);
 
   ////////////////
   // FEEDBACK PAGE
   return (
     <div>
+      <ToastContainer className="ToastContainer" />
       {userRole === "USER" && patientSection()}
       {userRole === "DOCTOR" && doctorSection()}
       {userRole === "ADMIN" && adminSection()}

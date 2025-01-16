@@ -4,6 +4,13 @@
   align-items: center;
 }
 
+.Toastify__progress-bar {
+  background-color: #057d7a;
+}
+.Toastify__toast {
+  color: black;
+}
+
 h2 {
   margin: 0 0 10px 0;
 }
@@ -20,7 +27,9 @@ p {
   justify-content: center;
 }
 
-.completedAppointments, .yourFeedbacks, .allFeedbacks {
+.completedAppointments,
+.yourFeedbacks,
+.allFeedbacks {
   box-shadow: 0px -1px 5px 2px rgba(179, 179, 179, 0.75);
   -webkit-box-shadow: 0px -1px 5px 2px rgba(179, 179, 179, 0.75);
   -moz-box-shadow: 0px -1px 5px 2px rgba(179, 179, 179, 0.75);
@@ -31,7 +40,9 @@ p {
   background-color: #057d7a;
 }
 
-.completedAppointment, .yourFeedback, .allFeedback {
+.completedAppointment,
+.yourFeedback,
+.allFeedback {
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -115,7 +126,7 @@ hr {
 
 .confirmBox {
   display: flex;
-  background-color:antiquewhite;
+  background-color: antiquewhite;
   padding: 10px;
   border: 0.5px solid black;
   border-radius: 5px;
