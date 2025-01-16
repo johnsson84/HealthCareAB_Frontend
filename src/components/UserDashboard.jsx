@@ -106,16 +106,7 @@ function UserDashboard() {
       <Logout />
     </UserContainer>
 
-    /*  
-   Så här hade det sett ut utan styled components
-   då hade vi kanske lagt homeContainer som en css klass med samma styles 
-   som ovan osv.
-   <div>
-     <img src={Logo} />
-     <h2>User Dashboard</h2>    
-     <p>Welcome, {user}</p>
-     <button>Logout</button>
-   </div> */
+   
   );
 }
 

@@ -16,7 +16,6 @@ import RequireAuth from "./components/RequireAuth";
 import GlobalStyle from "./styles/GlobalStyle";
 import Signup from "./components/Signup/Signup";
 import Profile from "./components/Profile/Profile";
-import CaregiverProfile from "./components/Profile/Caregiver_profile";
 import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 import ResetPassword from "./components/resetPassword/ResetPassword";
 import Header from "./components/Header";
@@ -86,34 +85,29 @@ function App() {
                 </RequireAuth>
               }
             />
-            <Route
-              path="/profile"
-              element={
+            <Route path="/profile" element={<Profile></Profile>} />
+
+             <Route path="/appointment" element={
                 <RequireAuth allowedRoles={["USER"]}>
-                  <Profile></Profile>
+                  <AppointmentIncomingList />
                 </RequireAuth>
-              }
-            />
+              } />
+             
+
+             <Route path="/Dappointment" element={
+                <RequireAuth allowedRoles={["DOCTOR"]}>
+                  <AppointmentIncomingListDoctor />
+                </RequireAuth>
+              }/>
+             
             <Route
-              path="/caregiverprofile"
+              path="/schedule"
               element={
                 <RequireAuth allowedRoles={["DOCTOR"]}>
-                  <CaregiverProfile></CaregiverProfile>
+                  <Schedule></Schedule>
                 </RequireAuth>
               }
             />
-
-            <Route path="/appointment" element={<AppointmentIncomingList />} />
-            <Route path="/Dappointment" element={<AppointmentIncomingListDoctor />} />
-
-            <Route
-            path="/schedule"
-            element={
-              <RequireAuth allowedRoles={["DOCTOR"]}>
-                <Schedule></Schedule>
-              </RequireAuth>
-            }
-          />
 
             <Route path="/resetPassword" element={<ResetPassword />} />
             <Route path="/forgotPassword" element={<ForgotPassword />} />

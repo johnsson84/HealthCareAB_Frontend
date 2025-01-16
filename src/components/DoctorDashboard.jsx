@@ -75,13 +75,18 @@ function DoctorDashboard() {
       <div className="dbButtonContainer">
       <ButtonLink
           picture="/src/assets/Calendar 02.svg"
-          linkName="Schedule"
+          linkName="Calendar"
           link="/calendar"
         ></ButtonLink>
         <ButtonLink
           picture="/src/assets/Calendar 02.svg"
-          linkName="Schedule"
+          linkName="Edit Schedule"
           link="/schedule"
+        ></ButtonLink>
+        <ButtonLink
+          picture="/src/assets/Calendar 02.svg"
+          linkName="Incomming Appointments"
+          link="/dappointment"
         ></ButtonLink>
         <ButtonLink
           picture="/src/assets/Inbox 02.svg"
