@@ -197,7 +197,7 @@ const Appointment_info = () => {
         `${import.meta.env.VITE_API_URL}/mail/request`,
         {
           toEmail: meetingInfo.userEmail,
-          appointmentSummary: meetingInfo.summary,
+          appointmentReason: meetingInfo.reason,
           date: date,
           time: time,
           firstName: meetingInfo.patientFirstName,
@@ -229,7 +229,7 @@ const Appointment_info = () => {
           <strong>With:</strong> Dr. Pedro
         </p>
         <p>
-          <strong>Discussion about:</strong> <br /> {meetingInfo.summary}
+          <strong>Discussion about:</strong> <br /> {meetingInfo.reason}
         </p>
         <p className="appointmentTime">
           <strong>Time: </strong>
