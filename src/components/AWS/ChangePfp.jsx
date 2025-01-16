@@ -75,6 +75,7 @@ const updateUserProfile = async (fileName) => {
     <StyledMain>
       <h1>Change profile picture</h1>
       <StyledInput type="file" accept=".jpg, .jpeg, .png, .webp, .gif" onChange={handleFileChange} />
+      <img src={file && URL.createObjectURL(file)} alt="Preview" />
       <StyledButton 
   onClick={handleUpload} 
   disabled={!file}
