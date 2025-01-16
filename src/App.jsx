@@ -25,6 +25,7 @@ import AppointmentIncomingListDoctor from "./components/appointments/DoctorAppoi
 import Footer from "./components/footer/Footer";
 import Appointment_info from "./components/Appointment-info/A_info";
 import Schedule from "./components/Schedule/Schedule";
+import ChangePfp from "./components/AWS/ChangePfp";
 import MeetingHistory from "./pages/appointmentHistory/AppointmentHistory";
 import AppointmentHistory from "./pages/appointmentHistory/AppointmentHistory";
 
@@ -54,6 +55,10 @@ function App() {
                 </RequireAuth>
               }
             />
+            <Route path="/change-profile-picture" element={
+              <RequireAuth allowedRoles={["USER", "ADMIN"]}>
+              <ChangePfp />
+              </RequireAuth>} />
             <Route
               path="/appointment/history"
               element={

@@ -1,6 +1,7 @@
 import "./ButtonLink.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
 const ButtonLink = ({ picture, linkName, link }) => {
   const navigate = useNavigate();
@@ -18,4 +19,13 @@ const ButtonLink = ({ picture, linkName, link }) => {
   );
 };
 
+
 export default ButtonLink;
+
+
+const ImageHolder = styled.img`
+  max-width: 24px;
+  max-height: 24px;
+  border-radius: 50%;
+  margin: 20px 0;
+`;
