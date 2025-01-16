@@ -79,7 +79,7 @@ const updateUserProfile = async (fileName) => {
   onClick={handleUpload} 
   disabled={!file}
 >
-  Upload to S3
+  Upload new profile picture
 
 </StyledButton>
       {uploadMessage && <p>{uploadMessage}</p>}

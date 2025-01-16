@@ -98,9 +98,9 @@ function UserDashboard() {
           link="/underconstruction"
         ></ButtonLink>
         <ButtonLink
-          picture="/vite.svg"
+          picture="/src/assets/pfp.svg"
           linkName="Change Profile picture"
-          link="/bucket"
+          link="/change-profile-picture"
         ></ButtonLink>
       </div>
       <Logout />

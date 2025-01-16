@@ -32,7 +32,8 @@ const IMGHolder = styled.img`
   justify-content: center;
   flex-direction: column;
   margin: 1rem 0 1rem 0;
-  max-width: 200px;
+  max-width: 300px;
+  max-height: 300px;
 `;
 
 function AdminDashboard() {
@@ -55,7 +56,6 @@ function AdminDashboard() {
         setProfilePictureURL("Error loading profile picture");
       }
     };
-  
     if (user) getUserPictureURL(); 
   }, [user]); 
 
@@ -98,9 +98,9 @@ function AdminDashboard() {
           link="/underconstruction"
         ></ButtonLink>
         <ButtonLink
-          picture="/vite.svg"
+        picture="/src/assets/pfp.svg"
           linkName="Change Profile picture"
-          link="/bucket"
+          link="/change-profile-picture"
         ></ButtonLink>
       </div>
       <Logout />
