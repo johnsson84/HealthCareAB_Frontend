@@ -9,7 +9,7 @@ const AppointmentIncomingList = () => {
   const username = localStorage.getItem("loggedInUsername");
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const appointmentPerPage = 9;
+  const appointmentPerPage = 8;
   // Fetch appointments
   useEffect(() => {
     const fetchAppointmentsWithUsernames = async () => {
