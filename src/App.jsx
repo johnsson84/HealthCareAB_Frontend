@@ -16,7 +16,6 @@ import RequireAuth from "./components/RequireAuth";
 import GlobalStyle from "./styles/GlobalStyle";
 import Signup from "./components/Signup/Signup";
 import Profile from "./components/Profile/Profile";
-import CaregiverProfile from "./components/Profile/Caregiver_profile";
 import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 import ResetPassword from "./components/resetPassword/ResetPassword";
 import Header from "./components/Header";
@@ -81,22 +80,7 @@ function App() {
                 </RequireAuth>
               }
             />
-            <Route
-              path="/profile"
-              element={
-                <RequireAuth allowedRoles={["USER"]}>
-                  <Profile></Profile>
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="/caregiverprofile"
-              element={
-                <RequireAuth allowedRoles={["DOCTOR"]}>
-                  <CaregiverProfile></CaregiverProfile>
-                </RequireAuth>
-              }
-            />
+            <Route path="/profile" element={<Profile></Profile>} />
 
              <Route path="/appointment" element={
                 <RequireAuth allowedRoles={["USER"]}>
@@ -106,7 +90,7 @@ function App() {
              
 
              <Route path="/Dappointment" element={
-                <RequireAuth allowedRoles={["DOCTOR", "ADMIN"]}>
+                <RequireAuth allowedRoles={["DOCTOR"]}>
                   <AppointmentIncomingListDoctor />
                 </RequireAuth>
               }/>

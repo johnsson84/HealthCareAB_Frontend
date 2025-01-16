@@ -45,17 +45,18 @@ function AdminDashboard() {
         
         <ButtonLink
           picture="/src/assets/User Profile Add 01.svg"
-          linkName="register Admin"
+          linkName="Register Admin"
           link="/underconstruction"
         ></ButtonLink>
         <ButtonLink
           picture="/src/assets/User Profile Add 01.svg"
-          linkName="register Doctor"
+          linkName="Register Caregiver"
           link="/underconstruction"
         ></ButtonLink>
+        
         <ButtonLink
           picture="/src/assets/Annotation Information.svg"
-          linkName="Your Feedback"
+          linkName="Delete Feedback"
           link="/underconstruction"
         ></ButtonLink>
       </div>
