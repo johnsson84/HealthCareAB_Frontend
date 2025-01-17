@@ -43,7 +43,7 @@ const AppointmentHistory = () => {
     if (option !== "1" && option !== "2") {
       if (role === "USER") {
         setOption("1");
-      } else if (role === "ADMIN") {
+      } else if (role === "DOCTOR") {
         setOption("2");
       }
     }
