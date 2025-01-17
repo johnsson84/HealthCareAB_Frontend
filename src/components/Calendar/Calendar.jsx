@@ -200,7 +200,7 @@ const CalendarPage = () => {
               onSubmit={(values) => {
                 const selectedSlot = JSON.parse(values.selectedSlot);
                 handleChoice(
-                  summary,
+                  reason,
                   selectedSlot.entryId,
                   selectedSlot.caregiverId,
                   selectedSlot.slot
@@ -310,8 +310,8 @@ const CalendarPage = () => {
 
                   <h3> Reason for visit: </h3>
                   <Field
-                    name="summary"
-                    placeholder="Summary"
+                    name="reason"
+                    placeholder="Reason"
                     onChange={(e) => {
                       handleChange(e);
                       setReason(e.target.value);
