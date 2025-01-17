@@ -8,7 +8,8 @@ const AppointmentHistory = () => {
   const [loading, setLoading] = useState(false);
   const [option, setOption] = useState();
   const username = localStorage.getItem("loggedInUsername");
-
+  const [popupWindow, setPopupWindow] = useState(false);
+  const [documentation, setDocumentation] = useState("");
   const itemsPerPage = 10;
 
   const [role, setRole] = useState(null);
@@ -124,6 +125,22 @@ const AppointmentHistory = () => {
     setCurrentPage(page);
   };
 
+  const handleCancelDoc = () => {
+    setDocumentation("");
+    setPopupWindow(false);
+  }
+  const handleSubmitDoc = () => {
+    setDocumentation((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
+  const handleInputChangeDoc = () => {
+    setPopupWindow(false);
+  }
+  const handleClick = (e) => {
+    setDocumentation("");
+    handleInputChangeDoc(e);
+    setPopupWindow(true);
+  };
+
   return (
     <div className="mainContainerAppsHistory">
       <h1>Appointment History</h1>
@@ -158,10 +175,10 @@ const AppointmentHistory = () => {
                         <strong>Documentation:</strong>
                         <p>{appointment.documentation}</p>
                       </div> : 
-                        {role} === 2 &&
-                        <button className='documentButton'>
+                        (role === 'DOCTOR' &&
+                        <button className='documentButton' onClick={handleClick}>
                           Add documentation
-                        </button>
+                        </button>)
                   }
                 </div>
               </li>
@@ -181,6 +198,33 @@ const AppointmentHistory = () => {
           </div>
         </>
       )}
+    {popupWindow && (
+      <div className="popupDocumentation">
+        <div className="popupContainer">
+          <h2>
+            Add your notes about
+            <br /> selected appointment
+          </h2>
+          <textarea
+            className="documentationTextBox"
+            placeholder="Add documentation..."
+            name="documentation"
+            value={documentation}
+            onChange={handleInputChangeDoc}
+            maxLength="500"
+          ></textarea>
+          <p id="pNoMargin">{documentation.length}/500</p>
+          <div className="popupButtons">
+            <button className="documentButton" onClick={handleSubmitDoc}>
+              Submit
+            </button>
+            <button className="documentButton" onClick={handleCancelDoc}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
     </div>
   );
 };
