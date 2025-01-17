@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Profile.css";
 import { useAuth } from "../../hooks/useAuth";
+import styled from "styled-components";
 
 const Profile = () => {
   const [personalInformation, setPersonalInformation] = useState(null);
@@ -10,6 +11,52 @@ const Profile = () => {
   const {
     authState: { user },
   } = useAuth();
+
+  // Profile picture
+  const [profilePictureURL, setProfilePictureURL] = useState("");
+
+  const IMGHolder = styled.img`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 1rem 0 1rem 0;
+  max-width: 200px;
+  border-radius: 15px;
+`;
+
+
+  useEffect(() => {
+    const getUserPictureURL = async () => {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/user/find/userURL/${user}`, {
+          withCredentials: true,
+        });
+        setProfilePictureURL(import.meta.env.VITE_BUCKET_URL + response.data);
+      } catch (error) {
+        setProfilePictureURL("Error loading profile picture");
+      }
+    };
+  
+    if (user) getUserPictureURL(); 
+  }, [user]); 
+
+  const checkProfilePicture = () => {
+    if (profilePictureURL === "") {
+      return "Loading profile picture...";
+    } else if (profilePictureURL === "Error loading profile picture") {
+      return "Error loading profile picture";
+    } else {
+      return profilePictureURL;
+    }
+  };
+
+  ///
+
+  const FooterSpace = styled.div`
+  height: 4rem;
+  width: 100%;
+`;
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -55,8 +102,9 @@ const Profile = () => {
   const DoctorProfile = () => (
     <div className="profileMain">
       <h1>Doctor Profile</h1>
+
       <div className="profileMain1">
-        <img src="src/assets/ppic.png" alt="profile picture doctor" />
+      <IMGHolder src = {checkProfilePicture()} alt="Profile Picture"/>
         <p>
           {role} {user}
         </p>
@@ -78,8 +126,9 @@ const Profile = () => {
   const UserProfile = () => (
     <div className="profileMain">
       <h1>Personal Profile</h1>
+
       <div className="profileMain1">
-        <img src="src/assets/ppic.png" alt="profile picture user" />
+      <IMGHolder src = {checkProfilePicture()} alt="Profile Picture"/>
 
         <h3>PATIENT</h3>
       </div>
@@ -95,8 +144,9 @@ const Profile = () => {
   const AdminProfile = () => (
     <div className="profileMain">
       <h1>Admin Profile</h1>
+
       <div className="profileMain1">
-        <img src="src/assets/ppic.png" alt="profile picture admin" />
+      <IMGHolder src = {checkProfilePicture()} alt="Profile Picture"/>
         <p>
           {role}
         </p>
@@ -119,10 +169,13 @@ const Profile = () => {
 
   const SelectedProfile = profiles[role] ?? UserProfile;
 
+
+
   return (
     <div className="profileMain">
       {role && personalInformation ? <SelectedProfile /> : <p>Loading data... Consider load home and return.</p>}
-      <div className="footerSpace"></div>
+      <FooterSpace/>
+
     </div>
   );
 };
