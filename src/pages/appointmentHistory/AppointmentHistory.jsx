@@ -151,6 +151,19 @@ const AppointmentHistory = () => {
                   <strong>Date and Time:</strong>
                   {appointment.formattedDate} {"-"} {appointment.formattedTime}
                 </p>
+                <div className='documentContainer'>
+                  {
+                    appointment.documentation !== null && appointment.documentation.length > 0 ? 
+                      <div>
+                        <strong>Documentation:</strong>
+                        <p>{appointment.documentation}</p>
+                      </div> : 
+                        {role} === 2 &&
+                        <button className='documentButton'>
+                          Add documentation
+                        </button>
+                  }
+                </div>
               </li>
             ))}
           </ul>

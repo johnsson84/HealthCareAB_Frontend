@@ -65,3 +65,20 @@
   text-align: center;
   height: auto;
 }
+
+.documentContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.documentButton {
+  border: none;
+  background-color: white;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.documentButton:hover {
+  background-color: #057d7a;
+  color: white;
+}
