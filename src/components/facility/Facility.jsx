@@ -5,7 +5,8 @@ const Facility = () => {
 const [ searchWord, setSearchWord ] = useState("");
 const [ facilities, setFacilities ] = useState([]);
 
-
+    // hämtar alla sjukhus i databasen
+    const fetch
 
 
 
