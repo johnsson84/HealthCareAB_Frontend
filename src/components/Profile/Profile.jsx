@@ -104,7 +104,7 @@ const Profile = () => {
       <h1>Doctor Profile</h1>
 
       <div className="profileMain1">
-      <IMGHolder src = {checkProfilePicture()} alt="Profile Picture"/>
+      <IMGHolder src = {checkProfilePicture()} alt="Update Profile Picture To See It Here"/>
         <p>
           {role} {user}
         </p>
@@ -128,7 +128,7 @@ const Profile = () => {
       <h1>Personal Profile</h1>
 
       <div className="profileMain1">
-      <IMGHolder src = {checkProfilePicture()} alt="Profile Picture"/>
+      <IMGHolder src = {checkProfilePicture()} alt="Update Profile Picture To See It Here"/>
 
         <h3>PATIENT</h3>
       </div>
@@ -146,7 +146,7 @@ const Profile = () => {
       <h1>Admin Profile</h1>
 
       <div className="profileMain1">
-      <IMGHolder src = {checkProfilePicture()} alt="Profile Picture"/>
+      <IMGHolder src = {checkProfilePicture()} alt="Update Profile Picture To See It Here"/>
         <p>
           {role}
         </p>
