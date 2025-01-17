@@ -96,7 +96,7 @@ function DoctorDashboard() {
         <ButtonLink
           picture="/src/assets/Annotation Information.svg"
           linkName="Your Feedback"
-          link="/underconstruction"
+          link="/feedback"
         ></ButtonLink>
         <ButtonLink
           picture="/src/assets/pfp.svg"

@@ -56,6 +56,10 @@ const Footer = () => {
       name: "Appointments",
       path: "/appointment",
     },
+    {
+      name: "Feedback",
+      path: "/feedback",
+    },
   ];
   const adminButtons = [
     { name: "Home", path: "/admin/dashboard" },
@@ -82,7 +86,7 @@ const Footer = () => {
     },
     {
       name: "Feedback",
-      path: "/underconstruction",
+      path: "/feedback",
     },
   ];
 

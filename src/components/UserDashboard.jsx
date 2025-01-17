@@ -95,7 +95,7 @@ function UserDashboard() {
         <ButtonLink
           picture="/src/assets/Annotation Information.svg"
           linkName="Give Feedback"
-          link="/underconstruction"
+          link="/feedback"
         ></ButtonLink>
         <ButtonLink
           picture="/src/assets/pfp.svg"

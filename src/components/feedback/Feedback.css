@@ -1,0 +1,135 @@
+.feedbackPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 150px;
+}
+
+.Toastify__progress-bar {
+  background-color: #057d7a;
+}
+.Toastify__toast {
+  color: black;
+}
+
+h2 {
+  margin: 0 0 10px 0;
+}
+
+p {
+  margin: 4px 0 4px 0;
+}
+
+#noCompletedAppointments {
+  background-color: white;
+  padding: 5px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+}
+
+.completedAppointments,
+.yourFeedbacks,
+.allFeedbacks {
+  box-shadow: 0px -1px 5px 2px rgba(179, 179, 179, 0.75);
+  -webkit-box-shadow: 0px -1px 5px 2px rgba(179, 179, 179, 0.75);
+  -moz-box-shadow: 0px -1px 5px 2px rgba(179, 179, 179, 0.75);
+  border-radius: 5px;
+  padding: 10px;
+  min-width: 350px;
+  max-width: 1000px;
+  background-color: #057d7a;
+  margin-bottom: 100px;
+}
+
+.completedAppointment,
+.yourFeedback,
+.allFeedback {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 5px;
+  margin: 5px;
+  background-color: white;
+  border-radius: 5px;
+  color: black;
+}
+
+hr {
+  border: none;
+  height: 0.5px;
+  background-color: black;
+}
+
+.feedbackButton {
+  border: none;
+  background-color: white;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.feedbackButton:hover {
+  background-color: #057d7a;
+  color: white;
+}
+
+.popupFeedback {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 10;
+}
+
+.popupContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.feedbackTextBox {
+  min-width: 250px;
+  min-height: 100px;
+}
+
+.popupRating {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  padding-top: 10px;
+}
+
+#pNoMargin {
+  margin: 0;
+}
+
+.popupButtons {
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.confirm-btn {
+  margin: 0 5px 0 5px;
+}
+
+.confirm-btn-yes:hover {
+  background-color: firebrick;
+}
+
+.confirmBox {
+  display: flex;
+  background-color: antiquewhite;
+  padding: 10px;
+  border: 0.5px solid black;
+  border-radius: 5px;
+}
