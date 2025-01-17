@@ -16,6 +16,7 @@ const CalendarPage = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [chosenTimeslot, setChosenTimeslot] = useState(null);
   const [reason, setReason] = useState(null);
+  const [chosenCaregiver, setChosenCaregiver] = useState(null);
   const navigate = useNavigate();
 
   const {
@@ -143,6 +144,7 @@ const CalendarPage = () => {
         const caregiver = caregivers.find(
           (c) => c.caregiverId === entry.caregiverId
         );
+        console.log(caregiver.specialities);
 
         if (!caregiver) {
           console.log(`No caregiver found for ID: ${entry.caregiverId}`);
@@ -177,9 +179,10 @@ const CalendarPage = () => {
         <Calendar onChange={handleDateChange} />
         {selectedDate && (
           <div>
-            <h2>Available appointments on {selectedDate.toDateString()}:</h2>
+            <h2>Available Doctors on {selectedDate.toDateString()}:</h2>
+
             <h3>
-              Chosen appointment:{" "}
+              Chosen Appointment:{" "}
               {chosenTimeslot
                 ? `${new Date(
                     chosenTimeslot.slot
@@ -190,6 +193,7 @@ const CalendarPage = () => {
             </h3>
             <Formik
               initialValues={{
+                selectedDoctor: "",
                 selectedSlot: "",
                 reason: "",
               }}
@@ -198,7 +202,7 @@ const CalendarPage = () => {
                 handleChoice(
                   reason,
                   selectedSlot.entryId,
-                  selectedSlot.caregiver,
+                  selectedSlot.caregiverId,
                   selectedSlot.slot
                 );
               }}
@@ -207,55 +211,104 @@ const CalendarPage = () => {
                 <Form>
                   {filteredData.length > 0 ? (
                     <div>
+                      {/* Doctor Selection Field */}
                       <Field
                         as="select"
-                        name="selectedSlot"
+                        name="selectedDoctor"
                         onChange={(e) => {
                           const value = e.target.value;
                           handleChange(e);
                           if (value) {
                             const parsedValue = JSON.parse(value);
-                            setChosenTimeslot(parsedValue);
-                            setNewAppointment((prev) => ({
-                              ...prev,
-                              availabilityId: parsedValue.entryId,
-                              caregiverId: parsedValue.caregiverId,
-                              availabilityDate: parsedValue.slot,
-                            }));
+                            setChosenCaregiver(parsedValue);
+                            setChosenTimeslot(null); // Reset timeslot selection
                           }
                         }}
                       >
                         <option value="" disabled>
-                          Select time
+                          Select a doctor
                         </option>
                         {filteredData.map((entry) => (
-                          <optgroup
+                          <option
                             key={entry.caregiver.caregiverId}
-                            label={`Caregiver: ${entry.caregiver.firstname} ${entry.caregiver.lastname}`}
+                            value={JSON.stringify({
+                              caregiverId: entry.caregiver.caregiverId,
+                              lastname: entry.caregiver.lastname,
+                              specialities: entry.caregiver.specialities,
+                              slots: entry.slots,
+                            })}
                           >
-                            {entry.slots.map((slot) => (
-                              <option
-                                key={`${entry.id}-${slot}`}
-                                value={JSON.stringify({
-                                  entryId: entry.id,
-                                  caregiverId: entry.caregiver.caregiverId,
-                                  slot,
-                                })}
-                              >
-                                {`${new Date(
-                                  slot
-                                ).toLocaleDateString()} ${new Date(
-                                  slot
-                                ).toLocaleTimeString()}`}
-                              </option>
-                            ))}
-                          </optgroup>
+                            {`${entry.caregiver.firstname} ${entry.caregiver.lastname}`}
+                          </option>
                         ))}
                       </Field>
+
+                      {/* Display Selected Doctor's Details */}
+                      {chosenCaregiver && (
+                        <div>
+                          <h3>Dr. {chosenCaregiver.lastname}</h3>
+                          <h3>
+                            Specialities:{" "}
+                            {chosenCaregiver.specialities
+                              ? chosenCaregiver.specialities
+                              : "No specialities"}
+                          </h3>
+                        </div>
+                      )}
+
+                      {/* Slot Selection Field */}
+                      {chosenCaregiver && chosenCaregiver.slots.length > 0 ? (
+                        <Field
+                          as="select"
+                          name="selectedSlot"
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            handleChange(e);
+                            if (value) {
+                              const parsedValue = JSON.parse(value);
+                              setChosenTimeslot(parsedValue);
+                              setNewAppointment((prev) => ({
+                                ...prev,
+                                availabilityId: parsedValue.entryId,
+                                caregiverId: parsedValue.caregiverId,
+                                availabilityDate: parsedValue.slot,
+                              }));
+                            }
+                          }}
+                        >
+                          <option value="" disabled>
+                            Select a time slot
+                          </option>
+                          {chosenCaregiver.slots.map((slot) => (
+                            <option
+                              key={`${chosenCaregiver.caregiverId}-${slot}`}
+                              value={JSON.stringify({
+                                entryId: filteredData.find(
+                                  (entry) =>
+                                    entry.caregiver.caregiverId ===
+                                    chosenCaregiver.caregiverId
+                                ).id,
+                                caregiverId: chosenCaregiver.caregiverId,
+                                slot,
+                              })}
+                            >
+                              {`${new Date(
+                                slot
+                              ).toLocaleDateString()} ${new Date(
+                                slot
+                              ).toLocaleTimeString()}`}
+                            </option>
+                          ))}
+                        </Field>
+                      ) : (
+                        <p>No available slots for this doctor.</p>
+                      )}
                     </div>
                   ) : (
                     <p>No caregivers available for this date.</p>
                   )}
+
+                  <h3> Reason for visit: </h3>
                   <Field
                     name="reason"
                     placeholder="Reason"
@@ -268,6 +321,8 @@ const CalendarPage = () => {
                       }));
                     }}
                   />
+
+                  {/* Submit Button */}
                   <StyledButton
                     type="submit"
                     title={
@@ -297,7 +352,7 @@ const StyledMain = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 50px;
+  margin-bottom: 10rem;
   border: 2px solid #ccc;
   border-radius: 2%;
   min-height: 100%;
