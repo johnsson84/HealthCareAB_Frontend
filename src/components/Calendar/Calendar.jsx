@@ -15,7 +15,7 @@ const CalendarPage = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [chosenTimeslot, setChosenTimeslot] = useState(null);
-  const [summary, setSummary] = useState(null);
+  const [reason, setReason] = useState(null);
   const navigate = useNavigate();
 
   const {
@@ -24,21 +24,21 @@ const CalendarPage = () => {
 
   const [newAppointment, setNewAppointment] = useState({
     username: user,
-    summary: null,
+    reason: null,
     availabilityId: null,
     caregiverId: null,
     availabilityDate: null,
   });
 
   const handleChoice = (
-    summary,
+    reason,
     availabilityId,
     caregiverId,
     availabilityDate
   ) => {
-    if (!summary || !availabilityId || !caregiverId || !availabilityDate) {
+    if (!reason || !availabilityId || !caregiverId || !availabilityDate) {
       console.warn("Missing required fields:", {
-        summary,
+        reason,
         availabilityId,
         caregiverId,
         availabilityDate,
@@ -47,7 +47,7 @@ const CalendarPage = () => {
     }
 
     setNewAppointment({
-      summary,
+      reason,
       availabilityId,
       caregiverId,
       availabilityDate,
@@ -191,12 +191,12 @@ const CalendarPage = () => {
             <Formik
               initialValues={{
                 selectedSlot: "",
-                summary: "",
+                reason: "",
               }}
               onSubmit={(values) => {
                 const selectedSlot = JSON.parse(values.selectedSlot);
                 handleChoice(
-                  summary,
+                  reason,
                   selectedSlot.entryId,
                   selectedSlot.caregiver,
                   selectedSlot.slot
@@ -257,25 +257,25 @@ const CalendarPage = () => {
                     <p>No caregivers available for this date.</p>
                   )}
                   <Field
-                    name="summary"
-                    placeholder="Summary"
+                    name="reason"
+                    placeholder="Reason"
                     onChange={(e) => {
                       handleChange(e);
-                      setSummary(e.target.value);
+                      setReason(e.target.value);
                       setNewAppointment((prev) => ({
                         ...prev,
-                        summary: e.target.value,
+                        reason: e.target.value,
                       }));
                     }}
                   />
                   <StyledButton
                     type="submit"
                     title={
-                      !values.selectedSlot || !values.summary
-                        ? "Choose time and type a summary"
+                      !values.selectedSlot || !values.reason
+                        ? "Choose time and type a reason"
                         : undefined
                     }
-                    disabled={!values.selectedSlot || !values.summary}
+                    disabled={!values.selectedSlot || !values.reason}
                     onClick={() => handleBookAppointment(newAppointment)}
                   >
                     Book

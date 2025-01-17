@@ -143,9 +143,9 @@ const AppointmentHistory = () => {
                     <strong>Doctor</strong> {appointment.caregiverFullName}
                   </p>
                 </div>
-                <p className="summaryAppHist">
-                  <strong>Summary:</strong>
-                  {appointment.summary}
+                <p className="reasonAppHist">
+                  <strong>Reason:</strong>
+                  {appointment.reason}
                 </p>
                 <p>
                   <strong>Date and Time:</strong>
