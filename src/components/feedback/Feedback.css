@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 150px;
 }
 
 .Toastify__progress-bar {
@@ -38,6 +39,7 @@ p {
   min-width: 350px;
   max-width: 1000px;
   background-color: #057d7a;
+  margin-bottom: 100px;
 }
 
 .completedAppointment,
