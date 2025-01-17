@@ -33,7 +33,7 @@ const Feedback = () => {
   });
   // Doctor page variables
   const [yourFeedback, setYourFeedback] = useState([]);
-  const [appointmentSummarys, setAppointmentSummarys] = useState({});
+  const [appointmentReasons, setAppointmentReasons] = useState({});
   const [patients, setPatients] = useState({});
   const [yourAverageRating, setYourAverageRating] = useState(0);
   // Admin page variables
@@ -225,7 +225,7 @@ const Feedback = () => {
           {caregivers[`${appointment.caregiverId}`]?.lastName}
         </p>
         <p>
-          <b>Summary:</b> {appointment.summary}
+          <b>Reason:</b> {appointment.reason}
         </p>
         <button
           className="feedbackButton"
@@ -282,7 +282,7 @@ const Feedback = () => {
       setYourFeedback(response.data);
 
       for (const feedback of response.data) {
-        await getAppointmentSummary(feedback.appointmentId);
+        await getAppointmentReason(feedback.appointmentId);
       }
 
       for (const feedback of response.data) {
@@ -293,8 +293,8 @@ const Feedback = () => {
     }
   };
 
-  // Get summarys from found feedbacks
-  const getAppointmentSummary = async (appointmentId) => {
+  // Get reasons from found feedbacks
+  const getAppointmentReason = async (appointmentId) => {
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/appointment/info/${appointmentId}`,
@@ -302,10 +302,10 @@ const Feedback = () => {
           withCredentials: true,
         }
       );
-      setAppointmentSummarys((prevAppointmentSummarys) => ({
-        ...prevAppointmentSummarys,
+      setAppointmentReasons((prevAppointmentReasons) => ({
+        ...prevAppointmentReasons,
         [appointmentId]: {
-          summary: response.data.summary,
+          reason: response.data.reason,
         },
       }));
     } catch (error) {
@@ -367,8 +367,8 @@ const Feedback = () => {
     return yourFeedback.map((feedback, index) => (
       <div key={index} className="yourFeedback">
         <p>
-          <b>Summary:</b>{" "}
-          {appointmentSummarys[`${feedback.appointmentId}`]?.summary}
+          <b>Reason:</b>{" "}
+          {appointmentReasons[`${feedback.appointmentId}`]?.reason}
         </p>
         <p>
           <b>Patient:</b> {patients[`${feedback.patientUsername}`]?.firstName}{" "}
@@ -536,7 +536,7 @@ const Feedback = () => {
     if (userRole === "ADMIN") {
       getAllFeedback();
     }
-  }, [userRole]);
+  }, [userRole, yourFeedback]);
 
   ////////////////
   // FEEDBACK PAGE
