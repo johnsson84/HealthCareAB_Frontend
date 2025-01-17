@@ -15,6 +15,7 @@ const CalendarPage = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [chosenTimeslot, setChosenTimeslot] = useState(null);
+  const [selectedCaregiver, setSelectedCaregiver] = useState(null);
   const [summary, setSummary] = useState(null);
   const navigate = useNavigate();
 
@@ -195,6 +196,9 @@ const CalendarPage = () => {
               }}
               onSubmit={(values) => {
                 const selectedSlot = JSON.parse(values.selectedSlot);
+                const caregiver = caregivers.find(
+                  (c) => c.caregiverId === selectedSlot.caregiverId
+                );
                 handleChoice(
                   summary,
                   selectedSlot.entryId,
@@ -209,7 +213,36 @@ const CalendarPage = () => {
                     <div>
                       <Field
                         as="select"
-                        name="selectedSlot"
+                        name="selectedCaregiver"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          handleChange(e);
+                          if (value) {
+                            const parsedValue = JSON.parse(value);
+                            setSelectedCaregiver(parsedValue);
+                            setNewAppointment((prev) => ({
+                              ...prev,
+                              availabilityId: parsedValue.entryId,
+                              caregiverId: parsedValue.caregiverId,
+                            }));
+                          }
+                        }}
+                      >
+                        <option value="" disabled>
+                          Select caregiver
+                        </option>
+                        {filteredData.map((entry) => (
+                          <optgroup
+                            key={entry.id}
+                            label={`Caregiver: Dr. ${entry.caregiver.lastName}`}
+                          >
+                          </optgroup>
+                        ))}
+                      </Field>
+
+                      <Field
+                        as="select"
+                        name="selectedTimeslot"
                         onChange={(e) => {
                           const value = e.target.value;
                           handleChange(e);
@@ -302,6 +335,13 @@ const StyledMain = styled.div`
   border-radius: 2%;
   min-height: 100%;
   padding: 2rem;
+`;
+
+const CaregiverInfo = styled.div`
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 `;
 
 const StyledButton = styled.button`
