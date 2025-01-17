@@ -15,8 +15,8 @@ const CalendarPage = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [chosenTimeslot, setChosenTimeslot] = useState(null);
-  const [selectedCaregiver, setSelectedCaregiver] = useState(null);
-  const [summary, setSummary] = useState(null);
+  const [reason, setReason] = useState(null);
+  const [chosenCaregiver, setChosenCaregiver] = useState(null);
   const navigate = useNavigate();
 
   const {
@@ -25,21 +25,21 @@ const CalendarPage = () => {
 
   const [newAppointment, setNewAppointment] = useState({
     username: user,
-    summary: null,
+    reason: null,
     availabilityId: null,
     caregiverId: null,
     availabilityDate: null,
   });
 
   const handleChoice = (
-    summary,
+    reason,
     availabilityId,
     caregiverId,
     availabilityDate
   ) => {
-    if (!summary || !availabilityId || !caregiverId || !availabilityDate) {
+    if (!reason || !availabilityId || !caregiverId || !availabilityDate) {
       console.warn("Missing required fields:", {
-        summary,
+        reason,
         availabilityId,
         caregiverId,
         availabilityDate,
@@ -48,7 +48,7 @@ const CalendarPage = () => {
     }
 
     setNewAppointment({
-      summary,
+      reason,
       availabilityId,
       caregiverId,
       availabilityDate,
@@ -144,6 +144,7 @@ const CalendarPage = () => {
         const caregiver = caregivers.find(
           (c) => c.caregiverId === entry.caregiverId
         );
+        console.log(caregiver.specialities);
 
         if (!caregiver) {
           console.log(`No caregiver found for ID: ${entry.caregiverId}`);
@@ -178,9 +179,10 @@ const CalendarPage = () => {
         <Calendar onChange={handleDateChange} />
         {selectedDate && (
           <div>
-            <h2>Available appointments on {selectedDate.toDateString()}:</h2>
+            <h2>Available Doctors on {selectedDate.toDateString()}:</h2>
+
             <h3>
-              Chosen appointment:{" "}
+              Chosen Appointment:{" "}
               {chosenTimeslot
                 ? `${new Date(
                     chosenTimeslot.slot
@@ -191,18 +193,16 @@ const CalendarPage = () => {
             </h3>
             <Formik
               initialValues={{
+                selectedDoctor: "",
                 selectedSlot: "",
-                summary: "",
+                reason: "",
               }}
               onSubmit={(values) => {
                 const selectedSlot = JSON.parse(values.selectedSlot);
-                const caregiver = caregivers.find(
-                  (c) => c.caregiverId === selectedSlot.caregiverId
-                );
                 handleChoice(
-                  summary,
+                  values.reason,
                   selectedSlot.entryId,
-                  selectedSlot.caregiver,
+                  selectedSlot.caregiverId,
                   selectedSlot.slot
                 );
               }}
@@ -211,104 +211,126 @@ const CalendarPage = () => {
                 <Form>
                   {filteredData.length > 0 ? (
                     <div>
+                      {/* Doctor Selection Field */}
                       <Field
                         as="select"
-                        name="selectedCaregiver"
+                        name="selectedDoctor"
                         onChange={(e) => {
                           const value = e.target.value;
                           handleChange(e);
                           if (value) {
                             const parsedValue = JSON.parse(value);
-                            setSelectedCaregiver(parsedValue);
-                            setNewAppointment((prev) => ({
-                              ...prev,
-                              availabilityId: parsedValue.entryId,
-                              caregiverId: parsedValue.caregiverId,
-                            }));
+                            setChosenCaregiver(parsedValue);
+                            setChosenTimeslot(null); // Reset timeslot selection
                           }
                         }}
                       >
                         <option value="" disabled>
-                          Select caregiver
+                          Select a doctor
                         </option>
                         {filteredData.map((entry) => (
-                          <optgroup
-                            key={entry.id}
-                            label={`Caregiver: Dr. ${entry.caregiver.lastName}`}
+                          <option
+                            key={entry.caregiver.caregiverId}
+                            value={JSON.stringify({
+                              caregiverId: entry.caregiver.caregiverId,
+                              lastname: entry.caregiver.lastname,
+                              specialities: entry.caregiver.specialities,
+                              slots: entry.slots,
+                            })}
                           >
-                          </optgroup>
+                            {`${entry.caregiver.firstname} ${entry.caregiver.lastname}`}
+                          </option>
                         ))}
                       </Field>
 
-                      <Field
-                        as="select"
-                        name="selectedTimeslot"
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          handleChange(e);
-                          if (value) {
-                            const parsedValue = JSON.parse(value);
-                            setChosenTimeslot(parsedValue);
-                            setNewAppointment((prev) => ({
-                              ...prev,
-                              availabilityId: parsedValue.entryId,
-                              caregiverId: parsedValue.caregiverId,
-                              availabilityDate: parsedValue.slot,
-                            }));
-                          }
-                        }}
-                      >
-                        <option value="" disabled>
-                          Select time
-                        </option>
-                        {filteredData.map((entry) => (
-                          <optgroup
-                            key={entry.caregiver.caregiverId}
-                            label={`Caregiver: ${entry.caregiver.firstname} ${entry.caregiver.lastname}`}
-                          >
-                            {entry.slots.map((slot) => (
-                              <option
-                                key={`${entry.id}-${slot}`}
-                                value={JSON.stringify({
-                                  entryId: entry.id,
-                                  caregiverId: entry.caregiver.caregiverId,
-                                  slot,
-                                })}
-                              >
-                                {`${new Date(
-                                  slot
-                                ).toLocaleDateString()} ${new Date(
-                                  slot
-                                ).toLocaleTimeString()}`}
-                              </option>
-                            ))}
-                          </optgroup>
-                        ))}
-                      </Field>
+                      {/* Display Selected Doctor's Details */}
+                      {chosenCaregiver && (
+                        <div>
+                          <h3>Dr. {chosenCaregiver.lastname}</h3>
+                          <h3>
+                            Specialities:{" "}
+                            {chosenCaregiver.specialities
+                              ? chosenCaregiver.specialities
+                              : "No specialities"}
+                          </h3>
+                        </div>
+                      )}
+
+                      {/* Slot Selection Field */}
+                      {chosenCaregiver && chosenCaregiver.slots.length > 0 ? (
+                        <Field
+                          as="select"
+                          name="selectedSlot"
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            handleChange(e);
+                            if (value) {
+                              const parsedValue = JSON.parse(value);
+                              setChosenTimeslot(parsedValue);
+                              setNewAppointment((prev) => ({
+                                ...prev,
+                                availabilityId: parsedValue.entryId,
+                                caregiverId: parsedValue.caregiverId,
+                                availabilityDate: parsedValue.slot,
+                              }));
+                            }
+                          }}
+                        >
+                          <option value="" disabled>
+                            Select a time slot
+                          </option>
+                          {chosenCaregiver.slots.map((slot) => (
+                            <option
+                              key={`${chosenCaregiver.caregiverId}-${slot}`}
+                              value={JSON.stringify({
+                                entryId: filteredData.find(
+                                  (entry) =>
+                                    entry.caregiver.caregiverId ===
+                                    chosenCaregiver.caregiverId
+                                ).id,
+                                caregiverId: chosenCaregiver.caregiverId,
+                                slot,
+                              })}
+                            >
+                              {`${new Date(
+                                slot
+                              ).toLocaleDateString()} ${new Date(
+                                slot
+                              ).toLocaleTimeString()}`}
+                            </option>
+                          ))}
+                        </Field>
+                      ) : (
+                        <p>No available slots for this doctor.</p>
+                      )}
                     </div>
                   ) : (
                     <p>No caregivers available for this date.</p>
                   )}
+
+                  <h3> Reason for visit: </h3>
                   <Field
-                    name="summary"
-                    placeholder="Summary"
+                    name="reason"
+                    placeholder="Reason for visit"
                     onChange={(e) => {
                       handleChange(e);
-                      setSummary(e.target.value);
+                      setReason(e.target.value);
                       setNewAppointment((prev) => ({
                         ...prev,
-                        summary: e.target.value,
+                        reason: e.target.value,
                       }));
                     }}
                   />
+
+                  {/* Submit Button */}
                   <StyledButton
                     type="submit"
                     title={
-                      !values.selectedSlot || !values.summary
-                        ? "Choose time and type a summary"
+                      !values.selectedSlot || !values.reason
+                        ? "Choose time and type a reason"
                         : undefined
                     }
-                    disabled={!values.selectedSlot || !values.summary}
+                    disabled={!values.selectedSlot || !values.reason}
                     onClick={() => handleBookAppointment(newAppointment)}
                   >
                     Book
@@ -330,18 +352,11 @@ const StyledMain = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 50px;
+  margin-bottom: 10rem;
   border: 2px solid #ccc;
   border-radius: 2%;
   min-height: 100%;
   padding: 2rem;
-`;
-
-const CaregiverInfo = styled.div`
-  margin-bottom: 1rem;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
 `;
 
 const StyledButton = styled.button`
