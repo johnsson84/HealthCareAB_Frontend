@@ -245,7 +245,7 @@ const Appointment_info = () => {
         </p>
       </div>
 
-      {!role ? undefined : role === "ADMIN" ? (
+      {!role ? undefined : role === "DOCTOR" ? (
         <>
           <div className="appointmentButtonContainer">
             <button className="appointmentButton" onClick={handleEdit}>
