@@ -95,8 +95,8 @@ function AdminDashboard() {
         
         <ButtonLink
           picture="/src/assets/Annotation Information.svg"
-          linkName="Delete Feedback"
-          link="/underconstruction"
+          linkName="All Feedbacks"
+          link="/feedback"
         ></ButtonLink>
         <ButtonLink
         picture="/src/assets/pfp.svg"
