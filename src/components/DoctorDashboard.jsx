@@ -28,6 +28,10 @@ const IMGHolder = styled.img`
   margin: 1rem 0 1rem 0;
   max-width: 200px;
 `;
+const FooterSpace = styled.div`
+  height: 4rem;
+  width: 100%;
+`;
 
 const Text = styled.p`
   font-size: 18px;
@@ -104,7 +108,10 @@ function DoctorDashboard() {
           link="/change-profile-picture"
         ></ButtonLink>
       </div>
+      
       <Logout />
+      <FooterSpace/>
+
     </AdminContainer>
   );
 }
