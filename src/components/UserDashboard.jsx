@@ -14,6 +14,10 @@ const UserContainer = styled.div`
   justify-content: center;
   flex-direction: column;
 `;
+const FooterSpace = styled.div`
+  height: 4rem;
+  width: 100%;
+`;
 const IMGHolder = styled.img`
   display: flex;
   align-items: center;
@@ -46,17 +50,20 @@ function UserDashboard() {
   useEffect(() => {
     const getUserPictureURL = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/user/find/userURL/${user}`, {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/user/find/userURL/${user}`,
+          {
+            withCredentials: true,
+          }
+        );
         setProfilePictureURL(import.meta.env.VITE_BUCKET_URL + response.data);
       } catch (error) {
         setProfilePictureURL("Error loading profile picture");
       }
     };
-  
-    if (user) getUserPictureURL(); 
-  }, [user]); 
+
+    if (user) getUserPictureURL();
+  }, [user]);
 
   const checkProfilePicture = () => {
     if (profilePictureURL === "") {
@@ -67,16 +74,14 @@ function UserDashboard() {
       return profilePictureURL;
     }
   };
-  
 
   return (
     <UserContainer>
       <LogoContainer src={Logo} />
       <Title>User Dashboard</Title>
       <Text>Welcome, {user}!</Text>
-      <IMGHolder src = {checkProfilePicture()} alt="Profile Picture"/>
+      <IMGHolder src={checkProfilePicture()} alt="Profile Picture" />
       <div className="dbButtonContainer">
-       
         <ButtonLink
           picture="/src/assets/User Profile Check.svg"
           linkName="Book Doctor"
@@ -104,9 +109,8 @@ function UserDashboard() {
         ></ButtonLink>
       </div>
       <Logout />
+      <FooterSpace/>
     </UserContainer>
-
-   
   );
 }
 

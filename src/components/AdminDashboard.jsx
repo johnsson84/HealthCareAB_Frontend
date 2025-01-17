@@ -35,6 +35,10 @@ const IMGHolder = styled.img`
   max-width: 300px;
   max-height: 300px;
 `;
+const FooterSpace = styled.div`
+  height: 4rem;
+  width: 100%;
+`;
 
 function AdminDashboard() {
 
@@ -105,6 +109,8 @@ function AdminDashboard() {
         ></ButtonLink>
       </div>
       <Logout />
+      <FooterSpace/>
+
     </AdminContainer>
   );
 }
