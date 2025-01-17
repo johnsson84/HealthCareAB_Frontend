@@ -6,6 +6,7 @@ import Logout from "./Logout";
 import ButtonLink from "./dashboard/ButtonLink";
 import axios from "axios";
 import "./Dashboard.css";
+import Facility from "./facility/Facility";
 
 // div with styles
 const UserContainer = styled.div`
@@ -71,6 +72,7 @@ function UserDashboard() {
 
   return (
     <UserContainer>
+      <Facility />
       <LogoContainer src={Logo} />
       <Title>User Dashboard</Title>
       <Text>Welcome, {user}!</Text>
