@@ -166,7 +166,6 @@ const AppointmentHistory = () => {
     handleInputChangeDoc(e);
     setPopupWindow(true);
   };
-
   const clearFieldsDoc = () => {
     setAddDoc({
       appointmentId: "",
