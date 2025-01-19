@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 const Facility = () => {
   const [hospitals, setHospitals] = useState([]);
-  const [coworkerDetails, setCoworkerDetails ] = useState(null);
+  const [coworkerDetails, setCoworkerDetails] = useState(null);
   // Testa att göra en lista med alla saker man kan skriva och sen kolla mot den.
 
   // hämtar alla sjukhus från DB
@@ -15,72 +15,100 @@ const Facility = () => {
           withCredentials: true,
         }
       );
+      // plockar ut coworker ids
+      const coworkerIds = [
+        ...new Set(response.data.flatMap((i) => i.coworkersId)),
+      ];
+      fetchCoworkerDetails(coworkerIds);
       setHospitals(response.data);
-
-
-      // plockar ut coworker ids 
-      const coworkerIds = [...new setHospitals(response.data.flatMap((i) => i.coworkersId))];
-
     } catch (err) {
       console.log("error fetching facility " + err);
     }
   };
-  
-  // Hämtar coworker info via deras ID
-  // const fetchCoworkerDetails = async () => {
-  //   try {
-  //     const res = await axios.get(
-  //       `${import.meta.env.VITE_API_URL}/user/find/{username}`
 
-  //     )
-  //   }
-  // }
+  // Hämtar coworker info via deras ID
+  const fetchCoworkerDetails = async (ids) => {
+    const nameMap = {};
+    for (const userId of ids) {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/user/full-name/${userId}`,
+          {
+            withCredentials: true,
+          }
+        );
+        const fullName = res.data;
+        nameMap[userId] = fullName;
+      } catch (error) {
+        console.error(`Error fetching name for userId ${userId}:`, error);
+        nameMap[userId] = "Unknown";
+      }
+    }
+    setCoworkerDetails((prevData) => ({ ...prevData, ...nameMap }));
+  };
 
   useEffect(() => {
     fetchHospitals();
   }, []);
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center"
+      }}
+    >
       <h4>Available Hospitals</h4>
       {hospitals.length === 0 ? (
         <p> no hospitals available</p>
       ) : (
-        <ul
+        <div
           style={{
-            border: "1px solid black ",
-            display: "flex",
-            justifyItems: "center",
-            flexDirection: "column",
+            padding: "0px",
+            borderRadius: "10px",
+            border: "1px solid black",
+            width: "50rem",
+            overflow: "hidden",
           }}
         >
-          {hospitals.map((hospitals, index) => (
-            <div key={index}>
-              <li>
-                Hospital: {hospitals.facilityName} <br />
-                Phone: {hospitals.phoneNumber} <br />
-                Mail: {hospitals.email} <br />
-                Open hours: {hospitals.hoursOpen} <br />
-                Address: {hospitals.address.street} <br />
-                City: {hospitals.address.city} <br />
-                Region: {hospitals.address.region} <br />
-                Country: {hospitals.address.country}
-              </li>
-
-              
-              {hospitals.coworkersId && hospitals.coworkersId.length > 0 ? (
-                <ul>
-                  
-                  {hospitals.coworkersId.map((coworkerId, i) => (
-                    <li key={i}>Doctor: {coworkerId}</li>
-                  ))}
-                </ul>
-              ) : (
-                "Nobody seems to work here??"
-              )}
-            </div>
-          ))}
-        </ul>
+          <ul
+            style={{
+              margin: "0",
+              display: "flex",
+              flexWrap: "wrap",
+            }}
+          >
+            {hospitals.map((hospitals, index) => (
+              <div key={index} style={{margin: "5px", width: "17rem",}}>
+                <li>
+                  Hospital: {hospitals.facilityName} <br />
+                  City: {hospitals.address.city} <br />
+                  Phone: {hospitals.phoneNumber} <br />
+                  Mail: {hospitals.email} <br />
+                  Open hours: {hospitals.hoursOpen} <br />
+                  Address: {hospitals.address.street} <br />
+                  Region: {hospitals.address.region} <br />
+                  Country: {hospitals.address.country}
+                {hospitals.coworkersId && hospitals.coworkersId.length > 0 ? (
+                  <ul>
+                    {hospitals.coworkersId.map((userId, i) => (
+                      <li key={i}>
+                        Doctor:{" "}
+                        {coworkerDetails && coworkerDetails[userId]
+                          ? coworkerDetails[userId]
+                          : "Loading..."}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  "Nobody seems to work here??"
+                )}
+                </li>
+              </div>
+            ))}
+          </ul>
+        </div>
       )}
     </div>
   );
