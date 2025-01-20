@@ -4,6 +4,7 @@ import Logo from "../assets/health_care_logo.svg";
 import styled from "styled-components";
 import Logout from "./Logout";
 import ButtonLink from "./dashboard/ButtonLink";
+import AdminSignup from "./Signup/adminSignup/AdminSignup";
 import axios from "axios";
 import "./Dashboard.css";
 // admin page, can only visit if you have role ADMIN
@@ -85,7 +86,7 @@ function AdminDashboard() {
         <ButtonLink
           picture="/src/assets/User Profile Add 01.svg"
           linkName="Register Admin"
-          link="/underconstruction"
+          link="/AdminSignup"
         ></ButtonLink>
         <ButtonLink
           picture="/src/assets/User Profile Add 01.svg"

@@ -29,6 +29,7 @@ import Schedule from "./components/Schedule/Schedule";
 import ChangePfp from "./components/AWS/ChangePfp";
 import MeetingHistory from "./pages/appointmentHistory/AppointmentHistory";
 import AppointmentHistory from "./pages/appointmentHistory/AppointmentHistory";
+import AdminSignup from "./components/Signup/adminSignup/AdminSignup";
 
 function App() {
   return (
@@ -109,6 +110,16 @@ function App() {
                 </RequireAuth>
               }
             />
+            <Route
+              path="/AdminSignup"
+              element={
+                <RequireAuth allowedRoles={["ADMIN"]}>
+                  <AdminSignup></AdminSignup>
+                </RequireAuth>
+              }
+              
+            />
+
 
             <Route path="/resetPassword" element={<ResetPassword />} />
             <Route path="/forgotPassword" element={<ForgotPassword />} />
