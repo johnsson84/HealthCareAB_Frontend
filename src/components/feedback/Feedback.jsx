@@ -177,7 +177,7 @@ const Feedback = () => {
                 minLength="20"
                 maxLength="200"
               ></textarea>
-              <p id="pNoMargin">{feedback.comment.length}/200 (min 20)</p>
+              <p id="pNoMargin">{feedback.comment.length}/200</p>
               <div className="popupRating">
                 <p id="pNoMargin">Rating:</p>
                 <select
@@ -194,7 +194,7 @@ const Feedback = () => {
                 </select>
               </div>
               <div className="popupButtons">
-                <button className="feedbackButton" onClick={handleSubmit} disabled={feedback.comment.length < 20}>
+                <button className="feedbackButton" onClick={handleSubmit}>
                   Submit
                 </button>
                 <button className="feedbackButton" onClick={handleCancel}>
