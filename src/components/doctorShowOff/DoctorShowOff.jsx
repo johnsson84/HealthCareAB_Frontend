@@ -42,8 +42,7 @@ const DoctorShowOff = () => {
 
     useEffect(() => {
         getHighRatingFeedbacks();
-        
-    }, [])
+    }, [currentPage])
 
     useEffect(() => {
         const interval = setInterval(changeFeedbacks, 5000);
@@ -53,7 +52,7 @@ const DoctorShowOff = () => {
     return (
         <div className='showOffBox'>
             {currentFeedbacks.map((feedback, index) => (
-                <div key={index} className={`showOffFeedback`}>
+                <div key={feedback.id} className={`showOffFeedback`}>
                     <h3 id='feedbackName' className='fContent'>{feedback.doctorFullName}</h3>
                     <p id='feedbackRating' className='fContent'><b>Rating:</b> {feedback.rating}</p>
                     <p id='feedbackComment' className='fContent'>{feedback.comment}</p>
