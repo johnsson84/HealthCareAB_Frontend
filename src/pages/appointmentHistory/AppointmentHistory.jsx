@@ -250,11 +250,12 @@ const AppointmentHistory = () => {
               name="documentation"
               value={addDoc.documentation}
               onChange={handleInputChangeDoc}
+              minLength="50"
               maxLength="500"
             ></textarea>
-            <p id="pNoMargin">{addDoc.documentation.length}/500</p>
+            <p id="pNoMargin">{addDoc.documentation.length}/500 (min 50)</p>
             <div className="popupButtons">
-              <button className="documentButton" onClick={handleSubmitDoc}>
+              <button className="documentButton" onClick={handleSubmitDoc} disabled={addDoc.documentation.length < 50}>
                 Submit
               </button>
               <button className="documentButton" onClick={handleCancelDoc}>
