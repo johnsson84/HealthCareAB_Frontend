@@ -25,6 +25,7 @@ const DoctorShowOff = () => {
               }
             );
             setFeedbacks(response.data);
+            //console.log(response.data); // DEBUG:
           } catch (error) {
             console.log("Catch error: " + error);
           }
@@ -45,13 +46,13 @@ const DoctorShowOff = () => {
     }, [currentPage])
 
     useEffect(() => {
-        const interval = setInterval(changeFeedbacks, 5000);
+        const interval = setInterval(changeFeedbacks, 8000);
         return () => clearInterval(interval);
     }, [feedbacks])
     
     return (
         <div className='showOffBox'>
-            {currentFeedbacks.map((feedback, index) => (
+            {currentFeedbacks.map((feedback) => (
                 <div key={feedback.id} className={`showOffFeedback`}>
                     <h3 id='feedbackName' className='fContent'>{feedback.doctorFullName}</h3>
                     <p id='feedbackRating' className='fContent'><b>Rating:</b> {feedback.rating}</p>

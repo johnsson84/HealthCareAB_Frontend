@@ -17,7 +17,7 @@
     padding: 20px;
     min-width: 200px;
     opacity: 0;
-    animation: fade 5s ease-in-out;
+    animation: fade 8s ease-in-out;
     animation-iteration-count: 1;
 }
 
@@ -26,11 +26,11 @@
         opacity: 0;
         transform: translateX(-100%);
     }
-    25% { 
+    15% { 
         opacity: 1;
         transform: translateX(0%); 
     }
-    75% { 
+    85% { 
         opacity: 1;
         transform: translateX(0%);
     }
