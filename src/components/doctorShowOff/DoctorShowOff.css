@@ -1,0 +1,57 @@
+.showOffBox {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    justify-content: space-evenly;
+}
+.showOffFeedback * {
+    margin: 0;
+}
+.showOffFeedback {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: antiquewhite;
+    border: none;
+    border-radius: 20px;
+    padding: 20px;
+    min-width: 200px;
+    opacity: 0;
+    animation: fade 5s ease-in-out;
+    animation-iteration-count: 1;
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    25% { 
+        opacity: 1;
+        transform: translateX(0%); 
+    }
+    75% { 
+        opacity: 1;
+        transform: translateX(0%);
+    }
+    100% { 
+        opacity: 0;
+        transform: translateX(+100%);
+    }
+  }
+
+.fContent {
+    margin-bottom: 10px;
+}
+
+#feedbackName {
+    align-self: flex-start;
+}
+#feedbackRating {
+    align-self: flex-end;
+}
+#feedbackComment {
+    width: 100%;
+    padding: 5px;
+    border-top: 0.5px solid grey;
+}
