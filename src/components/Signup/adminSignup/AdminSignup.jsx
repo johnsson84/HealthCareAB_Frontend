@@ -1,11 +1,11 @@
 import axios from "axios";
-import React, { useState} from "react";
+import React, { useState, useEffect } from "react";
 import "./AdminSignup.css";
 
 const AdminSignup = () => {
   const [error, setError] = useState("");
-  const [Message, setMessage] = useState("");
-
+  const [successMessage, setSuccessMessage] = useState("");
+  const [loading, setloading] = useState(false);
 
   const [formData, setFormData] = useState({
     username: "",
@@ -23,7 +23,7 @@ const AdminSignup = () => {
   const handlarSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setMessage("");
+    setSuccessMessage("");
 
     try {
       setloading(true);
@@ -58,7 +58,7 @@ const AdminSignup = () => {
   return (
     <div className="loginContainer">
       <div>
-        <h2 className="title">Create an Admin Account</h2>
+        <h2 className="title">Signup Admin</h2>
         <form onSubmit={handlarSubmit} className="formWrapper">
           <label>* Username (3-20 chars, alphanumeric only): </label>
           <input
@@ -131,11 +131,11 @@ const AdminSignup = () => {
           
           />
           <button type="submit" className="loginButton">
-          Create an Admin
+          Signup Admin
           </button>
         </form>
         {error && <p style={{ color: "red" }}>{error}</p>}
-        {Message && <p style={{ color: "green" }}>{Message}</p>}
+        {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
       </div>
     </div>
   );
