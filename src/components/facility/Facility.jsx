@@ -19,6 +19,7 @@ const Facility = () => {
       const coworkerIds = [
         ...new Set(response.data.flatMap((i) => i.coworkersId)),
       ];
+
       fetchCoworkerDetails(coworkerIds);
       setHospitals(response.data);
     } catch (err) {
@@ -56,7 +57,7 @@ const Facility = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        alignItems: "center"
+        alignItems: "center",
       }}
     >
       <h4>Available Hospitals</h4>
@@ -68,7 +69,6 @@ const Facility = () => {
             padding: "0px",
             borderRadius: "10px",
             border: "1px solid black",
-            width: "50rem",
             overflow: "hidden",
           }}
         >
@@ -77,33 +77,72 @@ const Facility = () => {
               margin: "0",
               display: "flex",
               flexWrap: "wrap",
+              width: "auto",
+              height: "20rem",
+              justifyContent: "space-evenly",
             }}
           >
             {hospitals.map((hospitals, index) => (
-              <div key={index} style={{margin: "5px", width: "17rem",}}>
-                <li>
+              <div
+                key={index}
+                style={{
+                  margin: "5px",
+                  display: "flex",
+                  flexWrap: "wrap",
+                }}
+              >
+                <li
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    fontSize: "12px",
+                    alignItems: "center",
+                    justifyContent: "space-evenly",
+                  }}
+                >
                   Hospital: {hospitals.facilityName} <br />
                   City: {hospitals.address.city} <br />
-                  Phone: {hospitals.phoneNumber} <br />
-                  Mail: {hospitals.email} <br />
-                  Open hours: {hospitals.hoursOpen} <br />
-                  Address: {hospitals.address.street} <br />
+                  {/* Phone: {hospitals.phoneNumber} <br /> */}
+                  {/* Mail: {hospitals.email} <br /> */}
+                  {/* Open hours: {hospitals.hoursOpen} <br /> */}
+                  {/* Address: {hospitals.address.street} <br />
                   Region: {hospitals.address.region} <br />
-                  Country: {hospitals.address.country}
-                {hospitals.coworkersId && hospitals.coworkersId.length > 0 ? (
-                  <ul>
-                    {hospitals.coworkersId.map((userId, i) => (
-                      <li key={i}>
-                        Doctor:{" "}
-                        {coworkerDetails && coworkerDetails[userId]
-                          ? coworkerDetails[userId]
-                          : "Loading..."}
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  "Nobody seems to work here??"
-                )}
+                  Country: {hospitals.address.country} */}
+                  {hospitals.coworkersId && hospitals.coworkersId.length > 0 ? (
+                    <ul
+                      style={{
+                        margin: "0",
+                        padding: "0",
+                        // border: "1px solid red",
+                        display: "flex",
+                        flexDirection: "column",
+                        width: "12rem",
+                        justifyContent: "center",
+                        alignItems: "start",
+                      }}
+                    >
+                      {/* {hospitals.coworkersId.map((userId, i) => (
+                        <li
+                          key={i}
+                          style={{
+                            fontSize: "10px",
+                            height: "2rem",
+                            textAlign: "center",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          Doctor:
+                          {coworkerDetails && coworkerDetails[userId]
+                            ? coworkerDetails[userId]
+                            : "Loading..."}
+                        </li>
+                      ))} */}
+                    </ul>
+                  ) : (
+                    "Nobody seems to work here??"
+                  )}
                 </li>
               </div>
             ))}

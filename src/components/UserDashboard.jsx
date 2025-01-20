@@ -7,6 +7,7 @@ import ButtonLink from "./dashboard/ButtonLink";
 import axios from "axios";
 import "./Dashboard.css";
 import Facility from "./facility/Facility";
+import IconLink from "./iconLink/IconLink"
 
 // div with styles
 const UserContainer = styled.div`
@@ -84,6 +85,8 @@ function UserDashboard() {
       <Text>Welcome, {user}!</Text>
       <IMGHolder src={checkProfilePicture()} alt="Profile Picture" />
       <div className="dbButtonContainer">
+        <IconLink picture="/src/assets/hospital-solid.svg">
+        </IconLink>
         <ButtonLink
           picture="/src/assets/User Profile Check.svg"
           linkName="Book Doctor"
