@@ -20,6 +20,12 @@ import { ToastContainer, toast } from "react-toastify";
 const Feedback = () => {
   // Genereal variables
   const username = localStorage.getItem("loggedInUsername");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const [pageContent, setPageContent] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
   // Patient page variables
   const [appointments, setAppointments] = useState([]);
   const [caregivers, setCaregivers] = useState({});
@@ -56,6 +62,51 @@ const Feedback = () => {
       console.log("Catch error: " + error);
     }
   };
+  
+  const divideIntoPages = (() => {
+    if (userRole === "USER") {
+      setPageContent(appointments.slice(
+        indexOfFirstItem,
+        indexOfLastItem
+      ));
+      setTotalPages(Math.ceil(appointments.length / itemsPerPage));
+    }
+    if (userRole === "DOCTOR") {
+      setPageContent(yourFeedback.slice(
+        indexOfFirstItem,
+        indexOfLastItem
+      ));
+      setTotalPages(Math.ceil(yourFeedback.length / itemsPerPage));
+    }
+    if (userRole === "ADMIN") {
+      setPageContent(allFeedbacks.slice(
+        indexOfFirstItem,
+        indexOfLastItem
+      ));
+      setTotalPages(Math.ceil(allFeedbacks.length / itemsPerPage));
+    }
+  })
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const showPageNumbers = () => {
+    return (
+      <div>
+       {Array.from({ length: totalPages }, (_, index) => (
+          <button
+           className="pagiButton"
+            key={index}
+            onClick={() => handlePageChange(index + 1)}
+            disabled={currentPage === index + 1}
+          >
+            {index + 1}
+          </button>
+        ))}
+      </div>
+    )
+  }
 
   ///////////////////////////////////////////////
   //////////// PATIENT METHODS //////////////////
@@ -161,6 +212,7 @@ const Feedback = () => {
       <div className="feedbackPage">
         <h1>Feedback</h1>
         <div className="completedAppointments">{completedAppointments()}</div>
+        {showPageNumbers()}
         {popupWindow && (
           <div className="popupFeedback">
             <div className="popupContainer">
@@ -174,6 +226,7 @@ const Feedback = () => {
                 name="comment"
                 value={feedback.comment}
                 onChange={handleInputChange}
+                minLength="20"
                 maxLength="200"
               ></textarea>
               <p id="pNoMargin">{feedback.comment.length}/200</p>
@@ -217,7 +270,7 @@ const Feedback = () => {
         </div>
       );
     }
-    return appointments.map((appointment, index) => (
+    return pageContent.map((appointment, index) => (
       <div key={index} className="completedAppointment">
         <p>
           <b>Caregiver:</b>{" "}
@@ -351,6 +404,7 @@ const Feedback = () => {
         <h1>Your Feedback</h1>
         <h2>(average rating: {yourAverageRating})</h2>
         <div className="yourFeedbacks">{showYourFeedback()}</div>
+        {showPageNumbers()}
       </div>
     );
   };
@@ -364,7 +418,7 @@ const Feedback = () => {
         </div>
       );
     }
-    return yourFeedback.map((feedback, index) => (
+    return pageContent.map((feedback, index) => (
       <div key={index} className="yourFeedback">
         <p>
           <b>Reason:</b>{" "}
@@ -436,7 +490,7 @@ const Feedback = () => {
         </div>
       );
     }
-    return allFeedbacks.map((feedback, index) => (
+    return pageContent.map((feedback, index) => (
       <div key={index} className="allFeedback">
         <p>
           <b>Appointment ID:</b> {feedback.appointmentId}
@@ -490,6 +544,7 @@ const Feedback = () => {
       <div className="feedbackPage">
         <h1>All feedbacks</h1>
         <div className="allFeedbacks">{showAllFeedbaks()}</div>
+        {showPageNumbers()}
       </div>
     );
   };
@@ -500,6 +555,10 @@ const Feedback = () => {
     getUsersRole();
   }, []);
 
+  useEffect(() => {
+    divideIntoPages();
+  }, [givenFeedback, yourFeedback, allFeedbacks]);
+
   ///////////////////////
   ///  PATIENT USE_EFFECT
   useEffect(() => {
@@ -507,7 +566,7 @@ const Feedback = () => {
       getGivenFeedback();
       getAppointments();
     }
-  }, [userRole]);
+  }, [userRole, currentPage]);
 
   useEffect(() => {
     if (userRole === "USER") {
@@ -522,7 +581,7 @@ const Feedback = () => {
       getYourFeedback();
       countAverageRating();
     }
-  }, [userRole]); 
+  }, [userRole, currentPage]); 
 
   useEffect(() => {
     if (userRole === "DOCTOR") {
@@ -536,7 +595,7 @@ const Feedback = () => {
     if (userRole === "ADMIN") {
       getAllFeedback();
     }
-  }, [userRole, yourFeedback]);
+  }, [userRole, yourFeedback, currentPage]);
 
   ////////////////
   // FEEDBACK PAGE

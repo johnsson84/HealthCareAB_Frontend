@@ -1,6 +1,7 @@
 import "./AppointmentHistory.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 const AppointmentHistory = () => {
   const [appointments, setAppointments] = useState([]);
@@ -8,7 +9,11 @@ const AppointmentHistory = () => {
   const [loading, setLoading] = useState(false);
   const [option, setOption] = useState();
   const username = localStorage.getItem("loggedInUsername");
-
+  const [popupWindow, setPopupWindow] = useState(false);
+  const [addDoc, setAddDoc] = useState({
+    appointmentId: "",
+    documentation: "",
+  });
   const itemsPerPage = 10;
 
   const [role, setRole] = useState(null);
@@ -20,7 +25,7 @@ const AppointmentHistory = () => {
         { withCredentials: true }
       );
       setRole(response.data.roles ? response.data.roles[0] : undefined);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   useEffect(() => {
@@ -53,8 +58,7 @@ const AppointmentHistory = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${
-          import.meta.env.VITE_API_URL
+        `${import.meta.env.VITE_API_URL
         }/appointment/history/${option}/${username}`,
         {
           withCredentials: true,
@@ -124,8 +128,54 @@ const AppointmentHistory = () => {
     setCurrentPage(page);
   };
 
+  const addDocumentation = async () => {
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_API_URL}/appointment/documentation/add`,
+        addDoc,
+        {
+          withCredentials: true,
+        }
+      );
+      if (response.status === 210 || response.status === 200) {
+        console.log("documentation added!");
+        toast.success("documentation added!")
+      } else {
+        console.log("Unexpected status: " + response.status);
+      }
+    } catch (error) {
+      console.log("Catch error: " + error);
+      toast.error("Something wnt wrong, try later...")
+    }
+  };
+
+  const handleCancelDoc = () => {
+    clearFieldsDoc();
+    setPopupWindow(false);
+  }
+  const handleSubmitDoc = async () => {
+    await addDocumentation();
+    await fetchAppointments();
+    setPopupWindow(false);
+  }
+  const handleInputChangeDoc = (e) => {
+    setAddDoc((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
+  const handleClick = (e) => {
+    clearFieldsDoc();
+    handleInputChangeDoc(e);
+    setPopupWindow(true);
+  };
+  const clearFieldsDoc = () => {
+    setAddDoc({
+      appointmentId: "",
+      documentation: "",
+    });
+  };
+
   return (
     <div className="mainContainerAppsHistory">
+      <ToastContainer className="ToastContainer" />
       <h1>Appointment History</h1>
       {loading ? (
         <p>Loading...</p>
@@ -151,6 +201,24 @@ const AppointmentHistory = () => {
                   <strong>Date and Time:</strong>
                   {appointment.formattedDate} {"-"} {appointment.formattedTime}
                 </p>
+                <div className='documentContainer'>
+                  {
+                    appointment.documentation !== null && appointment.documentation.length > 0 ?
+                      <div className="docBox">
+                        <strong>Documentation:</strong>
+                        <p className="docBoxP">{appointment.documentation}</p>
+                      </div> :
+                      (role === 'DOCTOR' &&
+                        <button
+                          className="documentButton"
+                          name="appointmentId"
+                          value={appointment.id}
+                          onClick={handleClick}
+                        >
+                          Add documentation
+                        </button>)
+                  }
+                </div>
               </li>
             ))}
           </ul>
@@ -167,6 +235,35 @@ const AppointmentHistory = () => {
             ))}
           </div>
         </>
+      )}
+      {/* Popup window for a doctor to add documentation to a meeting */}
+      {popupWindow && (
+        <div className="popupDocumentation">
+          <div className="popupContainer">
+            <h2>
+              Add your documentation about
+              <br /> selected appointment
+            </h2>
+            <textarea
+              className="documentationTextBox"
+              placeholder="Add documentation..."
+              name="documentation"
+              value={addDoc.documentation}
+              onChange={handleInputChangeDoc}
+              minLength="50"
+              maxLength="500"
+            ></textarea>
+            <p id="pNoMargin">{addDoc.documentation.length}/500 (min 50)</p>
+            <div className="popupButtons">
+              <button className="documentButton" onClick={handleSubmitDoc} disabled={addDoc.documentation.length < 50}>
+                Submit
+              </button>
+              <button className="documentButton" onClick={handleCancelDoc}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
