@@ -56,51 +56,81 @@ const AdminSignup = () => {
   };
 
   return (
-    <div className="signup">
-      <div className="signup-container">
-        <h2>Admin Signup</h2>
-        <form onSubmit={handlarSubmit} className="signup-form">
+    <div className="loginContainer">
+      <div>
+        <h2 className="title">Admin Signup</h2>
+        <form onSubmit={handlarSubmit} className="formWrapper">
+          <label>* Username (3-20 chars, alphanumeric only): </label>
           <input
             type="text"
             name="username"
             placeholder="Username"
             value={formData.username}
             onChange={handleChange}
-            className="signup-input"
+            className="styledInput"
+            minLength="3"
+            maxLength="20"
+            pattern="^[a-zA-Z0-9]+$"
+            title="Username should be 3-20 characters and alphanumeric only."
+            required
           />
+          <label>
+            * Password (8-20 chars, include upper, lower, and number):{" "}
+          </label>
           <input
             type="password"
             name="password"
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
-            className="signup-input"
+            className="styledInput"
+            minLength="8"
+            maxLength="20"
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,20}$"
+            title="Password must be 8-20 characters, include uppercase, lowercase, and a number."
+            required
           />
+           <label>* Mail:</label>
           <input
             type="email"
             name="mail"
             placeholder="Email"
             value={formData.mail}
             onChange={handleChange}
-            className="signup-input"
+            className="styledInput"
+            maxLength="50"
+            required
           />
+          <label>* First Name (2-30 chars, letters only):</label>
           <input
             type="text"
             name="firstName"
             placeholder="First Name"
             value={formData.firstName}
             onChange={handleChange}
-            className="signup-input"
+            className="styledInput"
+            minLength="2"
+            maxLength="30"
+            pattern="^[a-zA-ZÀ-ÿñÑ'\\-\\s]+$"
+            title="First name should be 2-30 characters and contain only letters, no numbers."
+            required
           />
+          <label>* Last Name (2-30 chars, letters only):</label>
           <input
             type="text"
             name="lastName"
             placeholder="Last Name"
             value={formData.lastName}
             onChange={handleChange}
-            className="signup-input"
+            className="styledInput"
+            minLength="2"
+            maxLength="30"
+            pattern="^[a-zA-ZÀ-ÿñÑ'\\-\\s]+$"
+            title="Last name should be 2-30 characters and contain only letters, no numbers."
+            required
+          
           />
-          <button type="submit" className="signup-button">
+          <button type="submit" className="loginButton">
             Create Admin Account
           </button>
         </form>
