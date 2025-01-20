@@ -139,7 +139,7 @@ const CargiverSignup = ()=>{
             onChange={handleChange}
             className="styledInput"/>
             <button type="submit" className="loginButton">
-              Create Admin Account
+              Create caregiver
             </button>
           </form>
           {error && <p style={{ color: "red" }}>{error}</p>}
