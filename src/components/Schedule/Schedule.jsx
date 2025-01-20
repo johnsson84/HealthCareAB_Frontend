@@ -60,7 +60,7 @@ const Schedule = () => {
   const handleDeleteAvailability = async (changingDates, availabilityId) => {
     try {
       const response = await axios.put(
-        `${import.meta.env.VITE_API_URL}/availability/change-availability`,
+        `${import.meta.env.VITE_API_URL}/availability/remove-availability`,
         { 
           changingDates,
           availabilityId 
@@ -70,6 +70,25 @@ const Schedule = () => {
         }
       );
       toast.success("Availability removed successfully! " + changingDates.map((date) => new Date(date).toLocaleString()).join(", "));
+    } catch (error) {
+      console.error("Something went wrong, try again later.", error);
+      toast.error("Something went wrong, try again later.");
+    }
+  };
+
+  const handleAddAvailability = async (changingDates, availabilityId) => {
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_API_URL}/availability/add-availability`,
+        { 
+          changingDates,
+          availabilityId 
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      toast.success("Availability added successfully! " + changingDates.map((date) => new Date(date).toLocaleString()).join(", "));
     } catch (error) {
       console.error("Something went wrong, try again later.", error);
       toast.error("Something went wrong, try again later.");
@@ -171,6 +190,13 @@ const Schedule = () => {
                   <StyledButton type="submit">Remove available times</StyledButton>
                 </Form>
               )}
+            </Formik>
+            <Formik>
+              <Form>
+                <StyledField>
+                  
+                </StyledField>
+              </Form>
             </Formik>
           </div>
         )}
