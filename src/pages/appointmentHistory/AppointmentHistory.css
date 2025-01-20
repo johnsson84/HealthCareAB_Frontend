@@ -5,6 +5,7 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
+  margin-bottom: 100px;
 }
 
 .appsHistoryContainer {
@@ -12,7 +13,6 @@
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  width: 80%;
   height: auto;
   background-color: #057d7a;
   border-radius: 15px;
@@ -26,6 +26,7 @@
 }
 
 .appsHistoryBox {
+  width: 80%;
   background-color: white;
   border-radius: 10px;
   display: flex;
@@ -65,3 +66,76 @@
   text-align: center;
   height: auto;
 }
+
+.documentContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.docBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.docBoxP {
+  width: 100%;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+.documentButton {
+  border: none;
+  background-color: white;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.documentButton:hover {
+  background-color: #057d7a;
+  color: white;
+}
+
+.popupDocumentation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 10;
+}
+
+.popupContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.documentationTextBox {
+  min-width: 250px;
+  min-height: 100px;
+}
+
+.popupButtons {
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.Toastify__progress-bar {
+  background-color: #057d7a;
+}
+.Toastify__toast {
+  color: black;
+}
+

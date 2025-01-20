@@ -174,6 +174,7 @@ const Feedback = () => {
                 name="comment"
                 value={feedback.comment}
                 onChange={handleInputChange}
+                minLength="20"
                 maxLength="200"
               ></textarea>
               <p id="pNoMargin">{feedback.comment.length}/200</p>
