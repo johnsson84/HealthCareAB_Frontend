@@ -48,7 +48,7 @@ const AdminSignup = () => {
       });
     } catch (err) {
       setError(
-        err.response?.data?.message || "An error occurred while signing up."
+         "An error occurred while signing up."
       );
     } finally {
       setloading(false);
