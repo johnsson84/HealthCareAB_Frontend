@@ -30,6 +30,7 @@ import ChangePfp from "./components/AWS/ChangePfp";
 import MeetingHistory from "./pages/appointmentHistory/AppointmentHistory";
 import AppointmentHistory from "./pages/appointmentHistory/AppointmentHistory";
 import AdminSignup from "./components/Signup/adminSignup/AdminSignup";
+import CargiverSignup from "./components/Signup/caregiverSignup/CaregiverSignup";
 
 function App() {
   return (
@@ -116,8 +117,15 @@ function App() {
                 <RequireAuth allowedRoles={["ADMIN"]}>
                   <AdminSignup></AdminSignup>
                 </RequireAuth>
-              }
-              
+              } 
+            />
+             <Route
+              path="/CargiverSignup"
+              element={
+                <RequireAuth allowedRoles={["ADMIN"]}>
+                  <CargiverSignup></CargiverSignup>
+                </RequireAuth>
+              } 
             />
 
 
