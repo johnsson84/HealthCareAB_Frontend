@@ -89,12 +89,12 @@ function AdminDashboard() {
         <ButtonLink
           picture="/src/assets/User Profile Add 01.svg"
           linkName="Register Admin"
-          link="/underconstruction"
+          link="/AdminSignup"
         ></ButtonLink>
         <ButtonLink
           picture="/src/assets/User Profile Add 01.svg"
           linkName="Register Caregiver"
-          link="/underconstruction"
+          link="/CargiverSignup"
         ></ButtonLink>
         
         <ButtonLink

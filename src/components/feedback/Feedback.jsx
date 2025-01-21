@@ -572,7 +572,7 @@ const Feedback = () => {
     if (userRole === "USER") {
       getAppointments();
     }
-  }, [givenFeedback]);
+  }, [feedback]);
 
   //////////////////////
   ///  DOCTOR USE_EFFECT

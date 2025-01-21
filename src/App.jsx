@@ -29,6 +29,9 @@ import Schedule from "./components/Schedule/Schedule";
 import ChangePfp from "./components/AWS/ChangePfp";
 import MeetingHistory from "./pages/appointmentHistory/AppointmentHistory";
 import AppointmentHistory from "./pages/appointmentHistory/AppointmentHistory";
+import Facility from "./components/facility/Facility";
+import AdminSignup from "./components/Signup/adminSignup/AdminSignup";
+import CargiverSignup from "./components/Signup/caregiverSignup/CaregiverSignup";
 import MoveCoworker from "./components/moveCoworker/MoveCoworker";
 
 function App() {
@@ -65,14 +68,10 @@ function App() {
                 </RequireAuth>
               }
             />
-            <Route
-              path="/change-profile-picture"
-              element={
-                <RequireAuth allowedRoles={["USER", "ADMIN"]}>
-                  <ChangePfp />
-                </RequireAuth>
-              }
-            />
+            <Route path="/change-profile-picture" element={
+              <RequireAuth allowedRoles={["USER", "ADMIN", "DOCTOR"]}>
+              <ChangePfp />
+              </RequireAuth>} />
             <Route
               path="/appointment/history"
               element={
@@ -127,7 +126,23 @@ function App() {
                 </RequireAuth>
               }
             />
-
+            <Route path="/contact" element={<Facility/>} />
+            <Route
+              path="/AdminSignup"
+              element={
+                <RequireAuth allowedRoles={["ADMIN"]}>
+                  <AdminSignup></AdminSignup>
+                </RequireAuth>
+              } 
+            />
+             <Route
+              path="/CargiverSignup"
+              element={
+                <RequireAuth allowedRoles={["ADMIN"]}>
+                  <CargiverSignup></CargiverSignup>
+                </RequireAuth>
+              } 
+            />
             <Route path="/resetPassword" element={<ResetPassword />} />
             <Route path="/forgotPassword" element={<ForgotPassword />} />
             <Route path="/" element={<Home />} />

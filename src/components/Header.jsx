@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import IconLink from "./iconLink/IconLink";
 
 const Header = () => {
   const HeaderContainer = styled.div`
@@ -38,6 +39,8 @@ const Header = () => {
       color: white;
     }
   `;
+
+
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -103,8 +106,15 @@ const Header = () => {
     <HeaderContainer>
       {canGoBack && <ReturnButton onClick={handleReturn}>return</ReturnButton>}
       <UsernameContainer>
+        <IconLink
+          iconPicture="/src/assets/Hospital-locations.png"
+          link="/contact"
+          linkName="show hospitals"
+        ></IconLink>
         <p className="loggedInP">
-          {role === "USER" ? "Patient" : ""}{role === "ADMIN" ? "Admin" : ""}{role === "DOCTOR" ? "Doctor" : ""}: {username}
+          {role === "USER" ? "Patient" : ""}
+          {role === "ADMIN" ? "Admin" : ""}
+          {role === "DOCTOR" ? "Doctor" : ""}: {username}
         </p>
       </UsernameContainer>
     </HeaderContainer>

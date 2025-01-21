@@ -11,7 +11,7 @@ const Schedule = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [availability, setAvailability] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  const [chosenTimeslot, setChosenTimeslot] = useState(null);
+  const [existingSlots, setExistingSlots] = useState([]);
 
   const {
     authState: { user },
@@ -21,7 +21,9 @@ const Schedule = () => {
     const getAvailability = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/availability/find-by-username/${user}`,
+          `${
+            import.meta.env.VITE_API_URL
+          }/availability/find-by-username/${user}`,
           {
             withCredentials: true,
           }
@@ -54,22 +56,76 @@ const Schedule = () => {
           : null;
       })
       .filter(Boolean);
+
+    const existing = filtered.flatMap((entry) => entry.slots);
     setFilteredData(filtered);
+    setExistingSlots(existing);
+  };
+
+  const generateTimeSlots = (date) => {
+    const slots = [];
+    const startTime = new Date(date);
+    startTime.setHours(8, 0, 0, 0); // Start at 8:00
+    const endTime = new Date(date);
+    endTime.setHours(15, 30, 0, 0); // End at 15:30
+
+    const existingSet = new Set(
+      existingSlots.map((slot) => new Date(slot).toISOString())
+    );
+
+    while (startTime <= endTime) {
+      const slotISO = startTime.toISOString();
+      if (!existingSet.has(slotISO) && startTime > new Date()) {
+        slots.push(new Date(startTime));
+      }
+      startTime.setMinutes(startTime.getMinutes() + 30); // Increment by 30 minutes
+    }
+
+    return slots;
   };
 
   const handleDeleteAvailability = async (changingDates, availabilityId) => {
     try {
       const response = await axios.put(
-        `${import.meta.env.VITE_API_URL}/availability/change-availability`,
-        { 
+        `${import.meta.env.VITE_API_URL}/availability/remove-availability`,
+        {
           changingDates,
-          availabilityId 
+          availabilityId,
         },
         {
           withCredentials: true,
         }
       );
-      toast.success("Availability removed successfully! " + changingDates.map((date) => new Date(date).toLocaleString()).join(", "));
+      toast.success(
+        "Availability removed successfully! " +
+          changingDates
+            .map((date) => new Date(date).toLocaleString())
+            .join(", ")
+      );
+    } catch (error) {
+      console.error("Something went wrong, try again later.", error);
+      toast.error("Something went wrong, try again later.");
+    }
+  };
+
+  const handleAddAvailability = async (changingDates, availabilityId) => {
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_API_URL}/availability/add-availability`,
+        {
+          changingDates,
+          availabilityId,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      toast.success(
+        "Availability added successfully! " +
+          changingDates
+            .map((date) => new Date(date).toLocaleString())
+            .join(", ")
+      );
     } catch (error) {
       console.error("Something went wrong, try again later.", error);
       toast.error("Something went wrong, try again later.");
@@ -99,7 +155,6 @@ const Schedule = () => {
                   JSON.parse(slot)
                 );
 
-                // Group slots by availabilityId
                 const groupedSlots = selectedSlots.reduce((acc, curr) => {
                   if (!acc[curr.entryId]) {
                     acc[curr.entryId] = [];
@@ -108,10 +163,11 @@ const Schedule = () => {
                   return acc;
                 }, {});
 
-                // Send request for each availabilityId group
-                Object.entries(groupedSlots).forEach(([availabilityId, slots]) => {
-                  handleDeleteAvailability(slots, availabilityId);
-                });
+                Object.entries(groupedSlots).forEach(
+                  ([availabilityId, slots]) => {
+                    handleDeleteAvailability(slots, availabilityId);
+                  }
+                );
               }}
             >
               {({ handleChange, values }) => (
@@ -133,34 +189,30 @@ const Schedule = () => {
                               value: selectedValues,
                             },
                           });
-                          const parsedSlots = selectedValues.map((value) =>
-                            JSON.parse(value)
-                          );
-                          setChosenTimeslot(parsedSlots);
                         }}
                       >
                         <option value="" disabled>
                           Select timeslots
                         </option>
                         {filteredData.map((entry) => (
-                          <optgroup
-                            key={entry.id}
-                          >
-                            {entry.slots.map((slot) => (
-                              <option
-                                key={`${entry.id}-${slot}`}
-                                value={JSON.stringify({
-                                  entryId: entry.id,
-                                  slot,
-                                })}
-                              >
-                                {`${new Date(
-                                  slot
-                                ).toLocaleDateString()} ${new Date(
-                                  slot
-                                ).toLocaleTimeString()}`}
-                              </option>
-                            ))}
+                          <optgroup key={entry.id}>
+                            {entry.slots
+                              .sort((a, b) => new Date(a) - new Date(b)) // Sort slots chronologically
+                              .map((slot) => (
+                                <option
+                                  key={`${entry.id}-${slot}`}
+                                  value={JSON.stringify({
+                                    entryId: entry.id,
+                                    slot,
+                                  })}
+                                >
+                                  {`${new Date(
+                                    slot
+                                  ).toLocaleDateString()} ${new Date(
+                                    slot
+                                  ).toLocaleTimeString()}`}
+                                </option>
+                              ))}
                           </optgroup>
                         ))}
                       </StyledField>
@@ -168,7 +220,57 @@ const Schedule = () => {
                   ) : (
                     <p>No available times for this date.</p>
                   )}
-                  <StyledButton type="submit">Remove available times</StyledButton>
+                  <StyledButton type="submit">
+                    Remove available times
+                  </StyledButton>
+                </Form>
+              )}
+            </Formik>
+
+            <h2>Add new availability:</h2>
+            <Formik
+              initialValues={{ newSlots: [] }}
+              onSubmit={(values) => {
+                if (values.newSlots.length === 0) {
+                  toast.error("Please select at least one time slot");
+                  return;
+                }
+
+                const newSlots = values.newSlots.map((slot) =>
+                  new Date(slot).toISOString()
+                );
+                handleAddAvailability(newSlots, availability[0]?.id); 
+              }}
+            >
+              {({ handleChange }) => (
+                <Form>
+                  <StyledField
+                    as="select"
+                    name="newSlots"
+                    multiple
+                    onChange={(e) => {
+                      const options = Array.from(e.target.selectedOptions);
+                      const selectedValues = options.map(
+                        (option) => option.value
+                      );
+                      handleChange({
+                        target: {
+                          name: "newSlots",
+                          value: selectedValues,
+                        },
+                      });
+                    }}
+                  >
+                    {generateTimeSlots(selectedDate).map((slot) => (
+                      <option
+                        key={slot.toISOString()}
+                        value={slot.toISOString()}
+                      >
+                        {`${slot.toLocaleDateString()} ${slot.toLocaleTimeString()}`}
+                      </option>
+                    ))}
+                  </StyledField>
+                  <StyledButton type="submit">Add times</StyledButton>
                 </Form>
               )}
             </Formik>
@@ -186,10 +288,10 @@ const StyledMain = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 50px;
   border: 2px solid #ccc;
   border-radius: 2%;
-  min-height: 100vh;
+  min-height: 75vh;
+  margin-bottom: 70px;
 `;
 
 const StyledField = styled(Field)`
