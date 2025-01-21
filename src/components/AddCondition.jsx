@@ -31,26 +31,28 @@ const ConditionButton = styled.button`
   cursor: pointer;
 `;
 const ConditionInput = styled.input`
-height: 2rem;
-width: auto;
-border-radius: 8px;
-border-style: none;
-border: solid 1px lightgray;
-margin-bottom: 1rem;
+  height: 2rem;
+  width: auto;
+  border-radius: 8px;
+  border-style: none;
+  border: solid 1px lightgray;
+  margin-bottom: 1rem;
 `;
 const ConditionSelect = styled.select`
-height: 2rem;
-width: auto;
-border-radius: 8px;
-border-style: none;
-border: solid 1px lightgray;
-margin-top: 1rem;`;
+  height: 2rem;
+  width: auto;
+  border-radius: 8px;
+  border-style: none;
+  border: solid 1px lightgray;
+  margin-top: 1rem;
+`;
 
 const AddCondition = () => {
   const [condition, setCondition] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [message, setMessage] = useState("");
 
   const addConditionAxios = async () => {
     try {
@@ -65,8 +67,12 @@ const AddCondition = () => {
       );
 
       setIsSubmitted(true);
+      setMessage("Condition Added!");
     } catch (error) {
-      console.error("Error adding condition:", error);
+      setIsSubmitted(true)
+      setMessage(
+        "Something went wrong, control your inputs or try again later!"
+      );
     }
   };
 
@@ -83,7 +89,7 @@ const AddCondition = () => {
 
       {isSubmitted ? (
         <AddConditionContainer>
-          <ConfirmationMessage>Condition Added!</ConfirmationMessage>
+          <ConfirmationMessage>{message}</ConfirmationMessage>
           <ConditionButton onClick={resetForm}>Add One More?</ConditionButton>
         </AddConditionContainer>
       ) : (
@@ -114,7 +120,9 @@ const AddCondition = () => {
             <option value="DISORDERS">Disorders</option>
           </ConditionSelect>
 
-          <ConditionButton onClick={addConditionAxios}>Add Condition</ConditionButton>
+          <ConditionButton onClick={addConditionAxios}>
+            Add Condition
+          </ConditionButton>
         </AddConditionContainer>
       )}
     </AddConditionContainer>
