@@ -113,9 +113,11 @@ const Facility = () => {
             padding: "10px",
             justifyContent: "center",
             maxWidth: "800px",
-            height: "33.5rem",
             overflow: "scroll",
-
+            height: "auto",
+            "@media (max-width: 460px)": {
+              height: "33.5rem",
+            },
           }}
         >
           {filteredHospitals.map((hospital, index) => (
@@ -137,7 +139,7 @@ const Facility = () => {
                   borderColor: "black",
                 },
                 "@media (max-width: 460px)": {
-                  width: "15rem", // Fast bredd för smalare skärmar
+                  width: "15rem",
                 },
               }}
               onClick={() => handleOpenDetails(hospital)}
