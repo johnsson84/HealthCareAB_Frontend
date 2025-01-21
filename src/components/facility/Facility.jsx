@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import styled from "styled-components";
 import {
   Dialog,
   DialogTitle,
@@ -10,6 +11,11 @@ import {
   Button,
   TextField,
 } from "@mui/material";
+
+const FooterSpace = styled.div`
+  height: 4rem;
+  width: 100%;
+`;
 
 const Facility = () => {
   const [hospitals, setHospitals] = useState([]);
@@ -115,7 +121,7 @@ const Facility = () => {
             maxWidth: "800px",
             overflow: "scroll",
             height: "auto",
-            "@media (maxWidth: 460px)": {
+            "@media (max-width: 460px)": {
               height: "33.5rem",
             },
           }}
@@ -214,7 +220,10 @@ const Facility = () => {
             </List>
           </DialogContent>
         </Dialog>
+        
       )}
+          <FooterSpace />
+
     </div>
   );
 };

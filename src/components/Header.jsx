@@ -106,6 +106,11 @@ const Header = () => {
     <HeaderContainer>
       {canGoBack && <ReturnButton onClick={handleReturn}>return</ReturnButton>}
       <UsernameContainer>
+      <IconLink
+          iconPicture="/src/assets/faq.png"
+          link="/faq"
+          linkName="show FAQ"
+        ></IconLink>
         <IconLink
           iconPicture="/src/assets/Hospital-locations.png"
           link="/contact"
