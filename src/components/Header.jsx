@@ -23,7 +23,6 @@ const Header = () => {
     height: 3rem;
     width: 100%;
     font-size: small;
-    border: 1px solid blue;
   `;
   const ReturnButton = styled.button`
     color: black;

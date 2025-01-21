@@ -1,10 +1,12 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import {Dialog, DialogTitle,  DialogContent, List, ListItem, ListItemText, Button,} from "@mui/material";
 
 const Facility = () => {
   const [hospitals, setHospitals] = useState([]);
   const [coworkerDetails, setCoworkerDetails] = useState(null);
-  // Testa att göra en lista med alla saker man kan skriva och sen kolla mot den.
+  const [selectedHospital, setSelectedHospital] = useState(null);
+
 
   // hämtar alla sjukhus från DB
   const fetchHospitals = async () => {
@@ -47,114 +49,124 @@ const Facility = () => {
     }
     setCoworkerDetails((prevData) => ({ ...prevData, ...nameMap }));
   };
+  const handleOpenDetails = (hospital) => {
+    setSelectedHospital(hospital);
+  }
+
+  const handleCloseDetails = () => {
+    setSelectedHospital(null);
+  };
 
   useEffect(() => {
     fetchHospitals();
   }, []);
 
   return (
-    
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      padding: "20px",
+    }}
+  >
+    <h4>Available Hospitals</h4>
+    {hospitals.length === 0 ? (
+      <p>No hospitals available</p>
+    ) : (
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "10px",
+          justifyContent: "center",
+          maxWidth: "800px",
+        }}
+      >
+        {hospitals.map((hospital, index) => (
+          <Button
+            key={index}
+            variant="outlined"
+            style={{
+              minWidth: "200px",
+              textAlign: "center",
+              padding: "10px",
+              borderRadius: "8px",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+            }}
+            onClick={() => handleOpenDetails(hospital)}
+          >
+            {hospital.facilityName} <br />
+            {hospital.address.city}
+          </Button>
+        ))}
+      </div>
+    )}
+
+    {selectedHospital && (
+      <Dialog
+        open={!!selectedHospital}
+        onClose={handleCloseDetails}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>{selectedHospital.facilityName}</DialogTitle>
+        <DialogContent>
+          <List>
+            <ListItem>
+              <ListItemText
+                primary="City"
+                secondary={selectedHospital.address.city}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemText
+                primary="Phone"
+                secondary={selectedHospital.phoneNumber || "N/A"}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemText
+                primary="Email"
+                secondary={selectedHospital.email || "N/A"}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemText
+                primary="Open Hours"
+                secondary={selectedHospital.hoursOpen || "N/A"}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemText
+                primary="Address"
+                secondary={`${selectedHospital.address.street}, ${selectedHospital.address.region}, ${selectedHospital.address.country}`}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemText
+                primary="Doctors"
+                secondary={
+                  selectedHospital.coworkersId?.length
+                    ? selectedHospital.coworkersId
+                        .map((id) =>
+                          coworkerDetails?.[id]
+                            ? coworkerDetails[id]
+                            : "Loading..."
+                        )
+                        .join(", ")
+                    : "Nobody seems to work here??"
+                }
+              />
+            </ListItem>
+          </List>
+        </DialogContent>
+      </Dialog>
+    )}
+  </div>
   );
 };
 
 export default Facility;
 
 
-{/* <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
-      <h4>Available Hospitals</h4>
-      {hospitals.length === 0 ? (
-        <p> no hospitals available</p>
-      ) : (
-        <div
-          style={{
-            padding: "0px",
-            borderRadius: "10px",
-            overflow: "hidden",
-            width: "50%",
-            display: "flex",
-            justifyContent: "space-evenly",
-          }}
-        >
-          <ul
-            style={{
-              margin: "0",
-              display: "flex",
-              flexWrap: "wrap",
-              height: "50rem",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            {hospitals.map((hospitals, index) => (
-              <div
-                key={index}
-                style={{
-                  margin: "5px",
-                  display: "flex",
-                }}
-              >
-                <li
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    fontSize: "12px",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  Hospital: {hospitals.facilityName} <br />
-                  City: {hospitals.address.city} <br />
-                  {/* Phone: {hospitals.phoneNumber} <br /> */}
-                  {/* Mail: {hospitals.email} <br /> */}
-                  {/* Open hours: {hospitals.hoursOpen} <br /> */}
-                  {/* Address: {hospitals.address.street} <br />
-                  Region: {hospitals.address.region} <br />
-                  Country: {hospitals.address.country} */}
-                  {hospitals.coworkersId && hospitals.coworkersId.length > 0 ? (
-                    <ul
-                      style={{
-                        margin: "0",
-                        padding: "0",
-                        // border: "1px solid red",
-                        display: "flex",
-                        flexDirection: "column",
-                        width: "12rem",
-                        justifyContent: "center",
-                        alignItems: "start",
-                      }}
-                    >
-                      {/* {hospitals.coworkersId.map((userId, i) => (
-                        <li
-                          key={i}
-                          style={{
-                            fontSize: "10px",
-                            height: "2rem",
-                            textAlign: "center",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          Doctor:
-                          {coworkerDetails && coworkerDetails[userId]
-                            ? coworkerDetails[userId]
-                            : "Loading..."}
-                        </li>
-                      ))} */}
-                    </ul>
-                  ) : (
-                    "Nobody seems to work here??"
-                  )}
-                </li>
-              </div>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div> */}
