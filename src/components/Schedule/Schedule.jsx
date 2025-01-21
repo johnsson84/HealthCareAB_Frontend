@@ -259,10 +259,9 @@ const StyledMain = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 50px;
   border: 2px solid #ccc;
   border-radius: 2%;
-  min-height: 100vh;
+  min-height: 75vh;
 `;
 
 const StyledField = styled(Field)`
