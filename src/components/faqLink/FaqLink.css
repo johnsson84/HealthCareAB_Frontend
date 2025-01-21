@@ -1,0 +1,33 @@
+.FaqLinkContainer{
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+  }
+  
+  .FaqIconLink {
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    background-color: rgba(255, 255, 255, 0.027);
+    cursor: pointer;
+  }
+  
+  .FaqIconText {
+    margin-right: 20px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+  }
+  .FaqIconLink:hover {
+    scale: 1.1;
+  }
+  .FaqIconImg {
+    max-width: 29px;
+    max-height: 29px;
+  }
+  
+  .FaqIconLink:hover + .FaqIconText {
+    transform: translateX(+10px); 
+    opacity: 2;
+  }
+  

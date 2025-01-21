@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import IconLink from "./iconLink/IconLink";
+import FaqLink from "./faqLink/FaqLink";
 
 const Header = () => {
   const HeaderContainer = styled.div`
@@ -106,10 +107,15 @@ const Header = () => {
     <HeaderContainer>
       {canGoBack && <ReturnButton onClick={handleReturn}>return</ReturnButton>}
       <UsernameContainer>
+      <FaqLink
+          iconPicture="/src/assets/faq.png"
+          link="/faq"
+          linkName="Show FAQ"
+        ></FaqLink>
         <IconLink
           iconPicture="/src/assets/Hospital-locations.png"
           link="/contact"
-          linkName="show hospitals"
+          linkName="Show Hospitals"
         ></IconLink>
         <p className="loggedInP">
           {role === "USER" ? "Patient" : ""}

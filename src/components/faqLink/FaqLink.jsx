@@ -1,4 +1,4 @@
-import "../iconLink/IconLink.css";
+import "../faqLink/FaqLink.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -9,13 +9,13 @@ const IconLink = ({ iconPicture, link, linkName }) => {
   };
 
   return (
-    <div className="LinkContainer">
-    <button className="IconLink" onClick={handleClick}>
+    <div className="FaqLinkContainer">
+    <button className="FaqIconLink" onClick={handleClick}>
       <div className="IconLinkPicture">
-        <img className="IconImg" src={iconPicture}></img>
+        <img className="FaqIconImg" src={iconPicture}></img>
       </div>
     </button>
-    <span className="IconText">{linkName}</span>
+    <span className="FaqIconText">{linkName}</span>
     </div>
   );
 };

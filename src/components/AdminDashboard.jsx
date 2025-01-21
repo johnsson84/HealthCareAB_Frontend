@@ -112,6 +112,11 @@ function AdminDashboard() {
           linkName="Add Condition"
           link="/add/condition"
         ></ButtonLink>
+        <ButtonLink
+        picture="/src/assets/pfp.svg"
+          linkName="Edit Coworkers Location"
+          link="/edit/coworker/location"
+        ></ButtonLink>
       </div>
       <Logout />
       <FooterSpace/>
