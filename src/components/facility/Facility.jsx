@@ -53,6 +53,7 @@ const Facility = () => {
     setCoworkerDetails((prevData) => ({ ...prevData, ...nameMap }));
   };
 
+  // Hanterar öppet och stängt popup fönster
   const handleOpenDetails = (hospital) => {
     setSelectedHospital(hospital);
   }
@@ -89,7 +90,7 @@ const Facility = () => {
       <TextField
         label="Search by name or city"
         variant="outlined"
-        style={{ marginBottom: "20px", width: "50%" }}
+        style={{ marginBottom: "20px", width: "50%"}}
         value={searchText}
         onChange={handleFilterHospitalSearch}
       />
@@ -103,6 +104,8 @@ const Facility = () => {
             gap: "10px",
             justifyContent: "center",
             maxWidth: "800px",
+            overflow: "scroll",
+            maxHeight: "35rem",
           }}
         >
           {filteredHospitals.map((hospital, index) => (
@@ -110,6 +113,7 @@ const Facility = () => {
               key={index}
               variant="outlined"
               style={{
+                borderColor: "black",
                 minWidth: "200px",
                 textAlign: "center",
                 padding: "10px",
@@ -130,6 +134,11 @@ const Facility = () => {
         onClose={handleCloseDetails}
         fullWidth
         maxWidth="sm"
+        PaperProps={{
+          sx: {
+            borderRadius: "15px",
+          },
+        }}
       >
         <DialogTitle>{selectedHospital.facilityName}</DialogTitle>
         <DialogContent>
@@ -187,7 +196,4 @@ const Facility = () => {
   </div>
   );
 };
-
 export default Facility;
-
-
