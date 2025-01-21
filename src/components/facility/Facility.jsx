@@ -121,9 +121,7 @@ const Facility = () => {
             maxWidth: "800px",
             overflow: "scroll",
             height: "auto",
-            "@media (max-width: 460px)": {
-              height: "33.5rem",
-            },
+            
           }}
         >
           {filteredHospitals.map((hospital, index) => (

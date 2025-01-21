@@ -80,11 +80,7 @@ function AdminDashboard() {
       <Text>Welcome, {user}!</Text>
       <IMGHolder src = {checkProfilePicture()} alt="Profile Picture"/>
       <div className="dbButtonContainer">
-        <ButtonLink
-          picture="/src/assets/Message Chat 01.svg"
-          linkName="Appointment"
-          link="/Dappointment"
-        ></ButtonLink>
+        
         
         <ButtonLink
           picture="/src/assets/User Profile Add 01.svg"
@@ -106,6 +102,11 @@ function AdminDashboard() {
         picture="/src/assets/pfp.svg"
           linkName="Change Profile picture"
           link="/change-profile-picture"
+        ></ButtonLink>
+        <ButtonLink
+        picture="/src/assets/pfp.svg"
+          linkName="Add Condition"
+          link="/add/condition"
         ></ButtonLink>
         <ButtonLink
         picture="/src/assets/pfp.svg"

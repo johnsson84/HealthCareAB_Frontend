@@ -35,6 +35,7 @@ import CargiverSignup from "./components/Signup/caregiverSignup/CaregiverSignup"
 import Faq from "./components/faq/Faq";
 import MoveCoworker from "./components/moveCoworker/MoveCoworker";
 
+import AddCondition from "./components/AddCondition";
 
 function App() {
   return (
@@ -136,6 +137,14 @@ function App() {
                 </RequireAuth>
               } 
             />
+            <Route
+              path="/add/condition"
+              element={
+                <RequireAuth allowedRoles={["ADMIN"]}>
+                  <AddCondition/>
+                </RequireAuth>
+              } 
+            />
              <Route
               path="/CargiverSignup"
               element={
@@ -144,8 +153,6 @@ function App() {
                 </RequireAuth>
               } 
             />
-            <Route path="/faq" element={<Faq/>} />
-            <Route path="/contact" element={<Facility/>} />
             <Route path="/resetPassword" element={<ResetPassword />} />
             <Route path="/forgotPassword" element={<ForgotPassword />} />
             <Route path="/" element={<Home />} />
