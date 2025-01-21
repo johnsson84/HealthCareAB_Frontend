@@ -5,15 +5,15 @@ const CargiverSignup = () => {
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [loading, setloading] = useState(false);
-  const [faciltys, setFaciltys] = useState([]);
-  const [selectedFacilityId, setSelectedFacilityId] = useState("");
-  
+  const [facilities, setFaciltys] = useState([]);
+  const [facilityId, setSelectedFacilityId] = useState("");
+
   useEffect(() => {
     const getFacilityList = async () => {
       try {
         const responses = await axios.get(
           `${import.meta.env.VITE_API_URL}/facility/all`,
-         // setFaciltys(responses.data),
+          // setFaciltys(responses.data),
           { withCredentials: true },
           {
             headers: {
@@ -21,8 +21,7 @@ const CargiverSignup = () => {
             },
           }
         );
-        setFaciltys(responses.data),
-        console.log(facilty);
+        setFaciltys(responses.data), console.log(facilty);
       } catch (err) {
         err;
       }
@@ -44,19 +43,22 @@ const CargiverSignup = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleFacilityChange = (e) => {
+    setSelectedFacilityId(e.target.value);
+  };
+
   const handlarSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccessMessage("");
 
-
     try {
       setloading(true);
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/auth/register/caregiver`,
-        formData,
-        { withCredentials: true },
+        `${import.meta.env.VITE_API_URL}/auth/register/caregiver/${facilityId}`,
+        { ...formData, facilityId},
         {
+            withCredentials: true,
           headers: {
             "Content-Type": "application/json",
           },
@@ -163,15 +165,19 @@ const CargiverSignup = () => {
             className="styledInput"
           />
           <div>
-            <label >facilities:</label>
-            <select id="facility" value={selectedFacilityId} onChange={handleChange} required>
-            <option value="">Choose a facility</option>
-            {faciltys.map((facilty)=>(
-            <option key={faciltys.id} value={faciltys.id}>
-                {facilty.facilityName}
-            </option>
-            ))}
-
+            <label>facilities:</label>
+            <select
+              id="facility"
+              value={facilityId}
+              onChange={handleFacilityChange}
+              required
+            >
+              <option value="">Choose a facility</option>
+              {facilities.map((facility) => (
+                <option key={facility.id} value={facility.id}>
+                  {facility.facilityName}
+                </option>
+              ))}
             </select>
           </div>
           <button type="submit" className="loginButton">
