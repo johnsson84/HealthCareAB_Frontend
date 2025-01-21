@@ -27,6 +27,7 @@ const AddContainer = styled.div`
   height: auto;
   width: 70%;
   border-radius: 15px;
+  max-width: 500px;
 `;
 
 const ConfirmationMessage = styled.div`
