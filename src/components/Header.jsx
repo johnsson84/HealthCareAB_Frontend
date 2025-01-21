@@ -40,6 +40,8 @@ const Header = () => {
     }
   `;
 
+
+
   const navigate = useNavigate();
   const location = useLocation();
   const hiddenPaths = ["/login", "/signup", "/"];
@@ -107,6 +109,7 @@ const Header = () => {
         <IconLink
           iconPicture="/src/assets/Hospital-locations.png"
           link="/contact"
+          linkName="show hospitals"
         ></IconLink>
         <p className="loggedInP">
           {role === "USER" ? "Patient" : ""}
