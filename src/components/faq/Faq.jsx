@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import styled from "styled-components";
 import {
   Dialog,
   DialogTitle,
@@ -10,6 +11,11 @@ import {
   Button,
   TextField,
 } from "@mui/material";
+
+const FooterSpace = styled.div`
+  height: 4rem;
+  width: 100%;
+`;
 
 const Faq = () => {
   const [conditions, setConditions] = useState([]);
@@ -134,20 +140,21 @@ const Faq = () => {
             <List>
               <ListItem>
                 <ListItemText
-                  primary="Category"
-                  secondary={selectedCondition.category}
+                  primary="Description"
+                  secondary={selectedCondition.description || "N/A"}
                 />
               </ListItem>
               <ListItem>
                 <ListItemText
-                  primary="Details"
-                  secondary={selectedCondition.description || "N/A"}
+                  primary="Category"
+                  secondary={selectedCondition.category}
                 />
               </ListItem>
             </List>
           </DialogContent>
         </Dialog>
       )}
+      <FooterSpace />
     </div>
   );
 };

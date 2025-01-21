@@ -1,7 +1,7 @@
 .LinkContainer{
   display: flex;
   align-items: center;
-  flex-direction: row-reverse;
+  flex-direction: row;
 }
 
 .IconLink {
@@ -11,7 +11,6 @@
   margin-right: 20px;
   background-color: rgba(255, 255, 255, 0.027);
   cursor: pointer;
-  transition: scale 0.3s ease;
 }
 
 .IconText {
@@ -28,6 +27,6 @@
 }
 
 .IconLink:hover + .IconText {
-  transform: translateX(+10px); 
+  transform: translateX(-10px); 
   opacity: 2;
 }
