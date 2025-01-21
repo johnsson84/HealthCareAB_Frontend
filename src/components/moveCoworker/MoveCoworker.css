@@ -1,0 +1,99 @@
+.moveCoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.searchUsernameContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.selectFacilitiesContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  width: 70%;
+}
+.selectFacilitiesInnerCon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 120%;
+  max-width: 1400px;
+}
+.searchInnerCon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.searchInnerCon button {
+  border-radius: 8px;
+  border-style: none;
+  height: 2rem;
+  width: 4rem !important;
+  background-color: #057d7a;
+  color: white;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+.searchInnerCon input {
+  border-radius: 8px;
+  border-style: none;
+  border: 1px solid gray;
+  height: 2rem;
+  width: auto;
+  text-align: center;
+  margin-bottom: 1rem;
+  cursor: text;
+}
+
+.selectFacilitiesContainer button {
+  background-color: #057d7a;
+  color: white;
+  font-weight: 600;
+  border-radius: 8px;
+  border-style: none;
+  height: 2rem;
+  width: 8rem;
+  cursor: pointer;
+}
+.moveCoworkerBtn {
+  background-color: #057d7a;
+  color: white;
+  font-weight: 600;
+  border-radius: 8px;
+  border-style: none;
+  height: 2rem;
+  width: 8rem;
+  cursor: pointer;
+}
+.selectUlCon {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.selectFacilityLi {
+  width: 14rem;
+  height: 4rem;
+
+  text-align: center;
+  font-size: small;
+}
+.coworkerResponse {
+  text-align: center;
+  color: green;
+  font-size: large;
+  font-weight: 800;
+  margin-top: 3rem;
+}

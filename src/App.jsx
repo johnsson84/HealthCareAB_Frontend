@@ -29,11 +29,9 @@ import Schedule from "./components/Schedule/Schedule";
 import ChangePfp from "./components/AWS/ChangePfp";
 import MeetingHistory from "./pages/appointmentHistory/AppointmentHistory";
 import AppointmentHistory from "./pages/appointmentHistory/AppointmentHistory";
+import MoveCoworker from "./components/moveCoworker/MoveCoworker";
 
 function App() {
-
-  
-
   return (
     <AuthProvider>
       <GlobalStyle />
@@ -43,6 +41,14 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
+            <Route
+              path="/edit/coworker/location"
+              element={
+                <RequireAuth allowedRoles={["ADMIN"]}>
+                  <MoveCoworker />
+                </RequireAuth>
+              }
+            />
             <Route
               path="/user/dashboard"
               element={
@@ -59,10 +65,14 @@ function App() {
                 </RequireAuth>
               }
             />
-            <Route path="/change-profile-picture" element={
-              <RequireAuth allowedRoles={["USER", "ADMIN"]}>
-              <ChangePfp />
-              </RequireAuth>} />
+            <Route
+              path="/change-profile-picture"
+              element={
+                <RequireAuth allowedRoles={["USER", "ADMIN"]}>
+                  <ChangePfp />
+                </RequireAuth>
+              }
+            />
             <Route
               path="/appointment/history"
               element={
@@ -91,19 +101,24 @@ function App() {
             />
             <Route path="/profile" element={<Profile></Profile>} />
 
-             <Route path="/appointment" element={
+            <Route
+              path="/appointment"
+              element={
                 <RequireAuth allowedRoles={["USER"]}>
                   <AppointmentIncomingList />
                 </RequireAuth>
-              } />
-             
+              }
+            />
 
-             <Route path="/Dappointment" element={
+            <Route
+              path="/Dappointment"
+              element={
                 <RequireAuth allowedRoles={["DOCTOR"]}>
                   <AppointmentIncomingListDoctor />
                 </RequireAuth>
-              }/>
-             
+              }
+            />
+
             <Route
               path="/schedule"
               element={
