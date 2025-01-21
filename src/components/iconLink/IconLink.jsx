@@ -15,10 +15,8 @@ const IconLink = ({ iconPicture, link, linkName }) => {
         <img className="IconImg" src={iconPicture}></img>
       </div>
     </button>
-    <p className="IconText">{linkName}</p>
+    <span className="IconText">{linkName}</span>
     </div>
   );
 };
 export default IconLink;
-
-

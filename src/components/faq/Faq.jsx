@@ -141,7 +141,7 @@ const Faq = () => {
               <ListItem>
                 <ListItemText
                   primary="Details"
-                  secondary={selectedCondition.details || "N/A"}
+                  secondary={selectedCondition.description || "N/A"}
                 />
               </ListItem>
             </List>
