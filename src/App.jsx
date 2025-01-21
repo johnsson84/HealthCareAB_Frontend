@@ -32,6 +32,7 @@ import AppointmentHistory from "./pages/appointmentHistory/AppointmentHistory";
 import Facility from "./components/facility/Facility";
 import AdminSignup from "./components/Signup/adminSignup/AdminSignup";
 import CargiverSignup from "./components/Signup/caregiverSignup/CaregiverSignup";
+import AddCondition from "./components/AddCondition";
 
 function App() {
 
@@ -129,6 +130,14 @@ function App() {
               element={
                 <RequireAuth allowedRoles={["ADMIN"]}>
                   <CargiverSignup></CargiverSignup>
+                </RequireAuth>
+              } 
+            />
+            <Route
+              path="/add/condition"
+              element={
+                <RequireAuth allowedRoles={["ADMIN"]}>
+                  <AddCondition/>
                 </RequireAuth>
               } 
             />

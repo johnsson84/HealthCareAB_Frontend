@@ -107,6 +107,11 @@ function AdminDashboard() {
           linkName="Change Profile picture"
           link="/change-profile-picture"
         ></ButtonLink>
+        <ButtonLink
+        picture="/src/assets/pfp.svg"
+          linkName="Add Condition"
+          link="/add/condition"
+        ></ButtonLink>
       </div>
       <Logout />
       <FooterSpace/>
