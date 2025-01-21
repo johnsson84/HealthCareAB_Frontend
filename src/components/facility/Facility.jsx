@@ -53,7 +53,14 @@ const Facility = () => {
   }, []);
 
   return (
-    <div
+    
+  );
+};
+
+export default Facility;
+
+
+{/* <div
       style={{
         display: "flex",
         flexDirection: "column",
@@ -68,8 +75,10 @@ const Facility = () => {
           style={{
             padding: "0px",
             borderRadius: "10px",
-            border: "1px solid black",
             overflow: "hidden",
+            width: "50%",
+            display: "flex",
+            justifyContent: "space-evenly",
           }}
         >
           <ul
@@ -77,9 +86,9 @@ const Facility = () => {
               margin: "0",
               display: "flex",
               flexWrap: "wrap",
-              width: "auto",
-              height: "20rem",
-              justifyContent: "space-evenly",
+              height: "50rem",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
             {hospitals.map((hospitals, index) => (
@@ -88,7 +97,6 @@ const Facility = () => {
                 style={{
                   margin: "5px",
                   display: "flex",
-                  flexWrap: "wrap",
                 }}
               >
                 <li
@@ -97,7 +105,7 @@ const Facility = () => {
                     flexDirection: "column",
                     fontSize: "12px",
                     alignItems: "center",
-                    justifyContent: "space-evenly",
+                    justifyContent: "center",
                   }}
                 >
                   Hospital: {hospitals.facilityName} <br />
@@ -149,8 +157,4 @@ const Facility = () => {
           </ul>
         </div>
       )}
-    </div>
-  );
-};
-
-export default Facility;
+    </div> */}

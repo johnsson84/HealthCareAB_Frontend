@@ -1,17 +1,23 @@
-.ButtonLinkContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: white;
-    border: none;
-    border-radius: 5px;
-    margin: 0px 5px 5px 0px;
-    padding: 20px;
-    box-shadow: 0px 0px 10px 0px rgba(130, 130, 130, 0.75);
-    -webkit-box-shadow: 0px 0px 10px 0px rgba(130, 130, 130, 0.75);
-    -moz-box-shadow: 0px 0px 10px 0px rgba(130, 130, 130, 0.75);
-  }
-  .img {
-    width: 24px;
-    height: 24px;
-  }
+.IconLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border: none;
+  border-radius: 5px;
+  margin-right: 20px;
+  background-color: rgba(255, 255, 255, 0.027);
+  cursor: pointer;
+}
+
+.IconLink:hover {
+  scale: 1.1;
+  box-shadow: 0px 0px 10px 0px rgba(130, 130, 130, 0.75);
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(130, 130, 130, 0.75);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(130, 130, 130, 0.75);
+}
+
+.IconImg {
+  max-width: 30px;
+  max-height: 30px;
+}

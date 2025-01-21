@@ -29,6 +29,7 @@ import Schedule from "./components/Schedule/Schedule";
 import ChangePfp from "./components/AWS/ChangePfp";
 import MeetingHistory from "./pages/appointmentHistory/AppointmentHistory";
 import AppointmentHistory from "./pages/appointmentHistory/AppointmentHistory";
+import Facility from "./components/facility/Facility";
 
 function App() {
 
@@ -112,7 +113,8 @@ function App() {
                 </RequireAuth>
               }
             />
-
+            
+            <Route path="/contact" element={<Facility/>} />
             <Route path="/resetPassword" element={<ResetPassword />} />
             <Route path="/forgotPassword" element={<ForgotPassword />} />
             <Route path="/" element={<Home />} />

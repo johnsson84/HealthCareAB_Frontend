@@ -1,30 +1,21 @@
 import "../iconLink/IconLink.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 
-const ButtonLink = ({ picture, link }) => {
+const IconLink = ({ iconPicture, link }) => {
   const navigate = useNavigate();
   const handleClick = () => {
     navigate(link);
   };
 
   return (
-    <button className="ButtonLinkContainer" onClick={handleClick}>
-      <div className="ButtonLinkPicture">
-        <img src={picture}></img>
+    <button className="IconLink" onClick={handleClick}>
+      <div className="IconLinkPicture">
+        <img className="IconImg" src={iconPicture}></img>
       </div>
     </button>
   );
 };
+export default IconLink;
 
 
-export default ButtonLink;
-
-
-const ImageHolder = styled.img`
-  max-width: 24px;
-  max-height: 24px;
-  border-radius: 50%;
-  margin: 20px 0;
-`;
