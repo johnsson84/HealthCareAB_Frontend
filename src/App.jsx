@@ -32,7 +32,9 @@ import AppointmentHistory from "./pages/appointmentHistory/AppointmentHistory";
 import Facility from "./components/facility/Facility";
 import AdminSignup from "./components/Signup/adminSignup/AdminSignup";
 import CargiverSignup from "./components/Signup/caregiverSignup/CaregiverSignup";
+import Faq from "./components/faq/Faq";
 import MoveCoworker from "./components/moveCoworker/MoveCoworker";
+
 
 function App() {
   return (
@@ -126,7 +128,6 @@ function App() {
                 </RequireAuth>
               }
             />
-            <Route path="/contact" element={<Facility/>} />
             <Route
               path="/AdminSignup"
               element={
@@ -143,6 +144,8 @@ function App() {
                 </RequireAuth>
               } 
             />
+            <Route path="/faq" element={<Faq/>} />
+            <Route path="/contact" element={<Facility/>} />
             <Route path="/resetPassword" element={<ResetPassword />} />
             <Route path="/forgotPassword" element={<ForgotPassword />} />
             <Route path="/" element={<Home />} />

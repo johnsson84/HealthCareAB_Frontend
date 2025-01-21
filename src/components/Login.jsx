@@ -178,7 +178,7 @@ function Login() {
           required
         />
         <LoginButton type="submit">Login</LoginButton>
-        <ReturnButton type="submit">
+        <ReturnButton>
           <Link className="link" to="/">
             Return
           </Link>

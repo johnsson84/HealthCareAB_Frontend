@@ -1,7 +1,12 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 import "./AdminSignup.css";
 
+const FooterSpace = styled.div`
+  height: 4rem;
+  width: 100%;
+`;
 const AdminSignup = () => {
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -137,6 +142,8 @@ const AdminSignup = () => {
         {error && <p style={{ color: "red" }}>{error}</p>}
         {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
       </div>
+      <FooterSpace />
+
     </div>
   );
 };
