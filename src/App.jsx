@@ -153,6 +153,8 @@ function App() {
                 </RequireAuth>
               } 
             />
+            <Route path="/faq" element={<Faq/>} />
+            <Route path="/contact" element={<Facility/>} />
             <Route path="/resetPassword" element={<ResetPassword />} />
             <Route path="/forgotPassword" element={<ForgotPassword />} />
             <Route path="/" element={<Home />} />
