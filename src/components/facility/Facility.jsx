@@ -1,12 +1,12 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import {Dialog, DialogTitle,  DialogContent, List, ListItem, ListItemText, Button,} from "@mui/material";
+import {Dialog, DialogTitle,  DialogContent, List, ListItem, ListItemText, Button, TextField} from "@mui/material";
 
 const Facility = () => {
   const [hospitals, setHospitals] = useState([]);
   const [coworkerDetails, setCoworkerDetails] = useState(null);
   const [selectedHospital, setSelectedHospital] = useState(null);
-  const [filteredHospitals, setFilteredHospitals] = useState(null);
+  const [filteredHospitals, setFilteredHospitals] = useState([]);
   const [searchText, setSearchText] = useState("");
 
 
@@ -69,7 +69,7 @@ const Facility = () => {
       hospital.facilityName.toLowerCase().includes(text) ||
       hospital.address.city.toLowerCase().includes(text)
     );
-    
+    setFilteredHospitals(filtered);
   }
 
   useEffect(() => {
@@ -78,46 +78,52 @@ const Facility = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      padding: "20px",
-    }}
-  >
-    <h4>Available Hospitals</h4>
-    {hospitals.length === 0 ? (
-      <p>No hospitals available</p>
-    ) : (
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "10px",
-          justifyContent: "center",
-          maxWidth: "800px",
-        }}
-      >
-        {hospitals.map((hospital, index) => (
-          <Button
-            key={index}
-            variant="outlined"
-            style={{
-              minWidth: "200px",
-              textAlign: "center",
-              padding: "10px",
-              borderRadius: "8px",
-              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-            }}
-            onClick={() => handleOpenDetails(hospital)}
-          >
-            {hospital.facilityName} <br />
-            {hospital.address.city}
-          </Button>
-        ))}
-      </div>
-    )}
-
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        padding: "20px",
+      }}
+    >
+      <h4>Available Hospitals</h4>
+      <TextField
+        label="Search by name or city"
+        variant="outlined"
+        style={{ marginBottom: "20px", width: "50%" }}
+        value={searchText}
+        onChange={handleFilterHospitalSearch}
+      />
+      {filteredHospitals.length === 0 ? (
+        <p>No hospitals match your search</p>
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "10px",
+            justifyContent: "center",
+            maxWidth: "800px",
+          }}
+        >
+          {filteredHospitals.map((hospital, index) => (
+            <Button
+              key={index}
+              variant="outlined"
+              style={{
+                minWidth: "200px",
+                textAlign: "center",
+                padding: "10px",
+                borderRadius: "8px",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+              }}
+              onClick={() => handleOpenDetails(hospital)}
+            >
+              {hospital.facilityName} <br />
+              {hospital.address.city}
+            </Button>
+          ))}
+        </div>
+      )}
     {selectedHospital && (
       <Dialog
         open={!!selectedHospital}
