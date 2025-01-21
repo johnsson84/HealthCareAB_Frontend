@@ -29,6 +29,8 @@ import Schedule from "./components/Schedule/Schedule";
 import ChangePfp from "./components/AWS/ChangePfp";
 import MeetingHistory from "./pages/appointmentHistory/AppointmentHistory";
 import AppointmentHistory from "./pages/appointmentHistory/AppointmentHistory";
+import AdminSignup from "./components/Signup/adminSignup/AdminSignup";
+import CargiverSignup from "./components/Signup/caregiverSignup/CaregiverSignup";
 
 function App() {
 
@@ -60,7 +62,7 @@ function App() {
               }
             />
             <Route path="/change-profile-picture" element={
-              <RequireAuth allowedRoles={["USER", "ADMIN"]}>
+              <RequireAuth allowedRoles={["USER", "ADMIN", "DOCTOR"]}>
               <ChangePfp />
               </RequireAuth>} />
             <Route
@@ -112,6 +114,23 @@ function App() {
                 </RequireAuth>
               }
             />
+            <Route
+              path="/AdminSignup"
+              element={
+                <RequireAuth allowedRoles={["ADMIN"]}>
+                  <AdminSignup></AdminSignup>
+                </RequireAuth>
+              } 
+            />
+             <Route
+              path="/CargiverSignup"
+              element={
+                <RequireAuth allowedRoles={["ADMIN"]}>
+                  <CargiverSignup></CargiverSignup>
+                </RequireAuth>
+              } 
+            />
+
 
             <Route path="/resetPassword" element={<ResetPassword />} />
             <Route path="/forgotPassword" element={<ForgotPassword />} />

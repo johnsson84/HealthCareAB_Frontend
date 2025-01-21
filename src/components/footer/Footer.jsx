@@ -65,10 +65,10 @@ const Footer = () => {
     { name: "Home", path: "/admin/dashboard" },
     { name: "Admin-Profile", path: "/profile" },
 
-    { name: "Register Admin", path: "/underconstruction" },
+    { name: "Register Admin", path: "/AdminSignup" },
     {
       name: "Register Caregiver",
-      path: "/underconstruction",
+      path: "/CargiverSignup",
     },
     
   ];
