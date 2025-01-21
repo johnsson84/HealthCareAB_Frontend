@@ -107,6 +107,11 @@ function AdminDashboard() {
           linkName="Change Profile picture"
           link="/change-profile-picture"
         ></ButtonLink>
+        <ButtonLink
+        picture="/src/assets/pfp.svg"
+          linkName="Edit Coworkers Location"
+          link="/edit/coworker/location"
+        ></ButtonLink>
       </div>
       <Logout />
       <FooterSpace/>

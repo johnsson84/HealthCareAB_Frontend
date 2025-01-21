@@ -33,11 +33,10 @@ import Facility from "./components/facility/Facility";
 import AdminSignup from "./components/Signup/adminSignup/AdminSignup";
 import CargiverSignup from "./components/Signup/caregiverSignup/CaregiverSignup";
 import Faq from "./components/faq/Faq";
+import MoveCoworker from "./components/moveCoworker/MoveCoworker";
+
 
 function App() {
-
-  
-
   return (
     <AuthProvider>
       <GlobalStyle />
@@ -47,6 +46,14 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
+            <Route
+              path="/edit/coworker/location"
+              element={
+                <RequireAuth allowedRoles={["ADMIN"]}>
+                  <MoveCoworker />
+                </RequireAuth>
+              }
+            />
             <Route
               path="/user/dashboard"
               element={
@@ -95,19 +102,24 @@ function App() {
             />
             <Route path="/profile" element={<Profile></Profile>} />
 
-             <Route path="/appointment" element={
+            <Route
+              path="/appointment"
+              element={
                 <RequireAuth allowedRoles={["USER"]}>
                   <AppointmentIncomingList />
                 </RequireAuth>
-              } />
-             
+              }
+            />
 
-             <Route path="/Dappointment" element={
+            <Route
+              path="/Dappointment"
+              element={
                 <RequireAuth allowedRoles={["DOCTOR"]}>
                   <AppointmentIncomingListDoctor />
                 </RequireAuth>
-              }/>
-             
+              }
+            />
+
             <Route
               path="/schedule"
               element={
