@@ -115,7 +115,7 @@ const Facility = () => {
             maxWidth: "800px",
             overflow: "scroll",
             height: "auto",
-            "@media (max-width: 460px)": {
+            "@media (maxWidth: 460px)": {
               height: "33.5rem",
             },
           }}
