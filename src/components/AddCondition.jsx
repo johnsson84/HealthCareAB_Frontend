@@ -2,6 +2,13 @@ import { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 
+const AddConditionContainerMain = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 20px;
+`;
 const AddConditionContainer = styled.div`
   display: flex;
   align-items: center;
@@ -89,7 +96,7 @@ const AddCondition = () => {
   };
 
   return (
-    <AddConditionContainer>
+    <AddConditionContainerMain>
       <h3>Add New Condition</h3>
 
       {isSubmitted ? (
@@ -132,7 +139,7 @@ const AddCondition = () => {
 
         </AddConditionContainer>
       )}
-    </AddConditionContainer>
+    </AddConditionContainerMain>
   );
 };
 
