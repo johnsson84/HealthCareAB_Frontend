@@ -30,6 +30,21 @@ const ConditionButton = styled.button`
   margin-bottom: 1rem;
   cursor: pointer;
 `;
+const ConditionInput = styled.input`
+height: 2rem;
+width: auto;
+border-radius: 8px;
+border-style: none;
+border: solid 1px lightgray;
+margin-bottom: 1rem;
+`;
+const ConditionSelect = styled.select`
+height: 2rem;
+width: auto;
+border-radius: 8px;
+border-style: none;
+border: solid 1px lightgray;
+margin-top: 1rem;`;
 
 const AddCondition = () => {
   const [condition, setCondition] = useState("");
@@ -74,21 +89,21 @@ const AddCondition = () => {
       ) : (
         <AddConditionContainer>
           <label>Condition:</label>
-          <input
+          <ConditionInput
             type="text"
             value={condition}
             onChange={(e) => setCondition(e.target.value)}
           />
 
           <label>Description:</label>
-          <input
+          <ConditionInput
             type="text"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
 
           <label>Category:</label>
-          <select
+          <ConditionSelect
             name="category"
             id="category"
             value={category}
@@ -97,7 +112,7 @@ const AddCondition = () => {
             <option value="">Select a category</option>
             <option value="DISEASES">Diseases</option>
             <option value="DISORDERS">Disorders</option>
-          </select>
+          </ConditionSelect>
 
           <ConditionButton onClick={addConditionAxios}>Add Condition</ConditionButton>
         </AddConditionContainer>
