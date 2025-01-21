@@ -80,11 +80,7 @@ function AdminDashboard() {
       <Text>Welcome, {user}!</Text>
       <IMGHolder src = {checkProfilePicture()} alt="Profile Picture"/>
       <div className="dbButtonContainer">
-        <ButtonLink
-          picture="/src/assets/Message Chat 01.svg"
-          linkName="Appointment"
-          link="/Dappointment"
-        ></ButtonLink>
+        
         
         <ButtonLink
           picture="/src/assets/User Profile Add 01.svg"
