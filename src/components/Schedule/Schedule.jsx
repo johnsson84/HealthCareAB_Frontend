@@ -291,6 +291,7 @@ const StyledMain = styled.div`
   border: 2px solid #ccc;
   border-radius: 2%;
   min-height: 75vh;
+  margin-bottom: 70px;
 `;
 
 const StyledField = styled(Field)`
