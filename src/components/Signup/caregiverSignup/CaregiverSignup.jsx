@@ -8,12 +8,12 @@ const CargiverSignup = () => {
   const [facilities, setFaciltys] = useState([]);
   const [facilityId, setSelectedFacilityId] = useState("");
 
+  // get all facilities
   useEffect(() => {
     const getFacilityList = async () => {
       try {
         const responses = await axios.get(
           `${import.meta.env.VITE_API_URL}/facility/all`,
-          // setFaciltys(responses.data),
           { withCredentials: true },
           {
             headers: {
@@ -56,9 +56,9 @@ const CargiverSignup = () => {
       setloading(true);
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/auth/register/caregiver/${facilityId}`,
-        { ...formData, facilityId},
+        { ...formData, facilityId },
         {
-            withCredentials: true,
+          withCredentials: true,
           headers: {
             "Content-Type": "application/json",
           },
@@ -98,7 +98,7 @@ const CargiverSignup = () => {
             maxLength="20"
             pattern="^[a-zA-Z0-9]+$"
             title="Username should be 3-20 characters and alphanumeric only."
-            // required
+            required
           />
           <label>
             * Password (8-20 chars, include upper, lower, and number):{" "}
@@ -114,7 +114,7 @@ const CargiverSignup = () => {
             maxLength="20"
             pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,20}$"
             title="Password must be 8-20 characters, include uppercase, lowercase, and a number."
-            //required
+            required
           />
           <label>* Mail:</label>
           <input
@@ -125,7 +125,7 @@ const CargiverSignup = () => {
             onChange={handleChange}
             className="styledInput"
             maxLength="50"
-            //required
+            required
           />
           <label>* First Name (2-30 chars, letters only):</label>
           <input
@@ -139,7 +139,7 @@ const CargiverSignup = () => {
             maxLength="30"
             pattern="^[a-zA-ZÀ-ÿñÑ'\\-\\s]+$"
             title="First name should be 2-30 characters and contain only letters, no numbers."
-            //required
+            required
           />
           <label>* Last Name (2-30 chars, letters only):</label>
           <input
@@ -153,7 +153,7 @@ const CargiverSignup = () => {
             maxLength="30"
             pattern="^[a-zA-ZÀ-ÿñÑ'\\-\\s]+$"
             title="Last name should be 2-30 characters and contain only letters, no numbers."
-            // required
+            required
           />
           <label>*Specialities :</label>
           <input
