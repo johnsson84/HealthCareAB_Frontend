@@ -7,6 +7,28 @@ const CargiverSignup = () => {
   const [loading, setloading] = useState(false);
   const [faciltys, setFaciltys] = useState([]);
   const [selectedFacilityId, setSelectedFacilityId] = useState("");
+  
+  useEffect(() => {
+    const getFacilityList = async () => {
+      try {
+        const responses = await axios.get(
+          `${import.meta.env.VITE_API_URL}/facility/all`,
+         // setFaciltys(responses.data),
+          { withCredentials: true },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        setFaciltys(responses.data),
+        console.log(facilty);
+      } catch (err) {
+        err;
+      }
+    };
+    getFacilityList();
+  }, []);
 
   const [formData, setFormData] = useState({
     username: "",
@@ -27,27 +49,6 @@ const CargiverSignup = () => {
     setError("");
     setSuccessMessage("");
 
-    useEffect(() => {
-      const getFacilityList = async () => {
-        try {
-          const responses = await axios.get(
-            `${import.meta.env.VITE_API_URL}/facility/all`,
-           // setFaciltys(responses.data),
-            { withCredentials: true },
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          setFaciltys(responses.data),
-          console.log(facilty);
-        } catch (err) {
-          err;
-        }
-      };
-      getFacilityList();
-    }, []);
 
     try {
       setloading(true);
