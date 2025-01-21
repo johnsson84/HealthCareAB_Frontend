@@ -17,7 +17,13 @@ const ConfirmationMessage = styled.div`
   margin-top: 20px;
   text-align: center;
 `;
-
+const DeConfirmationMessage = styled.div`
+  font-size: 18px;
+  color: red;
+  font-weight: bold;
+  margin-top: 20px;
+  text-align: center;
+`;
 const ConditionButton = styled.button`
   border-radius: 8px;
   border-style: none;
@@ -69,7 +75,6 @@ const AddCondition = () => {
       setIsSubmitted(true);
       setMessage("Condition Added!");
     } catch (error) {
-      setIsSubmitted(true)
       setMessage(
         "Something went wrong, control your inputs or try again later!"
       );
@@ -123,6 +128,8 @@ const AddCondition = () => {
           <ConditionButton onClick={addConditionAxios}>
             Add Condition
           </ConditionButton>
+          <DeConfirmationMessage>{message}</DeConfirmationMessage>
+
         </AddConditionContainer>
       )}
     </AddConditionContainer>
