@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Logo from "../assets/health_care_logo.svg";
 import { Link } from "react-router-dom";
+import DoctorShowOff from "./doctorShowOff/DoctorShowOff";
 // start page
 const HomeContainer = styled.div`
   display: flex;
@@ -69,6 +70,7 @@ const Home = () => (
     <HomeContainer>
       <LogoContainer src={Logo} />
       <Title>Health Care Appointment App</Title>
+      <DoctorShowOff />
       <LoginButton>
         <Link className="link" to="/login">
           Login
