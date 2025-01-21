@@ -59,7 +59,7 @@ function App() {
               }
             />
             <Route path="/change-profile-picture" element={
-              <RequireAuth allowedRoles={["USER", "ADMIN"]}>
+              <RequireAuth allowedRoles={["USER", "ADMIN", "DOCTOR"]}>
               <ChangePfp />
               </RequireAuth>} />
             <Route
