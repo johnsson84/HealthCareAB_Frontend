@@ -6,6 +6,7 @@ const Facility = () => {
   const [hospitals, setHospitals] = useState([]);
   const [coworkerDetails, setCoworkerDetails] = useState(null);
   const [selectedHospital, setSelectedHospital] = useState(null);
+  const [filteredHospitals, setFilteredHospitals] = useState(null);
 
 
   // hämtar alla sjukhus från DB
@@ -24,6 +25,7 @@ const Facility = () => {
 
       fetchCoworkerDetails(coworkerIds);
       setHospitals(response.data);
+      setFilteredHospitals(response.data);
     } catch (err) {
       console.log("error fetching facility " + err);
     }
