@@ -137,6 +137,14 @@ function App() {
                 </RequireAuth>
               } 
             />
+            <Route
+              path="/add/condition"
+              element={
+                <RequireAuth allowedRoles={["ADMIN"]}>
+                  <AddCondition/>
+                </RequireAuth>
+              } 
+            />
              <Route
               path="/CargiverSignup"
               element={

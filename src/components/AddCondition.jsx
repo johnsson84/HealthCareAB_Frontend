@@ -8,6 +8,7 @@ const AddConditionContainerMain = styled.div`
   justify-content: center;
   flex-direction: column;
   margin-top: 20px;
+  
 `;
 const AddConditionContainer = styled.div`
   display: flex;
@@ -15,6 +16,17 @@ const AddConditionContainer = styled.div`
   justify-content: center;
   flex-direction: column;
   margin-top: 20px;
+`;
+
+const AddContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  box-shadow: 0px 0px 5px 3px lightgray;
+  height: auto;
+  width: 70%;
+  border-radius: 15px;
 `;
 
 const ConfirmationMessage = styled.div`
@@ -30,6 +42,7 @@ const DeConfirmationMessage = styled.div`
   font-weight: bold;
   margin-top: 20px;
   text-align: center;
+  margin-bottom: 1rem;
 `;
 const ConditionButton = styled.button`
   border-radius: 8px;
@@ -57,7 +70,6 @@ const ConditionSelect = styled.select`
   border-radius: 8px;
   border-style: none;
   border: solid 1px lightgray;
-  margin-top: 1rem;
 `;
 
 const AddCondition = () => {
@@ -92,11 +104,13 @@ const AddCondition = () => {
     setCondition("");
     setDescription("");
     setCategory("");
+    setMessage("");
     setIsSubmitted(false);
   };
 
   return (
     <AddConditionContainerMain>
+      <AddContainer>
       <h3>Add New Condition</h3>
 
       {isSubmitted ? (
@@ -139,6 +153,7 @@ const AddCondition = () => {
 
         </AddConditionContainer>
       )}
+      </AddContainer>
     </AddConditionContainerMain>
   );
 };
