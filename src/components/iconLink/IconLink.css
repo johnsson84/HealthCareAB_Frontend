@@ -1,0 +1,33 @@
+.LinkContainer{
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+
+.IconLink {
+  background-color: white;
+  border: none;
+  border-radius: 5px;
+  margin-right: 20px;
+  background-color: rgba(255, 255, 255, 0.027);
+  cursor: pointer;
+  transition: scale 0.3s ease;
+}
+
+.IconText {
+  margin-right: 10px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 1;
+}
+.IconLink:hover {
+  scale: 1.1;
+}
+.IconImg {
+  max-width: 30px;
+  max-height: 30px;
+}
+
+.IconLink:hover + .IconText {
+  transform: translateX(+10px);
+  opacity: 0.8;
+}
