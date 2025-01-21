@@ -7,6 +7,7 @@ const Facility = () => {
   const [coworkerDetails, setCoworkerDetails] = useState(null);
   const [selectedHospital, setSelectedHospital] = useState(null);
   const [filteredHospitals, setFilteredHospitals] = useState(null);
+  const [searchText, setSearchText] = useState("");
 
 
   // hämtar alla sjukhus från DB
@@ -51,13 +52,25 @@ const Facility = () => {
     }
     setCoworkerDetails((prevData) => ({ ...prevData, ...nameMap }));
   };
+
   const handleOpenDetails = (hospital) => {
     setSelectedHospital(hospital);
   }
-
   const handleCloseDetails = () => {
     setSelectedHospital(null);
   };
+
+  // filtrerar en lista på alla sjukhus baserat på userns söktext
+  const handleFilterHospitalSearch = (e) => {
+    const text = e.target.value.toLowerCase();
+    setSearchText(text); 
+    const filtered = hospitals.filter(
+      (hospital) =>
+      hospital.facilityName.toLowerCase().includes(text) ||
+      hospital.address.city.toLowerCase().includes(text)
+    );
+    
+  }
 
   useEffect(() => {
     fetchHospitals();
