@@ -557,16 +557,21 @@ const Feedback = () => {
 
   useEffect(() => {
     divideIntoPages();
-  }, [givenFeedback, yourFeedback, allFeedbacks]);
+  }, [appointments, yourFeedback, allFeedbacks]);
 
   ///////////////////////
   ///  PATIENT USE_EFFECT
   useEffect(() => {
     if (userRole === "USER") {
       getGivenFeedback();
-      getAppointments();
     }
   }, [userRole, currentPage]);
+
+  useEffect(() => {
+    if (userRole === "USER") {
+      getAppointments();
+    }
+  }, [givenFeedback]);
 
   useEffect(() => {
     if (userRole === "USER") {
