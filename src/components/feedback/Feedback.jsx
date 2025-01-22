@@ -573,12 +573,6 @@ const Feedback = () => {
     }
   }, [givenFeedback]);
 
-  useEffect(() => {
-    if (userRole === "USER") {
-      getAppointments();
-    }
-  }, [feedback]);
-
   //////////////////////
   ///  DOCTOR USE_EFFECT
   useEffect(() => {
