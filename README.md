@@ -8,6 +8,8 @@ This is a online doctor booking app that works on both desktop and mobile.
   - Profile pages for patients, doctors and admins
   - Search for a hospital and get contact info such as phone or address
   - Search for common diseases, injuries, disorders or allergies
+  - Get email about booked appointments
+  - Get email reminder about upcoming appointment
 - Patient
   - Online booking
   - See upcoming appointments
