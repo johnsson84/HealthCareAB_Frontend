@@ -81,11 +81,6 @@ function DoctorDashboard() {
       <Text>Welcome, {user}!</Text>
       <IMGHolder src = {checkProfilePicture()} alt={profilePictureURL}/>
       <div className="dbButtonContainer">
-      <ButtonLink
-          picture="/src/assets/Calendar 02.svg"
-          linkName="Calendar"
-          link="/calendar"
-        ></ButtonLink>
         <ButtonLink
           picture="/src/assets/Calendar 02.svg"
           linkName="Edit Schedule"
