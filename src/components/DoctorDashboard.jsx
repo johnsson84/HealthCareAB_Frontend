@@ -89,7 +89,7 @@ function DoctorDashboard() {
         ></ButtonLink>
         <ButtonLink
           picture="/src/assets/Calendar 02.svg"
-          linkName="Incomming Appointments"
+          linkName="Incoming Appointments"
           link="/dappointment"
         ></ButtonLink>
         <ButtonLink
