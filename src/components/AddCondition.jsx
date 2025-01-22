@@ -145,6 +145,8 @@ const AddCondition = () => {
             <option value="">Select a category</option>
             <option value="DISEASES">Diseases</option>
             <option value="DISORDERS">Disorders</option>
+            <option value="INJURIES">Injuries</option>
+            <option value="ALLERGIES">Allergies</option>
           </ConditionSelect>
 
           <ConditionButton onClick={addConditionAxios}>
