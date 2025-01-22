@@ -46,29 +46,51 @@ const Footer = () => {
   const doctorButtons = [
     { name: "Home", path: "/doctor/dashboard" },
     { name: "Profile", path: "/profile" },
-
-    { name: "Calendar", path: "/calendar" },
     {
-      name: "Schedule",
+      name: "Edit schedule",
       path: "/schedule",
     },
     {
-      name: "Appointments",
-      path: "/appointment",
+      name: "Incoming appointments",
+      path: "/dappointment",
+    },
+    {
+      name: "Appointments history",
+      path: "/appointment/history",
     },
     {
       name: "Feedback",
       path: "/feedback",
     },
+    {
+      name: "Change profile picture",
+      path: "/change-profile-picture",
+    },
   ];
   const adminButtons = [
     { name: "Home", path: "/admin/dashboard" },
-    { name: "Admin-Profile", path: "/profile" },
+    { name: "Admin profile", path: "/profile" },
 
     { name: "Register Admin", path: "/AdminSignup" },
     {
       name: "Register Caregiver",
       path: "/CargiverSignup",
+    },
+    {
+      name: "Feedback",
+      path: "/feedback",
+    },
+    {
+      name: "Add condition",
+      path: "/add/condition",
+    },
+    {
+      name: "Edit coworkers location",
+      path: "/edit/coworker/location",
+    },
+    {
+      name: "Change profile picture",
+      path: "/change-profile-picture",
     },
     
   ];
@@ -81,12 +103,20 @@ const Footer = () => {
       path: "/calendar",
     },
     {
-      name: "Meetings",
+      name: "Upcoming appointments",
       path: "/appointment",
     },
     {
-      name: "Feedback",
+      name: "Appointment history",
+      path: "/appointment/history",
+    },
+    {
+      name: "Give feedback",
       path: "/feedback",
+    },
+    {
+      name: "Change profile picture",
+      path: "/change-profile-picture",
     },
   ];
 
