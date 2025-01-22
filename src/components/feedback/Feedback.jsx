@@ -121,6 +121,7 @@ const Feedback = () => {
       );
       setGivenFeedback(response.data);
     } catch (error) {
+      getAppointments();
       console.log("Catch error: " + error);
     }
   };
