@@ -16,7 +16,7 @@ const UserContainer = styled.div`
   flex-direction: column;
 `;
 const FooterSpace = styled.div`
-  height: 4rem;
+  height: 6rem;
   width: 100%;
 `;
 const IMGHolder = styled.img`

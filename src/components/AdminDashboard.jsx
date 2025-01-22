@@ -36,7 +36,7 @@ const IMGHolder = styled.img`
   max-height: 300px;
 `;
 const FooterSpace = styled.div`
-  height: 4rem;
+  height: 6rem;
   width: 100%;
 `;
 
