@@ -4,7 +4,11 @@ import Logo from "../assets/health_care_logo.svg";
 import styled from "styled-components";
 import Logout from "./Logout";
 import ButtonLink from "./dashboard/ButtonLink";
+import axios from "axios";
+
 import "./Dashboard.css";
+
+
 // admin page, can only visit if you have role ADMIN
 const AdminContainer = styled.div`
   display: flex;
@@ -75,7 +79,7 @@ function DoctorDashboard() {
       <LogoContainer src={Logo} />
       <Title>Doctor Dashboard</Title>
       <Text>Welcome, {user}!</Text>
-      <IMGHolder src = {checkProfilePicture()} alt="Profile Picture"/>
+      <IMGHolder src = {checkProfilePicture()} alt={profilePictureURL}/>
       <div className="dbButtonContainer">
       <ButtonLink
           picture="/src/assets/Calendar 02.svg"
