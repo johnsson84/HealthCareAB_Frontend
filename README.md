@@ -68,5 +68,6 @@ Follow these steps to set up the project locally:
 ### 5. Access the Application
 
 - After the server starts, the application will be accessible in your browser at:
-![bild](https://github.com/user-attachments/assets/4f20bc60-862e-4f8a-94a3-e292a8e6f04d)
+![5173](https://github.com/user-attachments/assets/cf2b7a1c-13f7-44bb-884d-c6028b982ef3)
+
 
