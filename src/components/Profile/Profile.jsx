@@ -70,7 +70,7 @@ const Profile = () => {
         console.log(response.data);
         setPersonalInformation(response.data);
         setRole(response.data.roles);
-        if (response.data.roles === "DOCTOR") {
+        if (response.data.roles[0] === "DOCTOR") {
           getGradeForDoctor(response.data.username);
         }
       } catch (error) {
