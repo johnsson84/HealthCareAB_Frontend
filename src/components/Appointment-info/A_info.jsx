@@ -271,8 +271,8 @@ const Appointment_info = () => {
                         color:
                           selectedStatus === "SCHEDULED" ? "white" : "black",
                       }}
-                      className="appointmentItem"
-                      onClick={() => handleStatusClick("SCHEDULED")}
+                      className="appointmentItemScheduled"
+                      title="Coming Soon!"
                     >
                       SCHEDULED
                     </li>

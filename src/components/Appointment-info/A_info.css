@@ -116,6 +116,14 @@
   transition: background-color 0.3s ease;
   font-size: medium;
 }
+.appointmentItemScheduled{
+  cursor: not-allowed;
+  padding: 10px 15px;
+  margin: 5px 0;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+  font-size: medium;
+}
 
 .appointmentUpdateStatus {
   border-style: none;
