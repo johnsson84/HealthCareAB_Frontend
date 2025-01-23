@@ -117,12 +117,16 @@
   font-size: medium;
 }
 .appointmentItemScheduled{
-  cursor: not-allowed;
-  padding: 10px 15px;
-  margin: 5px 0;
-  border-radius: 10px;
-  transition: background-color 0.3s ease;
-  font-size: medium;
+  border-style: none !important;
+  background-color: rgb(152, 152, 152) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  padding: 0.8rem !important;
+  border-radius: 10px !important;
+  margin-top: 1rem !important;
+  cursor: not-allowed !important;
+  height:2.5rem !important;
+  width: 7.4rem !important;
 }
 
 .appointmentUpdateStatus {
@@ -134,6 +138,16 @@
   border-radius: 10px;
   margin-top: 1rem;
   cursor: pointer;
+}
+.appointmentUpdateStatusButton{
+  border-style: none;
+  background-color: rgb(152, 152, 152);
+  color: white;
+  font-weight: 600;
+  padding: 0.8rem;
+  border-radius: 10px;
+  margin-top: 1rem;
+  cursor: not-allowed;
 }
 .appointmentUpdateStatus:disabled {
   background-color: #ccc;

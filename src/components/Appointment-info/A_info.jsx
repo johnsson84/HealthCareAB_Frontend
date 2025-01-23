@@ -278,8 +278,9 @@ const Appointment_info = () => {
                     </li>
                   </ul>
                   <button
-                    className="appointmentUpdateStatus"
-                    onClick={() => updateAppointmentStatus(selectedStatus)}
+                    className="appointmentUpdateStatusButton"
+                  //  onClick={() => updateAppointmentStatus(selectedStatus)}
+                    title="Coming Soon!"
                   >
                     Update Status
                   </button>
