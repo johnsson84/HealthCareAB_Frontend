@@ -182,6 +182,7 @@ const AppointmentHistory = () => {
       ) : (
         <>
           <ul className="appsHistoryContainer">
+            
             {currentAppointments.map((appointment, index) => (
               <li className="appsHistoryBox" key={appointment.id || index}>
                 <p className="completedHistory">{appointment.status}</p>
@@ -235,6 +236,9 @@ const AppointmentHistory = () => {
             ))}
           </div>
         </>
+      )}
+      {currentAppointments.length === 0 && (
+        <h2>No appointments found</h2>
       )}
       {/* Popup window for a doctor to add documentation to a meeting */}
       {popupWindow && (
