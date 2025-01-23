@@ -134,6 +134,7 @@ const AppointmentIncomingList = () => {
           </div>
         </ul>
       )}
+      {!loading && getappointment.length === 0 && <h1>No appointments found</h1>}
     </div>
   );
 };
