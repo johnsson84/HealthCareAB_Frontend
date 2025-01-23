@@ -8,6 +8,7 @@ const Appointment_info = () => {
   const [meetingInfo, setMeetingInfo] = useState({});
   const [time, setTime] = useState("Loading time...");
   const [date, setDate] = useState("Loading date...");
+  const [isWithin24Hours, setIsWithin24Hours] = useState(false);
   const [dropdownActive, setDropDownActive] = useState(false);
   const [editOrCancel, setEditOrCancel] = useState(true); // true == edit
   const [selectedStatus, setSelectedStatus] = useState();
@@ -41,7 +42,9 @@ const Appointment_info = () => {
     const fetchAppointmentInfo = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/appointment/info/no-id/${appointmentId}`,
+          `${
+            import.meta.env.VITE_API_URL
+          }/appointment/info/no-id/${appointmentId}`,
           {
             withCredentials: true,
           }
@@ -52,6 +55,16 @@ const Appointment_info = () => {
         const { time, date } = setDateTime(response.data.body.dateTime);
         setTime(time);
         setDate(date);
+
+        const appointmentDateTime = new Date(response.data.body.dateTime);
+        const currentTime = new Date();
+        const timeDifference = appointmentDateTime - currentTime;
+
+        if (timeDifference <= 24 * 60 * 60 * 1000) {
+          setIsWithin24Hours(true);
+        } else {
+          setIsWithin24Hours(false);
+        }
       } catch (error) {
         console.error("Failed to fetch appointment info:", error);
       }
@@ -119,7 +132,9 @@ const Appointment_info = () => {
   const updateAppointmentStatus = async (status) => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/appointment/change-status/${status}/${appointmentId}`,
+        `${
+          import.meta.env.VITE_API_URL
+        }/appointment/change-status/${status}/${appointmentId}`,
         {},
         {
           withCredentials: true,
@@ -245,62 +260,148 @@ const Appointment_info = () => {
             <div className="editAppointmentContainer">
               <p>Edit Appointment</p>
               <p>{statusMessage}</p>
-              <div className="appointmentListContainer">
-                <ul className="appointmentList">
-                  <li
-                    style={{
-                      backgroundColor:
-                        selectedStatus === "COMPLETED" ? "#057d7a" : "white",
-                      color:
-                        selectedStatus === "COMPLETED" ? "white" : "black",
-                    }}
-                    className="appointmentItem"
-                    onClick={() => handleStatusClick("COMPLETED")}
+              {isWithin24Hours ? (
+                <>
+                  <p className="editRestrictionMessage">
+                    You can't edit appointment within 24h from its due date and
+                    time
+                  </p>
+                  {sendMail ? (
+                    <>
+                      <input
+                        className="appointmentMailSender"
+                        type="text"
+                        placeholder="Insert Subject here"
+                        value={mailSubject}
+                        onChange={handleMailSubject}
+                      />
+                      <input
+                        className="appointmentMailSender"
+                        type="text"
+                        placeholder="Insert text here"
+                        value={mailText}
+                        onChange={handleMailText}
+                      />
+
+                      <button
+                        className="sendEmailButtonAppointment"
+                        onClick={handleMailSender}
+                      >
+                        Send
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      {mailConfirmation}
+                      <button
+                        className="sendEmailButtonAppointment"
+                        onClick={handleSendMailBool}
+                      >
+                        Send Email?
+                      </button>
+                      <button
+                        className="sendEmailButtonAppointment"
+                        onClick={() => updateAppointmentStatus("COMPLETED")}
+                      >
+                        Set to Complete
+                      </button>
+                    </>
+                  )}
+                </>
+              ) : (
+                <div className="appointmentListContainer">
+                  <ul className="appointmentList">
+                    <li
+                      style={{
+                        backgroundColor:
+                          selectedStatus === "COMPLETED" ? "#057d7a" : "white",
+                        color:
+                          selectedStatus === "COMPLETED" ? "white" : "black",
+                      }}
+                      className="appointmentItem"
+                      onClick={() => handleStatusClick("COMPLETED")}
+                    >
+                      COMPLETED
+                    </li>
+                    <li
+                      style={{
+                        backgroundColor:
+                          selectedStatus === "SCHEDULED" ? "#057d7a" : "white",
+                        color:
+                          selectedStatus === "SCHEDULED" ? "white" : "black",
+                      }}
+                      className="appointmentItem"
+                      onClick={() => handleStatusClick("SCHEDULED")}
+                    >
+                      SCHEDULED
+                    </li>
+                  </ul>
+                  <button
+                    className="appointmentUpdateStatus"
+                    onClick={() => updateAppointmentStatus(selectedStatus)}
                   >
-                    COMPLETED
-                  </li>
-                  <li
-                    style={{
-                      backgroundColor:
-                        selectedStatus === "SCHEDULED" ? "#057d7a" : "white",
-                      color:
-                        selectedStatus === "SCHEDULED" ? "white" : "black",
-                    }}
-                    className="appointmentItem"
-                    onClick={() => handleStatusClick("SCHEDULED")}
-                  >
-                    SCHEDULED
-                  </li>
-                  <li
-                    style={{
-                      backgroundColor:
-                        selectedStatus === "CANCELLED" ? "#057d7a" : "white",
-                      color:
-                        selectedStatus === "CANCELLED" ? "white" : "black",
-                    }}
-                    className="appointmentItem"
-                    onClick={() => handleStatusClick("CANCELLED")}
-                  >
-                    CANCELLED
-                  </li>
-                </ul>
-                <button
-                  className="appointmentUpdateStatus"
-                  onClick={() => updateAppointmentStatus(selectedStatus)}
-                >
-                  Update Status
-                </button>
-              </div>
+                    Update Status
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <div className="cancelAppointmentContainer">
-              <p>Do you want to cancel this appointment?</p>
-              <button
-                className="appointmentButtonCancel"
-                onClick={handleCancelAppointment}
-              >
-                yes
-              </button>
+              {isWithin24Hours ? (
+                <>
+                  {/** Doctor */}
+                  <p>Do you want to cancel this appointment?</p>
+                  <p className="editRestrictionMessage">
+                    You can't cancel appointment within 24h from its due date
+                    and time
+                  </p>
+                  {sendMail ? (
+                    <>
+                      <input
+                        className="appointmentMailSender"
+                        type="text"
+                        placeholder="Insert Subject here"
+                        value={mailSubject}
+                        onChange={handleMailSubject}
+                      />
+                      <input
+                        className="appointmentMailSender"
+                        type="text"
+                        placeholder="Insert text here"
+                        value={mailText}
+                        onChange={handleMailText}
+                      />
+
+                      <button
+                        className="sendEmailButtonAppointment"
+                        onClick={handleMailSender}
+                      >
+                        Send
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      {mailConfirmation}
+                      <button
+                        className="sendEmailButtonAppointment"
+                        onClick={handleSendMailBool}
+                      >
+                        Send Email?
+                      </button>
+                    </>
+                  )}
+                </>
+              ) : (
+                <>
+                  <p>Do you want to cancel this appointment?</p>
+                  <button
+                    className="appointmentButtonCancel"
+                    onClick={handleCancelAppointment}
+                  >
+                    yes
+                  </button>
+                </>
+              )}
             </div>
           )}
         </>
@@ -308,9 +409,11 @@ const Appointment_info = () => {
         <>
           <div className="appointmentButtonContainer">
             {role === "DOCTOR" && (
+
               <button className="appointmentButton" onClick={handleEdit}>
-                Edit
-              </button>
+              Edit
+            </button>
+
             )}
             <button className="appointmentButton" onClick={handleCancel}>
               Cancel
@@ -319,43 +422,105 @@ const Appointment_info = () => {
 
           {!dropdownActive ? null : editOrCancel ? (
             <div className="editAppointmentContainer">
+              {/**USER*/}
               <p>Edit Appointment</p>
               <p>
                 At the moment the only way to edit an appointment is through
                 sending a request with mail.
               </p>
-              <div className="appointmentListContainer">
-                {sendMail ? (
-                  <>
-                    <button
-                      className="sendEmailButtonAppointment"
-                      onClick={handleMailSenderRequest}
-                    >
-                      Click here to request mail
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    {mailConfirmation}
-                    <button
-                      className="sendEmailButtonAppointment"
-                      onClick={handleSendMailBool}
-                    >
-                      Send Email?
-                    </button>
-                  </>
-                )}
-              </div>
+              {isWithin24Hours ? (
+                <>
+                  <p className="editRestrictionMessage">
+                    You can't edit appointment within 24h from its due date and
+                    time
+                  </p>
+                  {sendMail ? (
+                    <>
+                      <button
+                        className="sendEmailButtonAppointment"
+                        onClick={handleMailSenderRequest}
+                      >
+                        Click here to request mail
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      {mailConfirmation}
+                      <button
+                        className="sendEmailButtonAppointment"
+                        onClick={handleSendMailBool}
+                      >
+                        Send Email?
+                      </button>
+                    </>
+                  )}
+                </>
+              ) : (
+                <div className="appointmentListContainer">
+                  {sendMail ? (
+                    <>
+                      <button
+                        className="sendEmailButtonAppointment"
+                        onClick={handleMailSenderRequest}
+                      >
+                        Click here to request mail
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      {mailConfirmation}
+                      <button
+                        className="sendEmailButtonAppointment"
+                        onClick={handleSendMailBool}
+                      >
+                        Send Email?
+                      </button>
+                    </>
+                  )}
+                </div>
+              )}
             </div>
           ) : (
             <div className="cancelAppointmentContainer">
-              <p>Do you want to cancel this appointment?</p>
-              <button
-                className="appointmentButtonCancel"
-                onClick={handleCancelAppointment}
-              >
-                yes
-              </button>
+              {isWithin24Hours ? (
+                <>
+                  <p>Do you want to cancel this appointment?</p>
+                  <p className="editRestrictionMessage">
+                    You can't cancel appointment within 24h from its due date
+                    and time
+                  </p>
+                  {sendMail ? (
+                    <>
+                      <button
+                        className="sendEmailButtonAppointment"
+                        onClick={handleMailSenderRequest}
+                      >
+                        Click here to request mail
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      {mailConfirmation}
+                      <button
+                        className="sendEmailButtonAppointment"
+                        onClick={handleSendMailBool}
+                      >
+                        Send Email?
+                      </button>
+                    </>
+                  )}
+                </>
+              ) : (
+                <>
+                  <p>Do you want to cancel this appointment?</p>
+                  <button
+                    className="appointmentButtonCancel"
+                    onClick={handleCancelAppointment}
+                  >
+                    yes
+                  </button>
+                </>
+              )}
             </div>
           )}
         </>
