@@ -237,7 +237,7 @@ const AppointmentHistory = () => {
           </div>
         </>
       )}
-      {currentAppointments.length === 0 && (
+      {!loading && currentAppointments.length === 0 && (
         <h2>No appointments found</h2>
       )}
       {/* Popup window for a doctor to add documentation to a meeting */}
